@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/22 22:17:37 by arakhurs         ###   ########.fr       */
+/*   Updated: 2022/12/28 20:54:48 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@
 # define PLAYER "./Texture/exit.xpm"
 # define DOOR "./Texture/door.xpm"
 # define MAX_RESOURCE 128
+
+# define ALL_CHARS	"_01NSEW"
+# define IN_CHARS	"0NSEW"
+# define DIRECTIONS	"NSEW"
 
 enum			e_sound
 {
