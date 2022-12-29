@@ -1,30 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 21:31:14 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/01 13:54:51 by vaghazar         ###   ########.fr       */
+/*   Created: 2022/03/17 21:30:52 by vaghazar          #+#    #+#             */
+/*   Updated: 2022/12/19 15:24:35 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_putstr_fd(char *s, int fd, int flag)
+void	ft_putnbr(long nb, int *count, char c, int fd)
 {
-	int	i;
+	unsigned int	num;
+	int				size;
 
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != '\0')
+	size = 1;
+	if (c == 'u')
+		nb = (unsigned int)nb;
+	if (nb < 0)
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		ft_putchar('-', count, fd);
+		nb = -nb;
 	}
-	if (s && flag == FREE_ON)
-		free(s);
-	return (i);
+	num = nb;
+	while (num >= 10)
+	{
+		num = num / 10;
+		size *= 10;
+	}
+	num = nb;
+	while (size)
+	{
+		ft_putchar((num / size) + '0', count, fd);
+		num %= size;
+		size /= 10;
+	}
 }

@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   defines.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 21:31:14 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/01 13:54:51 by vaghazar         ###   ########.fr       */
+/*   Created: 2022/10/31 13:05:58 by vaghazar          #+#    #+#             */
+/*   Updated: 2022/12/19 14:26:41 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef DEFINES_H
+# define DEFINES_H
 
-int	ft_putstr_fd(char *s, int fd, int flag)
-{
-	int	i;
+#include "../libft/libft.h"
+#include "cub3d.h"
+#include <string.h>
 
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != '\0')
-	{
-		ft_putchar_fd(s[i], fd);
-		i++;
-	}
-	if (s && flag == FREE_ON)
-		free(s);
-	return (i);
-}
+# define EXTENSION ".cub"
+
+#endif

@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putnbr_base.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 21:31:14 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/01 13:54:51 by vaghazar         ###   ########.fr       */
+/*   Created: 2022/02/21 17:25:02 by vaghazar          #+#    #+#             */
+/*   Updated: 2022/12/19 15:23:36 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_putstr_fd(char *s, int fd, int flag)
+void	ft_putnbr_base(unsigned long nbr, int *count, char c, int fd)
 {
-	int	i;
+	unsigned long	num;
+	int				call[50];
+	int				base_len;
+	int				i;
+	char			*base;
 
+	num = nbr;
+	base_len = 16;
 	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != '\0')
+	base = ft_check_base(c, &nbr, &num);
+	while (num)
 	{
-		ft_putchar_fd(s[i], fd);
+		call[i] = num % base_len;
+		num = num / base_len;
 		i++;
 	}
-	if (s && flag == FREE_ON)
-		free(s);
-	return (i);
+	while (--i >= 0)
+		ft_putchar(base[call[i]], count, fd);
+	if (nbr == 0)
+		ft_putchar('0', count, fd);
 }

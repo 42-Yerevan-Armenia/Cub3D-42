@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 21:15:04 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/12/06 17:20:49 by arakhurs         ###   ########.fr       */
+/*   Updated: 2022/12/19 15:29:30 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# define FREE_ON 1
+# define FREE_OFF 2
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -48,8 +51,15 @@ char		*ft_itoa(int n);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 void		ft_putchar_fd(char c, int fd);
-int			ft_putstr_fd(char *s, int fd);
-int			ft_putendl_fd(char *s, int fd);
+int			ft_putstr_fd(char *s, int fd, int flag);
+int			ft_putendl_fd(char *s, int fd, int flag);
 void		ft_putnbr_fd(int n, int fd);
 int			ft_strcmp(char *s1, char *s2);
+char		*ft_charjoin(char *s1, char const s2, int flag);
+int			init_zero(int *ptr1, int *ptr2, int *ptr3, int *ptr4);
+int         ft_perror(char *str);
+int         free_double(char ***ptr);
+int			free_arr(char **arr);
+int         fill_null(void ***ptr, int len);
+char		*get_next_line(int fd);
 #endif

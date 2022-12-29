@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   free_arr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 21:31:14 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/01 13:54:51 by vaghazar         ###   ########.fr       */
+/*   Created: 2022/12/19 13:38:27 by vaghazar          #+#    #+#             */
+/*   Updated: 2022/12/19 13:39:01 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_putstr_fd(char *s, int fd, int flag)
+int	free_arr(char **arr)
 {
-	int	i;
-
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != '\0')
+	if (*arr)
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		free(*arr);
+		*arr = NULL;
 	}
-	if (s && flag == FREE_ON)
-		free(s);
-	return (i);
+	return (0);
 }

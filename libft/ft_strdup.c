@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 21:33:50 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/12/06 17:05:23 by arakhurs         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:51:08 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strdup(const char *src)
 	while (src && src[i])
 		i++;
 	ptr = malloc(i + 1);
-	if (!ptr)
+	if (!ptr && !ft_perror("🔻minishell: "))
 		return (0);
 	i = 0;
 	while (src && src[i])
