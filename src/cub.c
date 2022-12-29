@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/29 18:55:27 by arakhurs         ###   ########.fr       */
+/*   Updated: 2022/12/29 19:46:34 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_map(t_map *map, const char *mpath)
 	{
 		line = get_next_line(fd);
 		str = ft_strjoin(str, line);
-		if (*line == (char) NULL)
+		if (line == NULL)
 			break ;
 	}
 	free(line);
@@ -76,8 +76,8 @@ int	main(int ac, char **av)
 	if (ac == 2)
 	{
 		ft_map(&all.map, av[1]);
-		sound_init(&all);
-		sound_play(&all, Sound_D1, 1);
+		// sound_init(&all);
+		// sound_play(&all, Sound_D1, 1);
 		ft_win(&all);
 		mlx_hook(all.win, 2, 0, ft_key_press, &all);
 		//mlx_loop_hook(all.mlx, &loop_hook, &a);

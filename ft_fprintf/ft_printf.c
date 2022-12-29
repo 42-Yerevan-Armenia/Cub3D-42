@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 21:31:14 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/01 13:54:51 by vaghazar         ###   ########.fr       */
+/*   Created: 2022/04/10 13:27:59 by vaghazar          #+#    #+#             */
+/*   Updated: 2022/12/19 15:49:03 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_putstr_fd(char *s, int fd, int flag)
+int	ft_fprintf(int fd, const char *from, ...)
 {
-	int	i;
+	va_list	ap;
+	int		i;
+	int		count;
 
 	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != '\0')
+	count = 0;
+	va_start(ap, from);
+	while (from[i] != 0)
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		if (from[i] == '%' && ++i)
+			count += ft_printf_type(from, &i, ap, fd);
+		if (from[i] != 0 && from[i] != '%')
+			ft_putchar(from[i++], &count, fd);
 	}
-	if (s && flag == FREE_ON)
-		free(s);
-	return (i);
+	va_end(ap);
+	return (count);
 }

@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   free_double.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/18 19:25:37 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/18 16:51:18 by arakhurs         ###   ########.fr       */
+/*   Created: 2022/12/19 13:38:44 by vaghazar          #+#    #+#             */
+/*   Updated: 2022/12/19 13:39:00 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+
+int	free_double(char ***ptr)
 {
-	char	*str;
-	size_t	len;
-	int		i;
+	int	i;
 
 	i = 0;
-	len = ft_strlen(s);
-	str = malloc(sizeof(char) * len + 1);
-	if (!str && !ft_perror("🔻minishell: "))
+	if (*ptr == NULL)
 		return (0);
-	while (s[i])
+	while ((*ptr) && ((*ptr))[i])
 	{
-		str[i] = f(i, s[i]);
-		i++;
+		free(((*ptr))[i]);
+		((*ptr))[i++] = NULL;
 	}
-	str[i] = '\0';
-	return (str);
+	if (((*ptr)))
+		free(((*ptr)));
+	((*ptr)) = NULL;
+	return (0);
 }

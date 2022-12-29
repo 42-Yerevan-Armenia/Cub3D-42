@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_check_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 21:31:14 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/01 13:54:51 by vaghazar         ###   ########.fr       */
+/*   Created: 2022/04/13 19:55:24 by vaghazar          #+#    #+#             */
+/*   Updated: 2022/04/13 20:19:25 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_putstr_fd(char *s, int fd, int flag)
+char	*ft_check_base(char c, unsigned long *nbr, unsigned long *num)
 {
-	int	i;
-
-	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != '\0')
+	if (c == 'x' || c == 'X')
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		*nbr = ((unsigned int)*nbr);
+		*num = ((unsigned int)*num);
 	}
-	if (s && flag == FREE_ON)
-		free(s);
-	return (i);
+	if (c == 'x')
+		return ("0123456789abcdef");
+	if (c == 'X')
+		return ("0123456789ABCDEF");
+	if (c == 'p')
+		return ("0123456789abcdef");
+	return (0);
 }

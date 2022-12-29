@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   fill_null.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 21:31:14 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/01 13:54:51 by vaghazar         ###   ########.fr       */
+/*   Created: 2022/10/11 11:46:08 by vaghazar          #+#    #+#             */
+/*   Updated: 2022/12/29 19:10:49 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_putstr_fd(char *s, int fd, int flag)
+int	fill_null(void ***ptr, int len)
 {
 	int	i;
 
 	i = 0;
-	if (s == NULL)
-		return (0);
-	while (s[i] != '\0')
+	while (i < len)
 	{
-		ft_putchar_fd(s[i], fd);
-		i++;
+		(*ptr)[i++] = NULL;
 	}
-	if (s && flag == FREE_ON)
-		free(s);
-	return (i);
+	return (0);
 }
