@@ -2,7 +2,7 @@ BLUE	= \033[0;36m
 
 NAME = libft.a
 
-GNL = gnl.a
+GNL = libgnl.a
 
 CC	=	cc
 
