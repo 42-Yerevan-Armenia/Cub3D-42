@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/28 20:54:48 by arakhurs         ###   ########.fr       */
+/*   Updated: 2022/12/29 18:57:26 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,20 @@ typedef struct s_all
 	t_player	player;
 	t_resources	resource;
 }				t_all;
+
+//MAP 🗺
+void	ft_fill_space(t_map *map);
+void	ft_check_wall(t_map *map);
+void	ft_check_map(t_map *map);
+void	ft_check_split(t_map *map, char *str);
+int		ft_check_char(char *map, char *symbol);
+
+
+
+//UTILES 🛠
+void	ft_error(char *str);
+void	ft_free_array(char **c);
+size_t	ft_strnlen(const char *str, char c);
 
 //SOUNDS 🔊
 void	sound_init(t_all *all);
