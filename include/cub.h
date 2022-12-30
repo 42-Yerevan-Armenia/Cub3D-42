@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/29 19:42:55 by vaghazar         ###   ########.fr       */
+/*   Updated: 2022/12/30 19:11:19 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,19 @@
 # include <string.h>
 # include <unistd.h>
 
-# define WALL "./Texture/wall.xpm"
 # define PLAYER "./Texture/exit.xpm"
 # define DOOR "./Texture/door.xpm"
 # define MAX_RESOURCE 128
 
 # define ALL_CHARS	"_01NSEW"
 # define IN_CHARS	"0NSEW"
-# define DIRECTIONS	"NSEW"
+# define DIRS		"NSEW"
+
+# define WALL "./Texture/wall.xpm"
+# define NO "./Texture/NO.xpm"
+# define SO "./Texture/SO.xpm"
+# define WE "./Texture/WE.xpm"
+# define EA "./Texture/EA.xpm"
 
 enum			e_sound
 {
@@ -71,12 +76,14 @@ typedef struct s_map
 	int			x;
 	int			y;
 	int			coin;
+	char		*tmp;
 	char		**matrix;
 }				t_map;
 
 typedef struct s_img
 {
 	void		*img;
+	void		*wall;
 }				t_img;
 
 typedef struct s_player
@@ -108,6 +115,7 @@ int		ft_check_char(char *map, char *symbol);
 void	ft_error(char *str);
 void	ft_free_array(char **c);
 size_t	ft_strnlen(const char *str, char c);
+char	*read_arg(char *s1, char *s2, char **ret);
 
 //SOUNDS 🔊
 void	sound_init(t_all *all);

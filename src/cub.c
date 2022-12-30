@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/29 19:46:34 by vaghazar         ###   ########.fr       */
+/*   Updated: 2022/12/30 19:11:04 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,16 @@ void	ft_map(t_map *map, const char *mpath)
 	ft_check_map(map);
 }
 
+void	ft_textures(t_img *img, void *mlx)
+{
+	int	width;
+	int	height;
+
+	img->wall = mlx_xpm_file_to_image(mlx, WALL, &width, &height);
+	if ((img->wall) == NULL)
+		ft_error("❌ Can't Open Wall 🚧 Texture");
+}
+
 int	main(int ac, char **av)
 {
 	t_all	all;
@@ -79,6 +89,7 @@ int	main(int ac, char **av)
 		// sound_init(&all);
 		// sound_play(&all, Sound_D1, 1);
 		ft_win(&all);
+		ft_textures(&all.img, all.mlx);
 		mlx_hook(all.win, 2, 0, ft_key_press, &all);
 		//mlx_loop_hook(all.mlx, &loop_hook, &a);
 		mlx_loop(all.mlx);
