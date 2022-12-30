@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/30 19:07:47 by arakhurs         ###   ########.fr       */
+/*   Updated: 2022/12/30 19:11:19 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_map
 typedef struct s_img
 {
 	void		*img;
+	void		*wall;
 }				t_img;
 
 typedef struct s_player
