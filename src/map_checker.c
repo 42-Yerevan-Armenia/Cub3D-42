@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/30 18:50:07 by arakhurs         ###   ########.fr       */
+/*   Updated: 2022/12/30 19:07:36 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,19 +97,7 @@ void	ft_fill_space(t_map *map)
 	}
 }
 
-void	set_texture(t_img *img, t_all *all, char *path)
-{
-	int	width;
-	int	height;
-
-	if (img->img)
-		ft_error("❌ Duplicate texture paramater.");
-	img->wall = mlx_xpm_file_to_image(all->mlx, path, &width, &height);
-	if (!img->img)
-		ft_error("❌ Failed to load texture.");
-}
-
-int	ft_wall_path(t_all *all, t_map *map)
+int	ft_wall_path(t_map *map)
 {
 	int		i;
 	char	*arg;
@@ -124,14 +112,13 @@ int	ft_wall_path(t_all *all, t_map *map)
 	// 	ft_error("❌ Not a Valid path 🛣  for EA ❗️");
 	// if ((!ft_strncmp(map->matrix[i], "WE", 2)) == 0)
 	// 	ft_error("❌ Not a Valid path 🛣  for WE ❗️");
-	if (read_arg("NO", map->matrix[i], &arg))
-		set_texture(all->img.wall, all, arg);
+	read_arg("NO", map->matrix[i], &arg);
 	printf("%s\n", arg);
 	return (0);
 }
 
 
-void	ft_check_map(t_all *all, t_map *map)
+void	ft_check_map(t_map *map)
 {
 	int	max;
 	int	min;
@@ -156,7 +143,7 @@ void	ft_check_map(t_all *all, t_map *map)
 	if (map->y <= 0 || map->x <= 0)
 		ft_error("❌ Not a Valid Map 🗺❗️");
 	ft_fill_space(map);
-	ft_wall_path(all, map);
+	ft_wall_path(map);
 	ft_check_wall(map);
 	//map->coin = 0;
 	//ft_check_num(map->matrix, &(map->coin));	

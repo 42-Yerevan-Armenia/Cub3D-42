@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/30 18:45:56 by arakhurs         ###   ########.fr       */
+/*   Updated: 2022/12/30 19:07:47 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ typedef struct s_map
 typedef struct s_img
 {
 	void		*img;
-	void		*wall;
 }				t_img;
 
 typedef struct s_player
@@ -105,7 +104,7 @@ typedef struct s_all
 //MAP 🗺
 void	ft_fill_space(t_map *map);
 void	ft_check_wall(t_map *map);
-void	ft_check_map(t_all *all, t_map *map);
+void	ft_check_map(t_map *map);
 void	ft_check_split(t_map *map, char *str);
 int		ft_check_char(char *map, char *symbol);
 
