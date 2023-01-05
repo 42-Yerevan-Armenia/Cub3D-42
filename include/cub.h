@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/04 13:05:34 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:51:49 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <math.h>
+
 
 # define PLAYER "./Texture/exit.xpm"
 # define DOOR "./Texture/door.xpm"
@@ -42,6 +44,13 @@ enum			e_sound
 	Sound_None,
 	Sound_D1,
 	Sound_Num
+};
+
+enum		e_game
+{
+	Win_x = 1000,
+	Win_y = 600,
+	Fov = 60
 };
 
 typedef int		t_bool;
@@ -87,8 +96,19 @@ typedef struct s_img
 	void		*wall;
 }				t_img;
 
+typedef struct s_ray
+{
+	double			x;
+	double			y;
+	double		r_cos;
+	double		r_sin;
+	double		height;
+	double		distance;
+}				t_ray;
+
 typedef struct s_player
 {
+	t_ray		ray;
 	int			x;
 	int			y;
 }				t_player;
