@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/30 19:11:19 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/04 13:05:34 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_map
 	int			coin;
 	char		*tmp;
 	char		**matrix;
+	char		**map;
 }				t_map;
 
 typedef struct s_img
@@ -96,6 +97,9 @@ typedef struct s_all
 {
 	void		*mlx;
 	void		*win;
+	// char	(*identifier)[13];
+	char		**identifier;
+	char		**matrix;
 	t_map		map;
 	t_img		img;
 	t_player	player;
@@ -113,7 +117,7 @@ int		ft_check_char(char *map, char *symbol);
 
 //UTILES 🛠
 void	ft_error(char *str);
-void	ft_free_array(char **c);
+int		ft_free_array(char **c);
 size_t	ft_strnlen(const char *str, char c);
 char	*read_arg(char *s1, char *s2, char **ret);
 

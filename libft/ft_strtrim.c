@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 19:27:44 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/17 20:17:28 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:21:18 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	find_last(char const *s1, char const *set)
 	i = ft_strlen(s1) - 1;
 	j = -1;
 	count = 0;
-	while (set[++j] && s1[i])
+	while (set[++j] && i >= 0 && s1[i])
 	{
 		if (s1[i] == set[j] && set[j] != '\0')
 		{

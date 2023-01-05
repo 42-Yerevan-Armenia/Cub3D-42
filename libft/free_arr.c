@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:38:27 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/12/19 13:39:01 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/04 12:25:36 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	free_arr(char **arr)
 {
 	if (*arr)
 	{
+		printf("inner = %p\n", *arr);
+		sleep(3);
 		free(*arr);
 		*arr = NULL;
 	}

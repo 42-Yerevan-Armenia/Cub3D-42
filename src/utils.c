@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:54:42 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/30 18:53:26 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/04 13:07:39 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ void	ft_error(char *str)
 	}
 }
 
-void	ft_free_array(char **c)
+int	ft_free_array(char **c)
 {
 	if (!c || !*c)
-		return ;
+		return (1);
 	free(*c);
 	*c = NULL;
+	return (1);
 }
 
 size_t	ft_strnlen(const char *str, char c)

@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/17 21:33:50 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/01/03 15:26:25 by vaghazar         ###   ########.fr       */
+/*   Created: 2023/01/03 15:43:07 by vaghazar          #+#    #+#             */
+/*   Updated: 2023/01/03 15:54:41 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+// #include "cub.h"
 
-char	*ft_strdup(const char *src)
-{
-	int		i;
-	char	*ptr;
-
-	i = 0;
-	while (src && src[i])
-		i++;
-	ptr = malloc(i + 1);
-	if (!ptr && !ft_perror("🔻minishell: "))
-		return (0);
-	i = 0;
-	while (src && src[i])
-	{
-		ptr[i] = src[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
+// void ft_init(t_all *all)
+// {
+    
+// }
