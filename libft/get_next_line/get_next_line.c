@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 20:48:27 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/05/29 19:13:12 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:26:12 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	if (tmp_line[fd_i] == '\0')
 		fd_i--;
-	tmp_line = ft_strdup(tmp_line + fd_i + 1, tmp_line);
+	tmp_line = ft_strdup_free(tmp_line + fd_i + 1, tmp_line);
 	if (!tmp_line[0] && free_arr(tmp_line))
 		tmp_line = NULL;
 	return (line);

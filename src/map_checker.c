@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checker.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/30 19:07:36 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/04 14:35:27 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,12 @@ void	ft_check_map(t_map *map)
 	int	min;
 	int	l;
 
-	map->y = 6;
-	max = ft_strlen(map->matrix[6]);
+	map->y = 0;
+	max = ft_strlen(map->map[0]);
 	l = map->y;
-	while (&(map->matrix[map->y][0]) != NULL)
+	while (&(map->map[map->y][0]) != NULL)
 	{	
-		min = ft_strlen(map->matrix[map->y]);
+		min = ft_strlen(map->map[map->y]);
 		if (min > max && map->y)
 		{
 			max = min;
@@ -138,13 +138,13 @@ void	ft_check_map(t_map *map)
 		map->y++;
 	}
 	map->x = 0;
-	while (map->matrix[l][map->x] != '\0')
+	while (map->map[l][map->x] != '\0')
 		map->x++;
 	if (map->y <= 0 || map->x <= 0)
 		ft_error("❌ Not a Valid Map 🗺❗️");
-	ft_fill_space(map);
-	ft_wall_path(map);
-	ft_check_wall(map);
+	// ft_fill_space(map);
+	// +(map);
+	// ft_check_wall(map);
 	//map->coin = 0;
 	//ft_check_num(map->matrix, &(map->coin));	
 }

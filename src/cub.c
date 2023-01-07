@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/30 19:11:04 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/07 16:43:01 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,149 @@ int	ft_key_press(int keycode, t_all *all)
 	return (0);
 }
 
-void	ft_map(t_map *map, const char *mpath)
+void	get_elems(char *line, char	**first, char **second)
 {
-	int		fd;
-	char	*line;
-	char	*str;
+	int	i;
+	char	*res;
+	char	*ptr_for_free;
 
-	str = NULL;
-	if (ft_strncmp(".cub", (mpath + (ft_strlen(mpath) - 4)), 4) != 0)
+	i = 0;
+	while (line[i] && ft_strchr(SPACES, line[i]))
+		i++;
+	while (line[i] && !ft_strchr(SPACES, line[i]))
+		i++;
+	ptr_for_free = ft_substr(line, 0, i);
+	*first = ft_strtrim(ptr_for_free, SPACES);
+	ft_free_array(&ptr_for_free);
+	ptr_for_free = ft_substr(line, i, ft_strlen(line));
+	*second = ft_strtrim(ptr_for_free, SPACES);
+	ft_free_array(&ptr_for_free);
+}
+
+char	*get_identifier(char	**identifier, char	*idtf)
+{
+	int		i;
+
+	i = 0;
+	while (identifier[i] && identifier[i + 1])
+	{
+		if (ft_strcmp(identifier[i], idtf) == 0)
+			return (identifier[i + 1]);
+		i += 2;
+	}
+	return (0);
+}
+
+void set_identifers(t_all *all)
+{
+	char	**tmp;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	tmp = all->matrix;
+	while(tmp[i] && i < 6)
+	{
+		get_elems(tmp[i], &all->identifier[j], &all->identifier[j + 1]);
+		j += 2;
+		i++;
+	}
+}
+
+int	ft_check_extens(const char *mpath)
+{
+	if (ft_strlen(mpath) < 5
+		|| ft_strcmp(".cub", (char *)mpath + (ft_strlen(mpath) - 4)) != 0)
+	{
 		ft_error("❌ Map format is not *.cub");
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_count_lines(const char *mpath)
+{
+	int		count;
+	char	*line;
+	int		fd;
+
+	count = 0;
 	fd = open(mpath, O_RDONLY);
-	if (fd == -1)
-		ft_error("❌ Can't Open MAP 🗺");
+	CHECK(fd);
 	while (1)
 	{
 		line = get_next_line(fd);
-		str = ft_strjoin(str, line);
+		if (line == NULL)
+			break;
+		ft_free_array(&line);
+		count++;
+
+	}
+	CHECK(close(fd));
+	return (count);
+}
+
+void	get_matrix(t_all *all, const char	*mpath, int line_len)
+{
+	int		fd;
+	char	*line;
+	char	*ptr_for_free;
+	int		i;
+	int		flag = 0;
+	
+	i = 0;
+	fd = (open(mpath, O_RDONLY));
+	CHECK(fd);
+	all->matrix = malloc(sizeof(char *) * (line_len + 1));
+	while (1)
+	{
+		line = get_next_line(fd);
+		ptr_for_free = ft_strtrim(line, SPACES);
+		if (line == NULL && flag == 2)
+		{
+			ft_fprintf(2, "invalid map\n");
+			exit(1);
+		}
+		else if (line == NULL || *ptr_for_free != '\0')
+		{
+			if (flag == 1)
+				flag = 2;
+			all->matrix[i++] = line;
+		}
+		else if (*ptr_for_free == '\0' && i > 6)
+		{
+			if (flag != 2)
+				flag = 1;
+		}
+		ft_free_array(&ptr_for_free);
 		if (line == NULL)
 			break ;
 	}
-	free(line);
-	if (close(fd) == -1)
-		ft_error("❌ Can't close Map File 🗺");
-	ft_check_split(map, str);
-	ft_free_array(&str);
-	if (!(*(map->matrix)))
-		ft_error("❌ Can't split❗️");
-	ft_check_map(map);
+	CHECK(close(fd));
+}
+
+void	ft_matrix(t_all *all, const char *mpath)
+{
+	char	*str;
+	int		line_len;
+	int		i;
+
+	str = NULL;
+	i = 0;
+	ft_check_extens(mpath);
+	line_len = ft_count_lines(mpath);
+	// printf("%d\n", line_len);
+	get_matrix(all, mpath, line_len);
+	// ft_check_split(map, str);
+	// ft_free_array(&str);
+	// if (!(*(map->matrix)))
+	// 	ft_error("❌ Can't split❗️");
+	all->map.map = (all->matrix) + 6;
+	i = 0;
+	while (all->map.map[i])
+		printf("%s", all->map.map[i++]);
+	ft_check_map(&all->map);
 }
 
 void	ft_textures(t_img *img, void *mlx)
@@ -79,20 +195,44 @@ void	ft_textures(t_img *img, void *mlx)
 		ft_error("❌ Can't Open Wall 🚧 Texture");
 }
 
-int	main(int ac, char **av)
+int	valid_identifiers(char	**identifier)
 {
-	t_all	all;
+	int i;
 
-	if (ac == 2)
-	{
-		ft_map(&all.map, av[1]);
-		// sound_init(&all);
-		// sound_play(&all, Sound_D1, 1);
-		ft_win(&all);
-		ft_textures(&all.img, all.mlx);
-		mlx_hook(all.win, 2, 0, ft_key_press, &all);
-		//mlx_loop_hook(all.mlx, &loop_hook, &a);
-		mlx_loop(all.mlx);
-	}
-	return 0;
+	if (!get_identifier(identifier, "NO")
+		|| !get_identifier(identifier, "SO")
+		|| !get_identifier(identifier, "EA")
+		|| !get_identifier(identifier, "WE")
+		|| !get_identifier(identifier, "F")
+		|| !get_identifier(identifier, "C"))
+		return (1);
+	return (0);
 }
+
+// int	main(int ac, char **av)
+// {
+// 	t_all	all;
+// 	int		i = 0;
+// 	// char	(*idendifier)[13];
+
+// 	if (ac == 2)
+// 	{
+// 		all.identifier = malloc(sizeof(char *) * 16);
+// 		ft_memset(all.identifier, 0, sizeof(char *) * 16);
+// 		ft_matrix(&all, av[1]);
+// 		set_identifers(&all);
+// 		if (valid_identifiers(all.identifier) == 1
+// 			&& ft_fprintf(2, "Error : invalid identifier\n"))
+// 			exit (1);
+// 		printf("%s\n", get_identifier(all.identifier, "NO"));
+// 		// while (1);
+// 		// sound_init(&all);
+// 		// sound_play(&all, Sound_D1, 1);
+// 		// ft_win(&all);
+// 		// ft_textures(&all.img, all.mlx);
+// 		// mlx_hook(all.win, 2, 0, ft_key_press, &all);
+// 		// //mlx_loop_hook(all.mlx, &loop_hook, &a);
+// 		// mlx_loop(all.mlx);
+// 	}
+// 	return 0;
+// }

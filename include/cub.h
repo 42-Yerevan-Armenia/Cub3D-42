@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/30 19:11:19 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:00:29 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <math.h>
+
 
 # define PLAYER "./Texture/exit.xpm"
 # define DOOR "./Texture/door.xpm"
@@ -42,6 +44,13 @@ enum			e_sound
 	Sound_None,
 	Sound_D1,
 	Sound_Num
+};
+
+enum		e_game
+{
+	Win_x = 1000,
+	Win_y = 600,
+	Fov = 60
 };
 
 typedef int		t_bool;
@@ -78,6 +87,7 @@ typedef struct s_map
 	int			coin;
 	char		*tmp;
 	char		**matrix;
+	char		**map;
 }				t_map;
 
 typedef struct s_img
@@ -86,16 +96,31 @@ typedef struct s_img
 	void		*wall;
 }				t_img;
 
+typedef struct s_ray
+{
+	double			x;
+	double			y;
+	double		r_cos;
+	double		r_sin;
+	double		height;
+	double		distance;
+}				t_ray;
+
 typedef struct s_player
 {
-	int			x;
-	int			y;
+	t_ray		ray;
+	double		angle;
+	double			x;
+	double			y;
 }				t_player;
 
 typedef struct s_all
 {
 	void		*mlx;
 	void		*win;
+	// char	(*identifier)[13];
+	char		**identifier;
+	char		**matrix;
 	t_map		map;
 	t_img		img;
 	t_player	player;
@@ -113,7 +138,7 @@ int		ft_check_char(char *map, char *symbol);
 
 //UTILES 🛠
 void	ft_error(char *str);
-void	ft_free_array(char **c);
+int		ft_free_array(char **c);
 size_t	ft_strnlen(const char *str, char c);
 char	*read_arg(char *s1, char *s2, char **ret);
 

@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 20:47:39 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/03/26 20:48:23 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:25:50 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 	return (ptr1);
 }
 
-char	*ft_strdup(char *src, char *str_for_free)
+char	*ft_strdup_free(char *src, char *str_for_free)
 {
 	int		i;
 	char	*ptr;
