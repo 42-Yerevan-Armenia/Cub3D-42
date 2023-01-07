@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/05 13:33:03 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/07 11:36:16 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,29 +209,30 @@ int	valid_identifiers(char	**identifier)
 	return (0);
 }
 
-// int	main(int ac, char **av)
-// {
-// 	t_all	all;
-// 	int		i = 0;
-// 	// char	(*idendifier)[13];
+int	main(int ac, char **av)
+{
+	t_all	all;
+	int		i = 0;
+	// char	(*idendifier)[13];
 
-// 	if (ac == 2)
-// 	{
-// 		all.identifier = malloc(sizeof(char *) * 16);
-// 		ft_memset(all.identifier, 0, sizeof(char *) * 16);
-// 		ft_matrix(&all, av[1]);
-// 		set_identifers(&all);
-// 		if (valid_identifiers(all.identifier) == 1
-// 			&& ft_fprintf(2, "Error : invalid identifier\n"))
-// 			exit (1);
-// 		// while (1);
-// 		// sound_init(&all);
-// 		// sound_play(&all, Sound_D1, 1);
-// 		// ft_win(&all);
-// 		// ft_textures(&all.img, all.mlx);
-// 		// mlx_hook(all.win, 2, 0, ft_key_press, &all);
-// 		// //mlx_loop_hook(all.mlx, &loop_hook, &a);
-// 		// mlx_loop(all.mlx);
-// 	}
-// 	return 0;
-// }
+	if (ac == 2)
+	{
+		all.identifier = malloc(sizeof(char *) * 16);
+		ft_memset(all.identifier, 0, sizeof(char *) * 16);
+		ft_matrix(&all, av[1]);
+		set_identifers(&all);
+		if (valid_identifiers(all.identifier) == 1
+			&& ft_fprintf(2, "Error : invalid identifier\n"))
+			exit (1);
+		printf("%s\n", get_identifier(all.identifier, "NO"));
+		// while (1);
+		// sound_init(&all);
+		// sound_play(&all, Sound_D1, 1);
+		// ft_win(&all);
+		// ft_textures(&all.img, all.mlx);
+		// mlx_hook(all.win, 2, 0, ft_key_press, &all);
+		// //mlx_loop_hook(all.mlx, &loop_hook, &a);
+		// mlx_loop(all.mlx);
+	}
+	return 0;
+}

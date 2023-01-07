@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/05 17:51:49 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:00:29 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,9 @@ typedef struct s_ray
 typedef struct s_player
 {
 	t_ray		ray;
-	int			x;
-	int			y;
+	double		angle;
+	double			x;
+	double			y;
 }				t_player;
 
 typedef struct s_all
