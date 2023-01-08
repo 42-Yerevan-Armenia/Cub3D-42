@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/06 17:00:29 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/08 19:44:22 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,14 +127,21 @@ typedef struct s_all
 	t_resources	resource;
 }				t_all;
 
+//MATRIX 🧬
+void	get_matrix(t_all *all, const char	*mpath, int line_len);
+void	get_elems(char *line, char	**first, char **second);
+void	ft_matrix(t_all *all, const char *mpath);
+void	set_identifers(t_all *all);
+int		ft_count_lines(const char *mpath);
+int		valid_identifiers(char	**identifier);
+char	*get_identifier(char	**identifier, char	*idtf);
+
 //MAP 🗺
 void	ft_fill_space(t_map *map);
 void	ft_check_wall(t_map *map);
 void	ft_check_map(t_map *map);
 void	ft_check_split(t_map *map, char *str);
 int		ft_check_char(char *map, char *symbol);
-
-
 
 //UTILES 🛠
 void	ft_error(char *str);

@@ -1,3 +1,4 @@
+/*
 #include "cub.h"
 
 void fill_back(void *mlx, void *mlx_win)
@@ -120,3 +121,4 @@ int main()
 	}
 	mlx_loop(mlx);
 }
+*/
