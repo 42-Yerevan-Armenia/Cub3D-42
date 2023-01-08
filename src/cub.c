@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/07 16:43:01 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/08 19:19:17 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,9 @@ void	get_matrix(t_all *all, const char	*mpath, int line_len)
 		{
 			if (flag == 1)
 				flag = 2;
-			all->matrix[i++] = line;
+			if (line != NULL)
+				all->matrix[i++] = ft_strtrim(line, "\n");
+			free(line);
 		}
 		else if (*ptr_for_free == '\0' && i > 6)
 		{
@@ -159,6 +161,7 @@ void	get_matrix(t_all *all, const char	*mpath, int line_len)
 		if (line == NULL)
 			break ;
 	}
+	all->matrix[i] = NULL;
 	CHECK(close(fd));
 }
 
@@ -178,11 +181,11 @@ void	ft_matrix(t_all *all, const char *mpath)
 	// ft_free_array(&str);
 	// if (!(*(map->matrix)))
 	// 	ft_error("❌ Can't split❗️");
-	all->map.map = (all->matrix) + 6;
+	all->map.map = (all->matrix);
 	i = 0;
-	while (all->map.map[i])
+	while (all->map.map[i] && *all->map.map[i])
 		printf("%s", all->map.map[i++]);
-	ft_check_map(&all->map);
+	// ft_check_map(&all->map);
 }
 
 void	ft_textures(t_img *img, void *mlx)
@@ -209,30 +212,30 @@ int	valid_identifiers(char	**identifier)
 	return (0);
 }
 
-// int	main(int ac, char **av)
-// {
-// 	t_all	all;
-// 	int		i = 0;
-// 	// char	(*idendifier)[13];
+int	main(int ac, char **av)
+{
+	t_all	all;
+	int		i = 0;
+	// char	(*idendifier)[13];
 
-// 	if (ac == 2)
-// 	{
-// 		all.identifier = malloc(sizeof(char *) * 16);
-// 		ft_memset(all.identifier, 0, sizeof(char *) * 16);
-// 		ft_matrix(&all, av[1]);
-// 		set_identifers(&all);
-// 		if (valid_identifiers(all.identifier) == 1
-// 			&& ft_fprintf(2, "Error : invalid identifier\n"))
-// 			exit (1);
-// 		printf("%s\n", get_identifier(all.identifier, "NO"));
-// 		// while (1);
-// 		// sound_init(&all);
-// 		// sound_play(&all, Sound_D1, 1);
-// 		// ft_win(&all);
-// 		// ft_textures(&all.img, all.mlx);
-// 		// mlx_hook(all.win, 2, 0, ft_key_press, &all);
-// 		// //mlx_loop_hook(all.mlx, &loop_hook, &a);
-// 		// mlx_loop(all.mlx);
-// 	}
-// 	return 0;
-// }
+	if (ac == 2)
+	{
+		all.identifier = malloc(sizeof(char *) * 16);
+		ft_memset(all.identifier, 0, sizeof(char *) * 16);
+		ft_matrix(&all, av[1]);
+		// set_identifers(&all);
+		// if (valid_identifiers(all.identifier) == 1
+		// 	&& ft_fprintf(2, "Error : invalid identifier\n"))
+		// 	exit (1);
+		// printf("%s\n", get_identifier(all.identifier, "NO"));
+		// while (1);
+		// sound_init(&all);
+		// sound_play(&all, Sound_D1, 1);
+		// ft_win(&all);
+		// ft_textures(&all.img, all.mlx);
+		// mlx_hook(all.win, 2, 0, ft_key_press, &all);
+		// //mlx_loop_hook(all.mlx, &loop_hook, &a);
+		// mlx_loop(all.mlx);
+	}
+	return 0;
+}
