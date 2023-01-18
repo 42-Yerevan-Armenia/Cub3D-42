@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:35:40 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/08 19:45:06 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/16 21:09:34 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_matrix(t_all *all, const char *mpath)
 	i = 0;
 	// while (all->map.map[i])
 	// 	printf("%s\n", all->map.map[i++]);
-	ft_check_map(&all->map);
+	ft_check_map(&all->map, all);
 }
 
 char	*get_identifier(char	**identifier, char	*idtf)

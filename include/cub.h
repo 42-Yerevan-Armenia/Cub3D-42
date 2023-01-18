@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/08 19:44:22 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:12:50 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,20 @@
 # include <math.h>
 
 
-# define PLAYER "./Texture/exit.xpm"
-# define DOOR "./Texture/door.xpm"
+# define PLAYER "Texture/exit.xpm"
+# define DOOR "Texture/door.xpm"
 # define MAX_RESOURCE 128
 
 # define ALL_CHARS	"_01NSEW"
 # define IN_CHARS	"0NSEW"
+# define NO_DIRS	"_01"
 # define DIRS		"NSEW"
 
-# define WALL "./Texture/wall.xpm"
-# define NO "./Texture/NO.xpm"
-# define SO "./Texture/SO.xpm"
-# define WE "./Texture/WE.xpm"
-# define EA "./Texture/EA.xpm"
+# define WALL "Texture/wall.xpm"
+# define NO "Texture/NO.xpm"
+# define SO "Texture/SO.xpm"
+# define WE "Texture/WE.xpm"
+# define EA "Texture/EA.xpm"
 
 enum			e_sound
 {
@@ -48,7 +49,7 @@ enum			e_sound
 
 enum		e_game
 {
-	Win_x = 1000,
+	Win_x = 700,
 	Win_y = 600,
 	Fov = 60
 };
@@ -85,6 +86,7 @@ typedef struct s_map
 	int			x;
 	int			y;
 	int			coin;
+	int			maps;
 	char		*tmp;
 	char		**matrix;
 	char		**map;
@@ -93,25 +95,63 @@ typedef struct s_map
 typedef struct s_img
 {
 	void		*img;
-	void		*wall;
+	void		*n_wall;
+	void		*s_wall;
+	void		*e_wall;
+	void		*w_wall;
 }				t_img;
 
 typedef struct s_ray
 {
-	double			x;
-	double			y;
+	double		x;
+	double		y;
+	double		r_x;
+	double		r_y;
+	double		x_o;
+	double		y_o;
+	double		v_x;
+	double		v_y;
+	double		a;
+	double		tan_a;
+	int			depth;
+	int			zeros;
+	int			zerosh;
+	
 	double		r_cos;
 	double		r_sin;
-	double		height;
+	double		wall_H;
+	double		h;
 	double		distance;
+	double		column;
+	double		row;
+
+
 }				t_ray;
 
 typedef struct s_player
 {
 	t_ray		ray;
+	int			ray_count;
+	char		p_in_map;
+	int			p_x;
+	int			p_y;
+	double		p_a;
+	int			p_r;
+	double		dist;
+	double		stepy;
+	int			linelen;
+	int			zeros;
 	double		angle;
-	double			x;
-	double			y;
+	double		distance;
+	double		x;
+	double		y;
+
+	int		c[3];
+	int		f[3];
+	char	*addr[9];
+	int		bits_per_pixel[9];
+	int		line_length[9];
+	int		endian[9];;
 }				t_player;
 
 typedef struct s_all
@@ -139,9 +179,28 @@ char	*get_identifier(char	**identifier, char	*idtf);
 //MAP 🗺
 void	ft_fill_space(t_map *map);
 void	ft_check_wall(t_map *map);
-void	ft_check_map(t_map *map);
+void	ft_check_map(t_map *map, t_all *all);
 void	ft_check_split(t_map *map, char *str);
 int		ft_check_char(char *map, char *symbol);
+
+//MATH 🧮
+double	degree_to_radians(double a);
+double	replace_angle_360(double a);
+double	calc_dist(t_ray *ray);
+void	pov(t_all *all);
+void	ft_vertical_dist_check(t_all *all, char c);
+int	create_trgb(int t, int r, int g, int b);
+
+//MOVES 🦶
+int		ft_key_press(int keycode, t_all *all);
+void	ft_move_up(t_all *a);
+void	ft_move_down(t_all *a);
+void	ft_move_left(t_all *a);
+void	ft_move_right(t_all *a);
+
+//TEXTURES 🎨
+int		ft_destroy(t_all *all);
+void	ft_textures(t_all *all);
 
 //UTILES 🛠
 void	ft_error(char *str);
@@ -155,5 +214,9 @@ void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
 
 char	*get_next_line(int fd);
+
+//RAY 🛤
+void	raycast(t_all *all);
+void	render(t_all *all);
 
 #endif

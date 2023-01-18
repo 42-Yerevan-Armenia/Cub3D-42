@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/08 20:09:17 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:24:25 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_check_wall(t_map *map)
 			j++;
 		}
 		i++;
-	}	
+	}
 }
 
 int	ft_check_char(char *map, char *symbol)
@@ -59,7 +59,6 @@ int	ft_check_char(char *map, char *symbol)
 	return (1);
 }
 
-
 void	ft_fill_space(t_map *map)
 {
 	int		i;
@@ -73,10 +72,12 @@ void	ft_fill_space(t_map *map)
 		min = ft_strlen(map->map[i]);
 		while (map->map[i][j])
 		{
-			if (map->map[i][j] == ' ' || map->map[i][j] == '\t')
+			if (map->map[i][j] == ' ')
 				map->map[i][j] = '_';
 			j++;
 		}
+		if (map->map[i][j] == '\t')
+			ft_error("❌ No correct symbol in MAP 🗺");
 		if (min < map->x)
 		{
 			map->tmp = malloc(map->x + 1);
@@ -90,13 +91,39 @@ void	ft_fill_space(t_map *map)
 			free(map->map[i]);
 			map->map[i] = map->tmp;
 		}
-		if (!ft_check_char(map->map[i], ALL_CHARS))
-			ft_error("❌ No correct symbol in MAP 🗺");
 		i++;
 	}
 }
 
-void	ft_check_map(t_map *map)
+void	ft_check_num(char **n, t_all *all)
+{
+	int	i;
+	int	j;
+	int	e_p[1];
+
+	e_p[0] = 0;
+	i = -1;
+	while (n[++i])
+	{
+		j = -1;
+		while (n[i][++j])
+		{
+			if (!ft_check_char(n[i], ALL_CHARS))
+				ft_error("❌ No correct symbol in MAP 🗺");
+			if (n[i][j] == 'N' || n[i][j] == 'E' || n[i][j] == 'S' || n[i][j] == 'W')
+			{
+				all->player.p_in_map = n[i][j];
+				all->player.p_x = i;
+				all->player.p_y = j;				
+				e_p[0]++;
+			}
+		}
+	}
+	if ((e_p[0] != 1))
+		ft_error("❌Map symbol count Error❗️");
+}
+
+void	ft_check_map(t_map *map, t_all *all)
 {
 	int	max;
 	int	min;
@@ -121,8 +148,6 @@ void	ft_check_map(t_map *map)
 	if (map->y <= 0 || map->x <= 0)
 		ft_error("❌ Not a Valid Map 🗺❗️");
 	ft_fill_space(map);
-	// +(map);
 	ft_check_wall(map);
-	//map->coin = 0;
-	//ft_check_num(map->map, &(map->coin));	
+	ft_check_num(map->map, all);
 }

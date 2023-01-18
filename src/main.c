@@ -31,11 +31,20 @@ double degree_to_radians(double a)
 	return (a * (PI / 180));
 }
 
+t_ray calculate_cam(t_all all, int x)
+{
+    int x_camera = 2.0 * x / Win_x - 1;
+    t_ray ray;
+    ray.dir_ray_x = all.player.ray.x + all.player.x * x_camera;
+    ray.dir_ray_y = all.player.ray.y + all.player.y * x_camera;
+    return ray;
+}
+
 int main()
 {
     t_all all;
-    all.player.x = 2.30;
-    all.player.y = 5;
+    all.player.x = 5;
+    all.player.y = 1;
 
 	int map[24][24]=
 	{
@@ -70,7 +79,7 @@ int main()
 
 	void		*mlx;
 	all.player.angle = 110;
-	double		ray_angle = all.player.angle - (Fov / 2);
+	double		ray_angle = all.player.angle - (Fov / 2);//90
 	int			ray_count = 0;
 	void		*mlx_win;
 	void		*img;
@@ -94,14 +103,14 @@ int main()
 		all.player.ray.y += all.player.ray.r_sin;
 		while (map[(int)floor(all.player.ray.x)][(int)floor(all.player.ray.y)] != 1)
 		{
-			all.player.ray.x += all.player.ray.r_cos;
-			all.player.ray.y += all.player.ray.r_sin;
+			all.player.ray.x = all.player.ray.x + all.player.ray.r_cos;
+			all.player.ray.y = all.player.ray.y + all.player.ray.r_sin;
 		}
 		all.player.ray.distance = sqrt(pow(all.player.x - all.player.ray.x, 2) + pow(all.player.y - all.player.ray.y, 2));
 		// all.player.ray.distance = sqrt((all.player.x - all.player.ray.x) * (all.player.x - all.player.ray.x)
 		//  + (all.player.y - all.player.ray.y) * (all.player.y - all.player.ray.y));
 		// printf("%f\n", all.player.ray.distance);
-		printf("ray_angle = %f\n", ray_angle);
+		//printf("ray_angle = %f\n", ray_angle);
 		all.player.ray.distance = all.player.ray.distance * cos(degree_to_radians(ray_angle - all.player.angle));
 		// printf("distance = %f\n", all.player.ray.distance);
 
@@ -118,6 +127,7 @@ int main()
 			mlx_pixel_put(mlx, mlx_win, ray_count, i++, 0x000000FF);
 		ray_count++;
 		ray_angle += ((double)Fov / 1000.0);
+	printf("❌%d\n", ray_count);
 	}
 	mlx_loop(mlx);
 }
