@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/06 17:00:29 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/19 15:16:13 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../libft/libft.h"
 # include "cub3d.h"
+# include "keys.h"
 # include <mlx.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -39,6 +40,14 @@
 # define WE "./Texture/WE.xpm"
 # define EA "./Texture/EA.xpm"
 
+enum		e_game
+{
+	Win_x = 1000,
+	Win_y = 600,
+	Fov = 60,
+	Field = 100
+};
+
 enum			e_sound
 {
 	Sound_None,
@@ -46,12 +55,6 @@ enum			e_sound
 	Sound_Num
 };
 
-enum		e_game
-{
-	Win_x = 1000,
-	Win_y = 600,
-	Fov = 60
-};
 
 typedef int		t_bool;
 
@@ -98,13 +101,31 @@ typedef struct s_img
 
 typedef struct s_ray
 {
-	double			x;
-	double			y;
+	double		x;
+	double		y;
+	// int			x_int;
+	// int			y_int;
 	double		r_cos;
 	double		r_sin;
 	double		height;
 	double		distance;
+	double		angle;
 }				t_ray;
+
+typedef struct s_component
+{
+	double	dx;
+	double	dy;
+	double	x_step;
+	double	y_step;
+	double	x_intercept;
+	double	y_intercept;
+	double	x_int_intercept;
+	double	y_int_intercept;
+	int		x_int_wall;
+	int		y_int_wall;
+	double	ray_angel;
+}				t_component;
 
 typedef struct s_player
 {
@@ -125,6 +146,7 @@ typedef struct s_all
 	t_img		img;
 	t_player	player;
 	t_resources	resource;
+	t_component comp;
 }				t_all;
 
 //MAP 🗺
@@ -148,5 +170,8 @@ void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
 
 char	*get_next_line(int fd);
+double	degree_to_radians(double a);
+void	ft_to_integer(t_component *comp, int x, int y, int angle);
+void	ray_casting(t_all *all);
 
 #endif

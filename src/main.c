@@ -1,122 +1,143 @@
-// #include "cub.h"
+#include "cub.h"
 
-// void fill_back(void *mlx, void *mlx_win)
-// {
-// 	int i;
-// 	int	j;
+double	get_componets(t_all *all)
+{
+	double	x_step;
+	double	y_step;
+	double	x_intercept;
+	double	y_intercept;
 
-// 	i = 0;
-// 	j = 0;
-// 	while (i < Win_x)
-// 	{
-// 		while(j < Win_y / 2)
-// 			mlx_pixel_put(mlx, mlx_win, i, j++, 0x00FF0000);
-// 		i++;
-// 		j = 0;
-// 	}
-// 	i = 0;
-// 	j = Win_y / 2;
-// 	while (i < Win_x)
-// 	{
-// 		while(j >= Win_y / 2 && j < Win_y)
-// 			mlx_pixel_put(mlx, mlx_win, i, j++, 0x0000FF00);
-// 		i++;
-// 		j = Win_y / 2;
-// 	}
-// }
+	all->comp.dy = (all->player.y - (floor(all->player.y / Field) * Field));
+	all->comp.dx = ((round(all->player.x / Field) * Field) - all->player.x);
+	// printf("degree_to_radians =%f\n", all->comp.dx * tan(degree_to_radians(all->player.ray.angle)));
+	// printf("tan(degree_to_radians(all->player.ray.angle)= %f\n", tan(degree_to_radians(all->player.ray.angle)));
+	if (all->player.ray.angle == 0 
+		|| all->player.ray.angle == 180
+		|| all->player.ray.angle == 90
+		|| all->player.ray.angle == 270
+		|| all->player.ray.angle == 360)
+	{
+		all->comp.y_step = 100;
+		all->comp.x_step = 100;
+	}
+	else
+	{
+		all->comp.y_step = sqrt(pow(Field * fabs(tan(degree_to_radians(all->player.ray.angle))), 2) + pow(Field, 2));
+		all->comp.x_step = sqrt(pow(Field / fabs(tan(degree_to_radians(all->player.ray.angle))), 2) + pow(Field, 2));;
+	}
+	all->comp.x_intercept = all->player.x + (all->comp.dy * tan(degree_to_radians(all->player.ray.angle)));
+	all->comp.y_intercept = all->player.y - (all->comp.dx * tan(degree_to_radians(all->player.ray.angle)));
+	// printf("%f\n", (dx / tan(degree_to_radians(ray_angel))));
+	// printf("tan = %f\n", tan(degree_to_radians(30)));
+	printf("ray_angel = %f\n", all->player.ray.angle);
+	printf("dx = %f\n", all->comp.dx);
+	printf("dy = %f\n", all->comp.dy);
+	printf("x_step = %f\n", all->comp.x_step);
+	printf("y_step = %f\n", all->comp.y_step);
+	printf("x_inter = %f\n", all->comp.x_intercept);
+	printf("y_inter = %f\n", all->comp.y_intercept);
+	// printf("%f\n", floor(all->player.x / Field));
+	return (0);
+}
 
-// double degree_to_radians(double a)
-// {
-// 	return (a * (PI / 180));
-// }
+int	get_distance(t_all *all)
+{
+	all->player.ray.angle = all->player.angle - (Fov / 2);
+	all->player.ray.x = (int)all->player.x;
+	all->player.ray.y = (int)all->player.y;
+	all->comp.x_int_wall = (int)all->player.x / Field;
+	all->comp.y_int_wall = (int)all->player.y / Field;
+	get_componets(all);
+	printf("\n\n\n\n\n\n\n\n\n\n");
+	while (1)
+	{
+		while(all->comp.y_intercept > ((int)(all->player.ray.y / Field)) * Field)
+		{
+			printf("barev-------------------------------------\n");
+			ft_to_integer(&all->comp, all->player.ray.x / Field, all->comp.y_intercept / Field, all->player.ray.angle);
+			printf("x_int_wall = %d\n", all->comp.x_int_wall);
+			printf("y_int_wall = %d\n", all->comp.y_int_wall);
+			if (all->map.map[(int)all->comp.y_int_wall][(int)all->comp.x_int_wall])
+			{
+				printf("vert\n");
+				return (2);
+			}
+			all->player.ray.x += 100;
+			all->comp.y_intercept -= all->comp.y_step;
+			printf("all->comp.y_intercept = %f\n", all->comp.y_intercept);
+			printf("(ll->player.ray.y / Field) * Field= %d\n", (((int)(all->player.ray.y / Field))) * Field);
+			// printf("((int)all->pld) * Field = %d\n", (((int)(all->player.ray.y / Field))) * Field);
+		}
+	// 	while(all->comp.x_intercept < ((int)(all->player.ray.x / Field)) * Field)
+	// 	{
+	// 		printf("hajox ------------------------\n");
+	// 		printf("x_intercept = %f\n", all->comp.x_intercept);
+	// 		printf("player.ray.y = %f\n", all->player.ray.y);
+	// 		printf("x_intercept = %d\n", (int)all->comp.x_intercept / Field);
+	// 		printf("player.ray.y = %d\n", (int)all->player.ray.y / Field);
+	// 		ft_to_integer(&all->comp, all->comp.x_intercept / Field, all->player.ray.y / Field, all->player.ray.angle);
+	// 		printf("x_int_wall = %d\n", all->comp.x_int_wall);
+	// 		printf("y_int_wall = %d\n", all->comp.y_int_wall);
+	// 		if (all->map.map[(int)all->comp.y_int_wall][(int)all->comp.x_int_wall])
+	// 		{
+	// 			printf("horiz\n");
+	// 			return (1);
+	// 		}
+	// 		all->player.ray.y -= 100;
+	// 		all->comp.x_intercept += all->comp.x_step;
+	// 	}
+	}
+	return (0);
+}
+
+void ray_casting(t_all *all)
+{
+	int			ray_count = 0;
+	double 		i = 0;
+	
+	i = 4;
+	if (get_distance(all) == 1)
+	{
+
+	}
+	else
+	{
+
+	}
+	// fill_back(all->mlx, all->win);
+	// while (ray_count < 100)
+	// {
+		// all->player.ray.distance = all->player.ray.distance * cos(degree_to_radians(all->player.ray.angle - all->player.angle));
+		// all->player.ray.height = floor(((float)Win_y / 2) / all->player.ray.distance);
+		// // i = (Win_y / 2) - all->player.ray.height;
+		// // while (i < (Win_y / 2) + all->player.ray.height)
+		// // 	mlx_pixel_put(all->mlx, all->win, ray_count, i++, 0x000000FF);
+		// ray_count++;
+		// all->player.ray.angle += ((double)Fov / 1000.0);
+	// }
+}
 
 // int main()
 // {
 //     t_all all;
-// 	all.player.angle = 210;
-//     all.player.x = 5;
-//     all.player.y = 5;
+// 	all.player.angle = 60;
+//     all.player.x = (3 * Field) - (Field / 2);
+//     all.player.y = (3 * Field) - (Field / 2);
+// 	all.player.ray.angle = all.player.angle - (Fov / 2);
+//     // all.player.x = 2;
+//     // all.player.y = 5;
 
-// 	int map[24][24]=
-// 	{
-// 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-// 	{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-// 	};
-
-// 	// double posX = 22, posY = 12;  //x and y start position
-//   	// double dirX = -1, dirY = 0; //initial direction vector
-
-// 	void		*mlx;
-// 	double		ray_angle = all.player.angle - (Fov / 2);
-// 	int			ray_count = 0;
-// 	void		*mlx_win;
-// 	void		*img;
-// 	double 		i = 0;
-// 	mlx =  mlx_init();
-// 	mlx_win = mlx_new_window(mlx, Win_x, Win_y, "cub3d");
-// 	fill_back(mlx, mlx_win);
-// 	printf("ray_angle = %f\n", ray_angle);
-// 	printf("all.player.angle = %f\n", all.player.angle);
-// 	while (ray_count < 100)
-// 	{
-// 		all.player.ray.x = all.player.x;
-// 		all.player.ray.y = all.player.y;
-// 		all.player.ray.r_cos = cos(degree_to_radians(ray_angle)) / 64;
-// 		all.player.ray.r_sin = sin(degree_to_radians(ray_angle)) / 64;
-// 		// printf("%f\n", ray_angle);
-// 		// printf("all.player.ray.r_sin = %f\n", all.player.ray.r_sin);
-// 		// printf("all.player.ray.r_cos = %f\n", all.player.ray.r_cos);
-
-// 		all.player.ray.x += all.player.ray.r_cos;
-// 		all.player.ray.y += all.player.ray.r_sin;
-// 		while (map[(int)floor(all.player.ray.x)][(int)floor(all.player.ray.y)] != 1)
-// 		{
-// 			all.player.ray.x += all.player.ray.r_cos;
-// 			all.player.ray.y += all.player.ray.r_sin;
-// 		}
-// 		all.player.ray.distance = sqrt(pow(all.player.x - all.player.ray.x, 2) + pow(all.player.y - all.player.ray.y, 2));
-// 		// all.player.ray.distance = sqrt((all.player.x - all.player.ray.x) * (all.player.x - all.player.ray.x)
-// 		//  + (all.player.y - all.player.ray.y) * (all.player.y - all.player.ray.y));
-// 		// printf("%f\n", all.player.ray.distance);
-// 		printf("ray_angle = %f\n", ray_angle);
-// 		all.player.ray.distance = all.player.ray.distance * cos(degree_to_radians(ray_angle - all.player.angle));
-// 		// printf("distance = %f\n", all.player.ray.distance);
-
-// 		all.player.ray.height = floor(((float)Win_y / 2) / all.player.ray.distance);
-// 		// printf("ray_count = %d\n", ray_count);
-// 		// printf("degree_to_radians(ray_angle) = %f\n", degree_to_radians(ray_angle));
-// 		// printf("all.player.ray.x = %f\n", all.player.ray.x);
-// 		// printf("all.player.ray.y = %f\n", all.player.ray.y);
-// 		// printf("all.player.ray.distance %f\n", all.player.ray.distance);
-// 		// printf("height = %f\n", all.player.ray.height);
-// 		// usleep(1000000);
-// 		i = (Win_y / 2) - all.player.ray.height;
-// 		while (i < (Win_y / 2) + all.player.ray.height)
-// 			mlx_pixel_put(mlx, mlx_win, ray_count, i++, 0x000000FF);
-// 		ray_count++;
-// 		ray_angle += ((double)Fov / 1000.0);
-// 	}
-// 	mlx_loop(mlx);
+// 	printf("all.player.x = %f\n", all.player.x);
+// 	printf("all.player.y = %f\n", all.player.y);
+// 	// all.mlx =  mlx_init();
+// 	// all.win = mlx_new_window(all.mlx, Win_x, Win_y, "cub3d");
+// 	// event_listener(&all);
+// 	// double x = 456;
+// 	// double y = 431;
+// 	// ft_to_integer(&x, &y, 361);
+// 	// printf("x = %f\n", x);
+// 	// printf("y = %f\n", y);
+// 	ray_casting(&all);
+// 	// mlx_hook(all.win, 17, 1L << 17, ft_close, &all);
+// 	// mlx_loop(all.mlx);
 // }

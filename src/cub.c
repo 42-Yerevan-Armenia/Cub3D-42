@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/08 19:19:17 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/19 16:12:17 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,7 +214,11 @@ int	valid_identifiers(char	**identifier)
 
 int	main(int ac, char **av)
 {
-	t_all	all;
+	t_all all;
+	all.player.angle = 60;
+    all.player.x = (3 * Field) - (Field / 2);
+    all.player.y = (3 * Field) - (Field / 2);
+	all.player.ray.angle = all.player.angle - (Fov / 2);
 	int		i = 0;
 	// char	(*idendifier)[13];
 
@@ -223,7 +227,9 @@ int	main(int ac, char **av)
 		all.identifier = malloc(sizeof(char *) * 16);
 		ft_memset(all.identifier, 0, sizeof(char *) * 16);
 		ft_matrix(&all, av[1]);
-		// set_identifers(&all);
+		set_identifers(&all);
+
+		ray_casting(&all);
 		// if (valid_identifiers(all.identifier) == 1
 		// 	&& ft_fprintf(2, "Error : invalid identifier\n"))
 		// 	exit (1);
