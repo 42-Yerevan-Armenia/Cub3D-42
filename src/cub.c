@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/19 16:12:17 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/22 16:17:29 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,11 +181,35 @@ void	ft_matrix(t_all *all, const char *mpath)
 	// ft_free_array(&str);
 	// if (!(*(map->matrix)))
 	// 	ft_error("❌ Can't split❗️");
-	all->map.map = (all->matrix);
+	all->map.map = (all->matrix + 6);
 	i = 0;
 	while (all->map.map[i] && *all->map.map[i])
-		printf("%s", all->map.map[i++]);
+		printf("%s\n", all->map.map[i++]);
 	// ft_check_map(&all->map);
+}
+
+void get_player_pos(char **map, double *x, double *y, double *angle)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (ft_strchr(DIRS, map[i][j]))
+			{
+				*x = (j * Field) + (Field / 2);
+				*y = (i * Field) + (Field / 2);
+				*angle = 270;
+				return ;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 void	ft_textures(t_img *img, void *mlx)
@@ -215,10 +239,9 @@ int	valid_identifiers(char	**identifier)
 int	main(int ac, char **av)
 {
 	t_all all;
-	all.player.angle = 60;
-    all.player.x = (3 * Field) - (Field / 2);
-    all.player.y = (3 * Field) - (Field / 2);
-	all.player.ray.angle = all.player.angle - (Fov / 2);
+	// all.player.angle = 60;
+    // all.player.x = (3 * Field) - (Field / 2);
+    // all.player.y = (3 * Field) - (Field / 2);
 	int		i = 0;
 	// char	(*idendifier)[13];
 
@@ -228,7 +251,8 @@ int	main(int ac, char **av)
 		ft_memset(all.identifier, 0, sizeof(char *) * 16);
 		ft_matrix(&all, av[1]);
 		set_identifers(&all);
-
+		get_player_pos(all.map.map, &all.player.x, &all.player.y, &all.player.angle);
+		all.player.ray.angle = all.player.angle - (Fov / 2);
 		ray_casting(&all);
 		// if (valid_identifiers(all.identifier) == 1
 		// 	&& ft_fprintf(2, "Error : invalid identifier\n"))

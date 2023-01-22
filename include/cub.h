@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/19 15:16:13 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/19 18:42:48 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ typedef struct s_ray
 
 typedef struct s_component
 {
-	double	dx;
-	double	dy;
+	int		dx;
+	int		dy;
 	double	x_step;
 	double	y_step;
 	double	x_intercept;

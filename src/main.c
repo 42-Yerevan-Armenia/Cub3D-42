@@ -17,21 +17,25 @@ double	get_componets(t_all *all)
 		|| all->player.ray.angle == 270
 		|| all->player.ray.angle == 360)
 	{
-		all->comp.y_step = 100;
-		all->comp.x_step = 100;
+		all->comp.y_step = 0;
+		all->comp.x_step = 0;
 	}
 	else
 	{
-		all->comp.y_step = sqrt(pow(Field * fabs(tan(degree_to_radians(all->player.ray.angle))), 2) + pow(Field, 2));
-		all->comp.x_step = sqrt(pow(Field / fabs(tan(degree_to_radians(all->player.ray.angle))), 2) + pow(Field, 2));;
+		// all->comp.y_step = sqrt(pow(Field * fabs(tan(degree_to_radians(all->player.ray.angle))), 2) + pow(Field, 2));
+		// all->comp.x_step = sqrt(pow(Field / fabs(tan(degree_to_radians(all->player.ray.angle))), 2) + pow(Field, 2));;
+		all->comp.y_step = tan(degree_to_radians(all->player.ray.angle)) * Field;
+		all->comp.x_step = Field / tan(degree_to_radians(all->player.ray.angle));
 	}
-	all->comp.x_intercept = all->player.x + (all->comp.dy * tan(degree_to_radians(all->player.ray.angle)));
+	all->comp.x_intercept = all->player.x + (all->comp.dy / tan(degree_to_radians(all->player.ray.angle)));
 	all->comp.y_intercept = all->player.y - (all->comp.dx * tan(degree_to_radians(all->player.ray.angle)));
 	// printf("%f\n", (dx / tan(degree_to_radians(ray_angel))));
 	// printf("tan = %f\n", tan(degree_to_radians(30)));
+	printf("all->player.x = %f\n", all->player.x);
+	printf("all->player.y = %f\n", all->player.y);
 	printf("ray_angel = %f\n", all->player.ray.angle);
-	printf("dx = %f\n", all->comp.dx);
-	printf("dy = %f\n", all->comp.dy);
+	printf("dx = %d\n", all->comp.dx);
+	printf("dy = %d\n", all->comp.dy);
 	printf("x_step = %f\n", all->comp.x_step);
 	printf("y_step = %f\n", all->comp.y_step);
 	printf("x_inter = %f\n", all->comp.x_intercept);
@@ -42,50 +46,52 @@ double	get_componets(t_all *all)
 
 int	get_distance(t_all *all)
 {
-	all->player.ray.angle = all->player.angle - (Fov / 2);
+	int a = 5;
+	// all->player.ray.angle = all->player.angle - (Fov / 2);
 	all->player.ray.x = (int)all->player.x;
 	all->player.ray.y = (int)all->player.y;
-	all->comp.x_int_wall = (int)all->player.x / Field;
+	// all->comp.x_int_wall = (int)all->player.x / Field; // check 30
+	// all->comp.y_int_wall = (int)all->player.y / Field;
+	all->comp.x_int_wall = (int)all->player.x / Field + 1; // check 60
 	all->comp.y_int_wall = (int)all->player.y / Field;
 	get_componets(all);
-	printf("\n\n\n\n\n\n\n\n\n\n");
-	while (1)
+	// printf("\n\n\n\n\n\n\n\n\n\n");
+	printf("	all->comp.x_int_wall = %d\n", 	all->comp.x_int_wall);
+	printf(" 	all->comp.y_int_wall = %d\n",	all->comp.y_int_wall);
+	// printf("	all->player.ray.x = %f\n", 	all->player.ray.x); 
+	// printf(" 	all->player.ray.y = %f\n",	all->player.ray.y);
+	// printf("%f\n", all->player.angle);
+	while (a--)
 	{
-		while(all->comp.y_intercept > ((int)(all->player.ray.y / Field)) * Field)
+		// while(all->comp.y_intercept > ((int)(all->player.ray.y / Field)) * Field)
+		// {
+		printf("all->comp.y_intercept %f > all->comp.y_int_wall %d\n", all->comp.y_intercept , all->comp.y_int_wall * Field);
+		printf("all->comp.x_intercept %f < all->comp.x_int_wall %d\n", all->comp.x_intercept , all->comp.x_int_wall * Field);
+		while(all->comp.y_intercept > (all->comp.y_int_wall * Field))
 		{
 			printf("barev-------------------------------------\n");
-			ft_to_integer(&all->comp, all->player.ray.x / Field, all->comp.y_intercept / Field, all->player.ray.angle);
 			printf("x_int_wall = %d\n", all->comp.x_int_wall);
-			printf("y_int_wall = %d\n", all->comp.y_int_wall);
-			if (all->map.map[(int)all->comp.y_int_wall][(int)all->comp.x_int_wall])
+			printf("(int)all->comp.y_intercept / Field = %d\n", (int)all->comp.y_intercept / Field);
+			if (all->map.map[(int)all->comp.y_intercept / Field][(int)all->comp.x_int_wall] != '0')
 			{
 				printf("vert\n");
-				return (2);
 			}
-			all->player.ray.x += 100;
+			all->comp.x_int_wall += 1;
 			all->comp.y_intercept -= all->comp.y_step;
-			printf("all->comp.y_intercept = %f\n", all->comp.y_intercept);
-			printf("(ll->player.ray.y / Field) * Field= %d\n", (((int)(all->player.ray.y / Field))) * Field);
-			// printf("((int)all->pld) * Field = %d\n", (((int)(all->player.ray.y / Field))) * Field);
 		}
-	// 	while(all->comp.x_intercept < ((int)(all->player.ray.x / Field)) * Field)
-	// 	{
-	// 		printf("hajox ------------------------\n");
-	// 		printf("x_intercept = %f\n", all->comp.x_intercept);
-	// 		printf("player.ray.y = %f\n", all->player.ray.y);
-	// 		printf("x_intercept = %d\n", (int)all->comp.x_intercept / Field);
-	// 		printf("player.ray.y = %d\n", (int)all->player.ray.y / Field);
-	// 		ft_to_integer(&all->comp, all->comp.x_intercept / Field, all->player.ray.y / Field, all->player.ray.angle);
-	// 		printf("x_int_wall = %d\n", all->comp.x_int_wall);
-	// 		printf("y_int_wall = %d\n", all->comp.y_int_wall);
-	// 		if (all->map.map[(int)all->comp.y_int_wall][(int)all->comp.x_int_wall])
-	// 		{
-	// 			printf("horiz\n");
-	// 			return (1);
-	// 		}
-	// 		all->player.ray.y -= 100;
-	// 		all->comp.x_intercept += all->comp.x_step;
-	// 	}
+		while(all->comp.x_intercept < all->comp.x_int_wall * Field)
+		{
+			printf("hajox ------------------------\n");
+			printf("(int)all->comp.x_intercept / Field = %d\n", (int)all->comp.x_intercept / Field);
+			printf("y_int_wall = %d\n", all->comp.y_int_wall - 1);
+			if (all->map.map[(int)all->comp.y_int_wall - 1][(int)all->comp.x_intercept / Field] != '0')
+			{
+				printf("horiz\n");
+				return (1);
+			}
+			all->comp.y_int_wall += -1;
+			all->comp.x_intercept += all->comp.x_step;
+		}
 	}
 	return (0);
 }
@@ -96,14 +102,21 @@ void ray_casting(t_all *all)
 	double 		i = 0;
 	
 	i = 4;
-	if (get_distance(all) == 1)
-	{
 
-	}
-	else
-	{
+	// while (ray_count < Win_x)
+	// {
+		get_distance(all);
+		// all->player.ray.angle += ((double)Fov / 1000.0);
+		// ray_count += 1;
+	// }
+	// if (get_distance(all) == 1)
+	// {
 
-	}
+	// }
+	// else
+	// {
+
+	// }
 	// fill_back(all->mlx, all->win);
 	// while (ray_count < 100)
 	// {

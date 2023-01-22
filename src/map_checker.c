@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/04 14:35:27 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/19 18:11:19 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	ft_wall_path(t_map *map)
 	// if ((!ft_strncmp(map->matrix[i], "WE", 2)) == 0)
 	// 	ft_error("❌ Not a Valid path 🛣  for WE ❗️");
 	read_arg("NO", map->matrix[i], &arg);
-	printf("%s\n", arg);
+	// printf("%s\n", arg);
 	return (0);
 }
 
