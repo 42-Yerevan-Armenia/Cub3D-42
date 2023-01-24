@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/18 18:24:25 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:22:37 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,10 @@ void	ft_check_num(char **n, t_all *all)
 			if (n[i][j] == 'N' || n[i][j] == 'E' || n[i][j] == 'S' || n[i][j] == 'W')
 			{
 				all->player.p_in_map = n[i][j];
-				all->player.p_x = i;
-				all->player.p_y = j;				
+				all->player.x = j + 0.5;
+				all->player.h = i;
+				all->player.y = all->player.h + 0.5;
+				pov(all);
 				e_p[0]++;
 			}
 		}
@@ -125,19 +127,18 @@ void	ft_check_num(char **n, t_all *all)
 
 void	ft_check_map(t_map *map, t_all *all)
 {
-	int	max;
 	int	min;
 	int	l;
 
 	map->y = 0;
-	max = ft_strlen(map->map[0]);
+	map->max = ft_strlen(map->map[0]);
 	l = map->y;
 	while (&(map->map[map->y][0]) != NULL)
 	{	
 		min = ft_strlen(map->map[map->y]);
-		if (min > max && map->y)
+		if (min > map->max && map->y)
 		{
-			max = min;
+			map->max = min;
 			l = map->y;
 		}
 		map->y++;

@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/18 18:12:50 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:53:16 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../libft/libft.h"
 # include "cub3d.h"
-# include <mlx.h>
+# include "mlx.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdarg.h>
@@ -49,8 +49,8 @@ enum			e_sound
 
 enum		e_game
 {
-	Win_x = 700,
-	Win_y = 600,
+	Win_x = 1024,
+	Win_y = 576,
 	Fov = 60
 };
 
@@ -86,10 +86,11 @@ typedef struct s_map
 	int			x;
 	int			y;
 	int			coin;
-	int			maps;
+	int			max;
 	char		*tmp;
 	char		**matrix;
 	char		**map;
+	void		*minimap;
 }				t_map;
 
 typedef struct s_img
@@ -137,6 +138,8 @@ typedef struct s_player
 	int			p_y;
 	double		p_a;
 	int			p_r;
+	double		pdx;
+	double		pdy;
 	double		dist;
 	double		stepy;
 	int			linelen;
@@ -145,6 +148,7 @@ typedef struct s_player
 	double		distance;
 	double		x;
 	double		y;
+	double		h;
 
 	int		c[3];
 	int		f[3];
@@ -197,6 +201,8 @@ void	ft_move_up(t_all *a);
 void	ft_move_down(t_all *a);
 void	ft_move_left(t_all *a);
 void	ft_move_right(t_all *a);
+void	ft_view_left(t_all *a);
+void	ft_view_right(t_all *a);
 
 //TEXTURES 🎨
 int		ft_destroy(t_all *all);

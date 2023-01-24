@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 19:35:40 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/16 21:09:34 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:31:56 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	get_matrix(t_all *all, const char	*mpath, int line_len)
 		ft_free_array(&ptr_for_free);
 		if (line == NULL)
 			break ;
+		free(line);
 	}
 	CHECK(close(fd));
 }
