@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/24 17:53:16 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/25 15:59:30 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define CUB_H
 
 # include "../libft/libft.h"
-# include "cub3d.h"
-# include "mlx.h"
+# include "../ft_fprintf/ft_printf.h"
+# include <mlx.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdarg.h>
@@ -23,22 +23,9 @@
 # include <string.h>
 # include <unistd.h>
 # include <math.h>
-
-
-# define PLAYER "Texture/exit.xpm"
-# define DOOR "Texture/door.xpm"
-# define MAX_RESOURCE 128
-
-# define ALL_CHARS	"_01NSEW"
-# define IN_CHARS	"0NSEW"
-# define NO_DIRS	"_01"
-# define DIRS		"NSEW"
-
-# define WALL "Texture/wall.xpm"
-# define NO "Texture/NO.xpm"
-# define SO "Texture/SO.xpm"
-# define WE "Texture/WE.xpm"
-# define EA "Texture/EA.xpm"
+# include <errno.h>
+#include "struct.h"
+#include "defines.h"
 
 enum			e_sound
 {
@@ -96,6 +83,10 @@ typedef struct s_map
 typedef struct s_img
 {
 	void		*img;
+	char		*n_tx;
+	char		*s_tx;
+	char		*e_tx;
+	char		*w_tx;
 	void		*n_wall;
 	void		*s_wall;
 	void		*e_wall;
@@ -213,16 +204,19 @@ void	ft_error(char *str);
 int		ft_free_array(char **c);
 size_t	ft_strnlen(const char *str, char c);
 char	*read_arg(char *s1, char *s2, char **ret);
+int     check_ext(char *str);
+int		ft_fprintf(int fd, const char *from, ...);
+char	*get_next_line(int fd);
 
 //SOUNDS 🔊
 void	sound_init(t_all *all);
 void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
 
-char	*get_next_line(int fd);
-
 //RAY 🛤
 void	raycast(t_all *all);
 void	render(t_all *all);
+
+
 
 #endif
