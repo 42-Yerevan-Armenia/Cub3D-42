@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/19 18:42:48 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/26 17:53:24 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <math.h>
+# include "../libft/libft.h"
 
 
 # define PLAYER "./Texture/exit.xpm"
@@ -40,6 +41,15 @@
 # define WE "./Texture/WE.xpm"
 # define EA "./Texture/EA.xpm"
 
+
+typedef struct	s_data {
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_data;
+
 enum		e_game
 {
 	Win_x = 1000,
@@ -54,7 +64,6 @@ enum			e_sound
 	Sound_D1,
 	Sound_Num
 };
-
 
 typedef int		t_bool;
 
@@ -116,6 +125,8 @@ typedef struct s_component
 {
 	int		dx;
 	int		dy;
+	int		tile_step_x;
+	int		tile_step_y;
 	double	x_step;
 	double	y_step;
 	double	x_intercept;
@@ -124,6 +135,8 @@ typedef struct s_component
 	double	y_int_intercept;
 	int		x_int_wall;
 	int		y_int_wall;
+	int 	x_tile_wall;
+	int 	y_tile_wall;
 	double	ray_angel;
 }				t_component;
 
@@ -137,6 +150,7 @@ typedef struct s_player
 
 typedef struct s_all
 {
+	t_data		img_data;
 	void		*mlx;
 	void		*win;
 	// char	(*identifier)[13];
@@ -173,5 +187,10 @@ char	*get_next_line(int fd);
 double	degree_to_radians(double a);
 void	ft_to_integer(t_component *comp, int x, int y, int angle);
 void	ray_casting(t_all *all);
+double	ft_fabs(double a);
+void	event_listener(t_all *all);
+int		ft_close(t_all *all);
+void	fill_back(void *mlx, void *mlx_win);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 #endif

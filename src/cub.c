@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/22 16:17:29 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/01/26 17:01:27 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,8 @@ void get_player_pos(char **map, double *x, double *y, double *angle)
 			{
 				*x = (j * Field) + (Field / 2);
 				*y = (i * Field) + (Field / 2);
-				*angle = 270;
+				*angle = 90;
+				map[i][j] = '0';
 				return ;
 			}
 			j++;
@@ -236,14 +237,11 @@ int	valid_identifiers(char	**identifier)
 	return (0);
 }
 
+
 int	main(int ac, char **av)
 {
 	t_all all;
-	// all.player.angle = 60;
-    // all.player.x = (3 * Field) - (Field / 2);
-    // all.player.y = (3 * Field) - (Field / 2);
 	int		i = 0;
-	// char	(*idendifier)[13];
 
 	if (ac == 2)
 	{
@@ -253,6 +251,9 @@ int	main(int ac, char **av)
 		set_identifers(&all);
 		get_player_pos(all.map.map, &all.player.x, &all.player.y, &all.player.angle);
 		all.player.ray.angle = all.player.angle - (Fov / 2);
+		all.mlx =  mlx_init();
+		all.win = mlx_new_window(all.mlx, Win_x, Win_y, "cub3d");
+		event_listener(&all);
 		ray_casting(&all);
 		// if (valid_identifiers(all.identifier) == 1
 		// 	&& ft_fprintf(2, "Error : invalid identifier\n"))
@@ -264,8 +265,10 @@ int	main(int ac, char **av)
 		// ft_win(&all);
 		// ft_textures(&all.img, all.mlx);
 		// mlx_hook(all.win, 2, 0, ft_key_press, &all);
-		// //mlx_loop_hook(all.mlx, &loop_hook, &a);
+		// mlx_loop_hook(all.mlx, &loop_hook, &a);
 		// mlx_loop(all.mlx);
+		mlx_hook(all.win, 17, 1L << 17, ft_close, &all);
+		mlx_loop(all.mlx);
 	}
 	return 0;
 }
