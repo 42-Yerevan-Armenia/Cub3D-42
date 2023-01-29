@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 13:05:58 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/01/25 15:27:32 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/29 19:31:48 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define PLAYER "Texture/exit.xpm"
 # define DOOR "Texture/door.xpm"
 # define MAX_RESOURCE 128
+# define CLOCKS_PER_SEC  1000000
 
 # define ALL_CHARS	"_01NSEW"
 # define IN_CHARS	"0NSEW"

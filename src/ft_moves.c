@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:06:37 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/24 19:41:31 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/29 15:00:07 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_move_right(t_all *a)
 	char c = a->map.map[(int)a->player.y + 1][(int)a->player.x];
 	if(c && c != '1')
 	{
+		printf("1\n");
 		a->player.y += (a->player.pdy * 0.1);
 		a->map.map[(int)a->player.y - 1][(int)a->player.x] = '0';
 		a->map.map[(int)a->player.y][(int)a->player.x] = 'W';
@@ -28,11 +29,19 @@ void	ft_move_right(t_all *a)
 	}
 	else if (c && a->player.y < (int)a->player.y + 1)
 	{
+		printf("2\n");
 		d = (int)a->player.y + 1 - a->player.y;
 		a->player.y += 0.1;
 		render(a);
 	}
-	printf("\n");
+	else if (c && a->player.y > (int)a->player.y + 1)
+	{
+		printf("3\n");
+		d = (int)a->player.y + 1 - a->player.y;
+		a->player.y -= 0.1;
+		render(a);
+	}
+	printf("➡️\n");
 }
 
 void	ft_move_left(t_all *a)
@@ -46,9 +55,15 @@ void	ft_move_left(t_all *a)
 		a->map.map[(int)a->player.y][(int)a->player.x] = 'W';
 		render(a);
 	}
+	else if (c && a->player.y > (int)a->player.y + 1)
+	{
+		d = (int)a->player.y + 1 - a->player.y;
+		a->player.y += 0.1;
+		render(a);
+	}
 	else if (c && a->player.y < (int)a->player.y + 1)
 	{
-		d = (int)a->player.y + 1 + a->player.y;
+		d = (int)a->player.y + 1 - a->player.y;
 		a->player.y -= 0.1;
 		render(a);
 	}

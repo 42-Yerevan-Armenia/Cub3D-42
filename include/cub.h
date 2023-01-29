@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/25 15:59:30 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/29 19:31:53 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@
 # include <unistd.h>
 # include <math.h>
 # include <errno.h>
-#include "struct.h"
-#include "defines.h"
+# include "struct.h"
+# include "defines.h"
 
 enum			e_sound
 {
 	Sound_None,
 	Sound_D1,
+	Sound_I,
 	Sound_Num
 };
 
@@ -83,6 +84,10 @@ typedef struct s_map
 typedef struct s_img
 {
 	void		*img;
+	// void		*n_tx;
+	// void		*s_tx;
+	// void		*e_tx;
+	// void		*w_tx;
 	char		*n_tx;
 	char		*s_tx;
 	char		*e_tx;
