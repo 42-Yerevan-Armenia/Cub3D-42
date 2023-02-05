@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/26 17:01:27 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/05 10:16:39 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ void get_player_pos(char **map, double *x, double *y, double *angle)
 			{
 				*x = (j * Field) + (Field / 2);
 				*y = (i * Field) + (Field / 2);
-				*angle = 90;
+				*angle = 0;
 				map[i][j] = '0';
 				return ;
 			}
@@ -212,6 +212,8 @@ void get_player_pos(char **map, double *x, double *y, double *angle)
 		i++;
 	}
 }
+
+
 
 void	ft_textures(t_img *img, void *mlx)
 {
@@ -237,6 +239,12 @@ int	valid_identifiers(char	**identifier)
 	return (0);
 }
 
+int init(t_all *all)
+{
+	all->half_win_y = Win_y / 2;
+	all->half_fov = Fov / 2;
+	return (0);
+}
 
 int	main(int ac, char **av)
 {
@@ -250,25 +258,48 @@ int	main(int ac, char **av)
 		ft_matrix(&all, av[1]);
 		set_identifers(&all);
 		get_player_pos(all.map.map, &all.player.x, &all.player.y, &all.player.angle);
-		all.player.ray.angle = all.player.angle - (Fov / 2);
 		all.mlx =  mlx_init();
 		all.win = mlx_new_window(all.mlx, Win_x, Win_y, "cub3d");
+		init(&all);
+		all.img_no.img = mlx_xpm_file_to_image(all.mlx, NO, &all.img_width, &all.img_height); // size - 1
+		all.img_width -= 2;
+		all.img_height -= 2;
+		// printf("all.img_width = %d\n", all.img_width);
+		// printf("all.img_height = %d\n", all.img_height);
+		if (all.img_no.img == NULL)
+			exit(1);
+		// // if (valid_identifiers(all.identifier) == 1
+		// // 	&& ft_fprintf(2, "Error : invalid identifier\n"))
+		// // 	exit (1);
 		event_listener(&all);
+		all.img_no.addr = mlx_get_data_addr(all.img_no.img, &all.img_no.bits_per_pixel, &all.img_no.line_length, &all.img_no.endian);
+		all.img_data.img =  mlx_new_image(all.mlx, Win_x, Win_y);
+		all.img_data.addr = mlx_get_data_addr(all.img_data.img, &all.img_data.bits_per_pixel, &all.img_data.line_length,
+							&all.img_data.endian);
+		// printf("get_color = %d\n", get_color(&all.img_data, 1592, 1920));
 		ray_casting(&all);
-		// if (valid_identifiers(all.identifier) == 1
-		// 	&& ft_fprintf(2, "Error : invalid identifier\n"))
-		// 	exit (1);
-		// printf("%s\n", get_identifier(all.identifier, "NO"));
-		// while (1);
-		// sound_init(&all);
-		// sound_play(&all, Sound_D1, 1);
-		// ft_win(&all);
-		// ft_textures(&all.img, all.mlx);
-		// mlx_hook(all.win, 2, 0, ft_key_press, &all);
-		// mlx_loop_hook(all.mlx, &loop_hook, &a);
-		// mlx_loop(all.mlx);
 		mlx_hook(all.win, 17, 1L << 17, ft_close, &all);
 		mlx_loop(all.mlx);
 	}
 	return 0;
 }
+
+// int main()
+// {
+// 	printf("%d\n", is_odd_wall(5564.2564));
+// 	// double a = 1 / 100;
+// 	// double b = tan(89.001);
+// 	// printf("%lf\n", b);
+// 	// if (b == 0)
+// 	// 	printf("true");
+// 	// b = 0;
+// 	// if (b == 0)
+// 	// 	printf("true");
+// 	// printf("tan = %f\n", tan(0.000000001));
+// 	// printf("sin = %f\n", sin(degree_to_radians(a)));
+// 	// double angle = 350;
+// 	// increament_in_range(360, ((double)Fov / 1000.0), &angle);
+// 	// printf("((double)Fov / 1000.0) = %f\n", ((double)Fov / 1000.0));
+// 	// increament_in_range(360, 30, &angle);
+// 	// printf("angle = %f\n", angle);
+// }

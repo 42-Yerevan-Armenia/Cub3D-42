@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/26 17:53:24 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/05 10:16:17 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,20 @@
 # define IN_CHARS	"0NSEW"
 # define DIRS		"NSEW"
 
-# define WALL "./Texture/wall.xpm"
-# define NO "./Texture/NO.xpm"
-# define SO "./Texture/SO.xpm"
-# define WE "./Texture/WE.xpm"
-# define EA "./Texture/EA.xpm"
+
+# define WALL_NO	1
+# define WALL_SO	2
+# define WALL_WE	3
+# define WALL_EA	4
+
+# define HORIZ	1
+# define VERT	2
+
+# define WALL "./Texture/1.xpm"
+# define NO "./wall_imgs/2.xpm"
+# define SO "./wall_imgs/2.xpm"
+# define WE "./wall_imgs/3.xpm"
+# define EA "./wall_imgs/4.xpm"
 
 
 typedef struct	s_data {
@@ -55,7 +64,9 @@ enum		e_game
 	Win_x = 1000,
 	Win_y = 600,
 	Fov = 60,
-	Field = 100
+	Field = 1000,
+	Step_angle = 1,
+	Step_walk = 20
 };
 
 enum			e_sound
@@ -123,21 +134,31 @@ typedef struct s_ray
 
 typedef struct s_component
 {
-	int		dx;
-	int		dy;
+	double	pic_x;
+	double	pic_y;
+	double	pic_y_step;
+	int		bool;
+	int		wall;
+	double	height_wall;
+	double	half_height_wall;
+	double	height_wall_test;
 	int		tile_step_x;
 	int		tile_step_y;
+	int		x_int_wall;
+	int		y_int_wall;
+	int 	x_tile_wall;
+	int 	y_tile_wall;
+	double	dx;
+	double	dy;
 	double	x_step;
 	double	y_step;
 	double	x_intercept;
 	double	y_intercept;
 	double	x_int_intercept;
 	double	y_int_intercept;
-	int		x_int_wall;
-	int		y_int_wall;
-	int 	x_tile_wall;
-	int 	y_tile_wall;
-	double	ray_angel;
+	double	ray_angle;
+	double	new_x;
+	double	new_y;
 }				t_component;
 
 typedef struct s_player
@@ -151,11 +172,21 @@ typedef struct s_player
 typedef struct s_all
 {
 	t_data		img_data;
+	t_data		img_no;
+	// void		*img_NO;
+	// void		*img_SO;
+	// void		*img_WE;
+	// void		*img_EA;
+	// void		*addr;
+	int			img_width;
+	int			img_height;
 	void		*mlx;
 	void		*win;
 	// char	(*identifier)[13];
 	char		**identifier;
 	char		**matrix;
+	int			half_fov;
+	int			half_win_y;
 	t_map		map;
 	t_img		img;
 	t_player	player;
@@ -192,5 +223,12 @@ void	event_listener(t_all *all);
 int		ft_close(t_all *all);
 void	fill_back(void *mlx, void *mlx_win);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+
+
+void	decreament_in_range(double range, double step, double *num);
+void	increament_in_range(double range, double step, double *num);
+int		get_color(t_data *data, int x, int y);
+int		get_right_color(t_data *data, int x, int y, t_all *all);
+int		is_odd_wall(double	intercept);
 
 #endif
