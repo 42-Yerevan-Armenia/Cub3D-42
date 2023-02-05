@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/05 10:16:39 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/05 17:28:58 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_destroy(t_all *all)
 {
 	mlx_destroy_window(all->mlx, all->win);
-	//mlx_destroy_image(all->mlx, all->img.wall);
+	//mlx_destroy_image(all->mlx, all->img->wall);
 	sound_stop(all, 1);
 	exit(EXIT_SUCCESS);
 }
@@ -188,6 +188,19 @@ void	ft_matrix(t_all *all, const char *mpath)
 	// ft_check_map(&all->map);
 }
 
+double	get_player_angle(char	c)
+{
+	if (c == 'N')
+		return (90.0);
+	if (c == 'S')
+		return (270.0);
+	if (c == 'E')
+		return (0.0);
+	if (c == 'W')
+		return (180.0);
+	return (0.0);
+}
+
 void get_player_pos(char **map, double *x, double *y, double *angle)
 {
 	int	i;
@@ -203,7 +216,7 @@ void get_player_pos(char **map, double *x, double *y, double *angle)
 			{
 				*x = (j * Field) + (Field / 2);
 				*y = (i * Field) + (Field / 2);
-				*angle = 0;
+				*angle = get_player_angle(map[i][j]);
 				map[i][j] = '0';
 				return ;
 			}
@@ -212,8 +225,6 @@ void get_player_pos(char **map, double *x, double *y, double *angle)
 		i++;
 	}
 }
-
-
 
 void	ft_textures(t_img *img, void *mlx)
 {
@@ -239,8 +250,39 @@ int	valid_identifiers(char	**identifier)
 	return (0);
 }
 
+int get_img(t_img *img, void *mlx, char	*img_path)
+{
+	int	ret;
+
+	ret = 0;
+	img->img = mlx_xpm_file_to_image(mlx, img_path, &img->width, &img->height); // size - 1
+	if (img->img == NULL && ++ret)
+		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
+	img->data.addr = mlx_get_data_addr(img->img, &img->data.bits_per_pixel, &img->data.line_length, &img->data.endian);
+	if (img->data.addr == NULL && ++ret)
+		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
+	// img->width;
+	// img->height;
+	return (ret);
+}
+
+int init_img(t_all *all)
+{
+	if (get_img(&all->imgs_wall[0], all->mlx, WE)
+		|| get_img(&all->imgs_wall[1], all->mlx, NO)
+		|| get_img(&all->imgs_wall[2], all->mlx, EA)
+		|| get_img(&all->imgs_wall[3], all->mlx, SO))
+		return (1);
+	return (0);
+}
+
 int init(t_all *all)
 {
+	if (init_img(all) == 1)
+	{
+		exit (1);
+	}
+	all->win_img_data.img = NULL;
 	all->half_win_y = Win_y / 2;
 	all->half_fov = Fov / 2;
 	return (0);
@@ -261,22 +303,10 @@ int	main(int ac, char **av)
 		all.mlx =  mlx_init();
 		all.win = mlx_new_window(all.mlx, Win_x, Win_y, "cub3d");
 		init(&all);
-		all.img_no.img = mlx_xpm_file_to_image(all.mlx, NO, &all.img_width, &all.img_height); // size - 1
-		all.img_width -= 2;
-		all.img_height -= 2;
-		// printf("all.img_width = %d\n", all.img_width);
-		// printf("all.img_height = %d\n", all.img_height);
-		if (all.img_no.img == NULL)
-			exit(1);
 		// // if (valid_identifiers(all.identifier) == 1
 		// // 	&& ft_fprintf(2, "Error : invalid identifier\n"))
 		// // 	exit (1);
 		event_listener(&all);
-		all.img_no.addr = mlx_get_data_addr(all.img_no.img, &all.img_no.bits_per_pixel, &all.img_no.line_length, &all.img_no.endian);
-		all.img_data.img =  mlx_new_image(all.mlx, Win_x, Win_y);
-		all.img_data.addr = mlx_get_data_addr(all.img_data.img, &all.img_data.bits_per_pixel, &all.img_data.line_length,
-							&all.img_data.endian);
-		// printf("get_color = %d\n", get_color(&all.img_data, 1592, 1920));
 		ray_casting(&all);
 		mlx_hook(all.win, 17, 1L << 17, ft_close, &all);
 		mlx_loop(all.mlx);
@@ -303,3 +333,4 @@ int	main(int ac, char **av)
 // 	// increament_in_range(360, 30, &angle);
 // 	// printf("angle = %f\n", angle);
 // }
+

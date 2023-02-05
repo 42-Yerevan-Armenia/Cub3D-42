@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/05 10:16:17 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/05 17:07:17 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,17 @@
 # define VERT	2
 
 # define WALL "./Texture/1.xpm"
-# define NO "./wall_imgs/2.xpm"
+# define NO "./wall_imgs/1.xpm"
 # define SO "./wall_imgs/2.xpm"
 # define WE "./wall_imgs/3.xpm"
 # define EA "./wall_imgs/4.xpm"
+
+# define START_LEFT	1
+# define START_RIGHT 2
+
+
+// # define START_LEFT	1
+// # define START_RIGHT 2
 
 
 typedef struct	s_data {
@@ -65,6 +72,7 @@ enum		e_game
 	Win_y = 600,
 	Fov = 60,
 	Field = 1000,
+	Dis_wall = 150,
 	Step_angle = 1,
 	Step_walk = 20
 };
@@ -115,6 +123,9 @@ typedef struct s_map
 
 typedef struct s_img
 {
+	int			width;
+	int			height;
+	t_data		data;
 	void		*img;
 	void		*wall;
 }				t_img;
@@ -134,20 +145,20 @@ typedef struct s_ray
 
 typedef struct s_component
 {
-	double	pic_x;
-	double	pic_y;
-	double	pic_y_step;
-	int		bool;
-	int		wall;
-	double	height_wall;
-	double	half_height_wall;
-	double	height_wall_test;
 	int		tile_step_x;
 	int		tile_step_y;
 	int		x_int_wall;
 	int		y_int_wall;
 	int 	x_tile_wall;
 	int 	y_tile_wall;
+	int		wall_index;
+	// int		wall;
+	double	pic_x;
+	double	pic_y;
+	double	pic_y_step;
+	double	height_wall;
+	double	half_height_wall;
+	double	height_wall_test;
 	double	dx;
 	double	dy;
 	double	x_step;
@@ -171,8 +182,11 @@ typedef struct s_player
 
 typedef struct s_all
 {
-	t_data		img_data;
-	t_data		img_no;
+	t_data		win_img_data;
+	t_img		imgs_wall[4];
+	// t_img		img_so;
+	// t_img		img_we;
+	// t_img		img_ea;
 	// void		*img_NO;
 	// void		*img_SO;
 	// void		*img_WE;
@@ -218,6 +232,7 @@ char	*get_next_line(int fd);
 double	degree_to_radians(double a);
 void	ft_to_integer(t_component *comp, int x, int y, int angle);
 void	ray_casting(t_all *all);
+int		get_distance(t_all *all);
 double	ft_fabs(double a);
 void	event_listener(t_all *all);
 int		ft_close(t_all *all);
@@ -230,5 +245,9 @@ void	increament_in_range(double range, double step, double *num);
 int		get_color(t_data *data, int x, int y);
 int		get_right_color(t_data *data, int x, int y, t_all *all);
 int		is_odd_wall(double	intercept);
+int		get_color(t_data *data, int x, int y);
+void	adjust_tile_step(t_component *comp, double angle);
+void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
+void	field_len(double intercept, t_component *comp, int img_height, int flag);
 
 #endif
