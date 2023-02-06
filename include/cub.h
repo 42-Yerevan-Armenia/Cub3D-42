@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/29 19:31:53 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:01:09 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ typedef struct s_map
 typedef struct s_img
 {
 	void		*img;
-	// void		*n_tx;
-	// void		*s_tx;
-	// void		*e_tx;
-	// void		*w_tx;
+	char		*c_tx;
+	char		*f_tx;
 	char		*n_tx;
 	char		*s_tx;
 	char		*e_tx;
 	char		*w_tx;
+	void		*c;
+	void		*f;
 	void		*n_wall;
 	void		*s_wall;
 	void		*e_wall;
@@ -221,7 +221,9 @@ void	sound_play(t_all *g, int sound, t_bool loop);
 //RAY 🛤
 void	raycast(t_all *all);
 void	render(t_all *all);
+void 	ft_init(t_all *all);
 
-
+char	my_mlx_pixel_put(t_all *all, int x, int y, int clr);
+void	put_texture_pixel(t_all *all, int x, int y, int k);
 
 #endif

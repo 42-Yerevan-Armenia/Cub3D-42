@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:53:03 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/21 20:05:10 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/31 19:23:06 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,5 @@ void	ft_vertical_dist_check(t_all *all, char c)
 {
 	all->player.dist = calc_dist(&all->player.ray);
 	all->player.zeros = all->player.ray.zeros;
-	if (c == 'D')
-		all->player.zeros = 6;
 	all->player.ray.depth = Win_x;
 }

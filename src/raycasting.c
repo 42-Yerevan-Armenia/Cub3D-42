@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:36:46 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/18 18:30:30 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/02 18:56:15 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ void	h_ray(t_all *all)
 	h_ray_2(all);
 }
 
-void	my_mlx_pixel_put(t_all *all, int x, int y, int clr)
+char	my_mlx_pixel_put(t_all *all, int x, int y, int clr)
 {
 	char	*dst;
 
 	dst = all->player.addr[1] + ((y * all->player.line_length[1]) + x
 			* (all->player.bits_per_pixel[1] / 8));
-	*(unsigned int *)dst = clr;
+	return (*(unsigned int *)dst = clr);
 }
 
 void	put_texture_pixel(t_all *all, int x, int y, int k)
@@ -127,7 +127,44 @@ void	put_texture_pixel(t_all *all, int x, int y, int k)
 	j = (k << 6) / all->player.linelen;
 	dst = all->player.addr[all->player.zeros] + ((j * all->player.line_length[all->player.zeros])
 			+ i * (all->player.bits_per_pixel[all->player.zeros] / 8));
-	my_mlx_pixel_put(all, x, y, *(unsigned int *)dst);
+	my_mlx_pixel_put(all, x, y, 0xffffff);
+}
+
+void	draw_line_2(t_all *all, int i, int S, int H)
+{
+	int k = -1;
+	int y = 0;
+	
+	while (y < Win_y)
+	{
+		if (y < S)
+			my_mlx_pixel_put(all, i, y, 0x87CEEB);
+		else if (y > H + S)
+			my_mlx_pixel_put(all, i, y, 0x228B22);
+		else
+			my_mlx_pixel_put(all, i, y, 0xffffff);
+			//put_texture_pixel(all, i, y, 0xffffff);
+		y++;
+	}
+	
+}
+
+void	draw_line(t_all *all, int i)
+{
+	int	H;
+	int	S;
+	
+	H = ((Win_y << 5) / all->player.distance);
+	all->player.stepy = 0;
+	all->player.linelen = H;
+	if (H > Win_y)
+	{
+		all->player.stepy = ((H - Win_y) >> 1);
+		H = Win_y;
+	}
+	S = (Win_y - H) >> 1;
+	//printf("%d\n", S);
+	draw_line_2(all, i, S, H);
 }
 
 void	raycast(t_all *all)
@@ -148,6 +185,7 @@ void	raycast(t_all *all)
 			all->player.p_r = (int)(all->player.ray.v_y) % 64;
 		else
 			all->player.p_r = (int)(all->player.ray.r_x) % 64;
+		draw_line(all, i);
 		all->player.ray.a = replace_angle_360(all->player.ray.a - all->player.angle);
 		i++;
 	}

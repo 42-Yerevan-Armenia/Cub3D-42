@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:10:04 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/27 18:05:17 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/01/31 19:09:44 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,27 @@ void	ft_get_data_addr(t_all *all)
 
 void	ft_textures(t_all *all)
 {
-	int		i;
+	int		w;
+	int		h;
 	char	*tmp;
 
-	i = 64;
 	tmp = all->img.n_wall;
-	all->img.n_wall = mlx_xpm_file_to_image(all->mlx, all->img.n_tx, &i, &i);
+	all->img.n_wall = mlx_xpm_file_to_image(all->mlx, all->img.n_tx, &w, &h);
 	if ((all->img.n_wall) == NULL)
 		ft_error("❌ Can't Open N_Wall 🚧 Texture");
 	free(tmp);
 	tmp = all->img.s_wall;
-	all->img.s_wall = mlx_xpm_file_to_image(all->mlx, all->img.s_tx, &i, &i);
+	all->img.s_wall = mlx_xpm_file_to_image(all->mlx, all->img.s_tx, &w, &h);
 	if ((all->img.s_wall) == NULL)
 		ft_error("❌ Can't Open S_Wall 🚧 Texture");
 	free(tmp);
 	tmp = all->img.e_wall;
-	all->img.e_wall = mlx_xpm_file_to_image(all->mlx, all->img.e_tx, &i, &i);
+	all->img.e_wall = mlx_xpm_file_to_image(all->mlx, all->img.e_tx, &w, &h);
 	if ((all->img.e_wall) == NULL)
 		ft_error("❌ Can't Open E_Wall 🚧 Texture");
 	free(tmp);
 	tmp = all->img.w_wall;
-	all->img.w_wall = mlx_xpm_file_to_image(all->mlx, all->img.w_tx, &i, &i);
+	all->img.w_wall = mlx_xpm_file_to_image(all->mlx, all->img.w_tx, &w, &h);
 	if ((all->img.w_wall) == NULL)
 		ft_error("❌ Can't Open W_Wall 🚧 Texture");
 	free(tmp);
