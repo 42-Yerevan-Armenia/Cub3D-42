@@ -16,7 +16,7 @@ TMP = objs
 
 CC = cc
 
-CFLAGS =  -Imlx -I./include  #-fsanitize=address #-g -ggdb3 -Wall -Wextra -Werror
+CFLAGS =  -Imlx -I./include -fsanitize=address  #  # #-g -ggdb3-Wall -Wextra -Werror
 
 LINKER =  -lmlx -framework OpenGL -framework Appkit -L ./libft -lgnl -lft -L ./ft_fprintf -lftfprintf #-Lft_fprintf #-Llibft # ./readline-arakhurs/lib
 

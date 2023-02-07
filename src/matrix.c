@@ -5,12 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 19:35:40 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/24 17:31:56 by arakhurs         ###   ########.fr       */
+/*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
+/*   Updated: 2023/02/07 12:52:42 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
+
+int	ft_count_lines(const char *mpath)
+{
+	int		count;
+	char	*line;
+	int		fd;
+
+	count = 0;
+	fd = open(mpath, O_RDONLY);
+	CHECK(fd);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break;
+		ft_free_array(&line);
+		count++;
+
+	}
+	CHECK(close(fd));
+	return (count);
+}
 
 void	get_matrix(t_all *all, const char	*mpath, int line_len)
 {
@@ -20,8 +42,8 @@ void	get_matrix(t_all *all, const char	*mpath, int line_len)
 	int		i;
 	int		flag;
 
-	flag = 0;
 	i = 0;
+	flag = 0;
 	fd = (open(mpath, O_RDONLY));
 	CHECK(fd);
 	all->matrix = malloc(sizeof(char *) * (line_len + 1));
@@ -39,6 +61,7 @@ void	get_matrix(t_all *all, const char	*mpath, int line_len)
 				all->matrix[i++] = ft_strtrim(line, "\n");
 			else
 				all->matrix[i++] = NULL;
+            // free(line); -> else	all->matrix[i++] = NULL;
 		}
 		else if (*ptr_for_free == '\0' && i > 6)
 		{
@@ -49,6 +72,7 @@ void	get_matrix(t_all *all, const char	*mpath, int line_len)
 		if (line == NULL)
 			break ;
 		free(line);
+        //all->matrix[i] = NULL; -> free(line);
 	}
 	CHECK(close(fd));
 }
@@ -68,32 +92,4 @@ void	ft_matrix(t_all *all, const char *mpath)
 	// while (all->map.map[i])
 	// 	printf("%s\n", all->map.map[i++]);
 	ft_check_map(&all->map, all);
-}
-
-char	*get_identifier(char	**identifier, char	*idtf)
-{
-	int		i;
-
-	i = 0;
-	while (identifier[i] && identifier[i + 1])
-	{
-		if (ft_strcmp(identifier[i], idtf) == 0)
-			return (identifier[i + 1]);
-		i += 2;
-	}
-	return (0);
-}
-
-int	valid_identifiers(char	**identifier)
-{
-	int		i;
-
-	if (!get_identifier(identifier, "NO")
-		|| !get_identifier(identifier, "SO")
-		|| !get_identifier(identifier, "EA")
-		|| !get_identifier(identifier, "WE")
-		|| !get_identifier(identifier, "F")
-		|| !get_identifier(identifier, "C"))
-		return (1);
-	return (0);
 }

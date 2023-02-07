@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/24 17:22:37 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:04:02 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,12 @@ void	ft_check_num(char **n, t_all *all)
 		{
 			if (!ft_check_char(n[i], ALL_CHARS))
 				ft_error("❌ No correct symbol in MAP 🗺");
-			if (n[i][j] == 'N' || n[i][j] == 'E' || n[i][j] == 'S' || n[i][j] == 'W')
+			if (ft_strchr(DIRS, n[i][j]))
 			{
-				all->player.p_in_map = n[i][j];
-				all->player.x = j + 0.5;
-				all->player.h = i;
-				all->player.y = all->player.h + 0.5;
-				pov(all);
+				all->player.x = (j * Field) + (Field / 2);
+				all->player.y = (i * Field) + (Field / 2);
+				all->player.angle = pov(n[i][j]);
+				n[i][j] = '0';
 				e_p[0]++;
 			}
 		}

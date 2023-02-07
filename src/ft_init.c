@@ -6,16 +6,30 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:43:07 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/01/31 18:15:12 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:19:40 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../include/cub.h"
 
-void ft_init(t_all *all)
+int init_img(t_all *all)
 {
-    all->img.n_wall = NULL;
-	all->img.s_wall = NULL;
-	all->img.e_wall = NULL;
-	all->img.w_wall = NULL;
+	if (get_img(&all->imgs_wall[0], all->mlx, all->img.w_tx)
+		|| get_img(&all->imgs_wall[1], all->mlx, all->img.n_tx)
+		|| get_img(&all->imgs_wall[2], all->mlx, all->img.e_tx)
+		|| get_img(&all->imgs_wall[3], all->mlx, all->img.s_tx))
+		return (1);
+	return (0);
+}
+
+int init(t_all *all)
+{
+	if (init_img(all) == 1)
+	{
+		exit (1);
+	}
+	all->win_img_data.img = NULL;
+	all->half_win_y = Win_y / 2;
+	all->half_fov = Fov / 2;
+	return (0);
 }

@@ -5,56 +5,92 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/17 18:53:03 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/01/31 19:23:06 by arakhurs         ###   ########.fr       */
+/*   Created: 2023/02/07 12:40:29 by arakhurs          #+#    #+#             */
+/*   Updated: 2023/02/07 13:17:43 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
+
+double	pov(char	c)
+{
+	if (c == 'N')
+		return (90.0);
+	if (c == 'S')
+		return (270.0);
+	if (c == 'E')
+		return (0.0);
+	if (c == 'W')
+		return (180.0);
+	return (0.0);
+}
 
 double degree_to_radians(double a)
 {
 	return (a * (PI / 180));
 }
 
-double	replace_angle_360(double a)
+double ft_fabs(double a)
 {
-	if (a >= 360)
-		a = a - 360;
-	else if (a <= -1)
-		a = a + 360;
-	return (a);
+	return (a < 0 ? -a : a);
 }
 
-void	pov(t_all *all)
+void decreament_in_range(double range, double step, double *num)
 {
-	if (all->player.p_in_map == 'E')
-		all->player.p_a = 0;
-	else if (all->player.p_in_map == 'N')
-		all->player.p_a = 90;
-	else if (all->player.p_in_map == 'W')
-		all->player.p_a = 180;
-	else if (all->player.p_in_map == 'S')
-		all->player.p_a = 270;
+	if (/*(int)*/(*num) - step >= 0)
+		*num -= step;
+	else
+		*num = *num + range - step;
 }
 
-int	create_trgb(int t, int r, int g, int b)
+void increament_in_range(double range, double step, double *num)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
+	if ((int)(*num) + step <= range)
+		*num += step;
+	else
+		*num = *num - range + step;
 }
 
-double	calc_dist(t_ray *ray)
+void ft_to_integer(t_component *comp, int x, int y, int angle)
 {
-	double	x;
-
-	x = cos(degree_to_radians(ray->a)) * (ray->r_x - ray->x)
-		- sin(degree_to_radians(ray->a)) * (ray->r_y - ray->y);
-	return (x);
+	if (x != -1)
+	{
+		if (angle >= 90 && angle <= 270)
+			comp->x_int_wall = x - 1;
+		else
+			comp->x_int_wall = x + 1;
+	}
+	if (y != -1)
+	{
+		if (angle >= 0 && angle <= 180)
+			comp->y_int_wall = y - 1;
+		else
+			comp->y_int_wall = y + 1;
+	}
 }
 
-void	ft_vertical_dist_check(t_all *all, char c)
+int	is_odd_wall(double	intercept)
 {
-	all->player.dist = calc_dist(&all->player.ray);
-	all->player.zeros = all->player.ray.zeros;
-	all->player.ray.depth = Win_x;
+	return ((int)(intercept / (double)Field) % 2);
+}
+
+void	field_len(double intercept, t_component *comp, int img_height, int flag)
+{
+	double	tmp;
+	if (is_odd_wall(intercept))
+		tmp = intercept - ((int)(intercept / Field) * Field);
+	else
+		tmp = (((int)(intercept / Field) + 1) * Field) - intercept;
+	// if (flag == START_LEFT)
+	comp->pic_x = tmp * (double)((double)img_height / (double)Field);
+	if ((int)comp->height_wall > Win_y)
+	{
+		comp->pic_y = (((double)(comp->height_wall) - (double)Win_y) / (double)2) * ((double)img_height / (double)comp->height_wall);
+		comp->pic_y_step = (img_height -  (comp->pic_y  * 2)) / Win_y;
+	}
+	else
+	{
+		comp->pic_y = 0;
+		comp->pic_y_step = (((double)img_height) / (comp->height_wall));
+	}
 }
