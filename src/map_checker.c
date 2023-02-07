@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 13:04:02 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:07:08 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,11 @@ void	ft_check_wall(t_map *map)
 		{
 			while (map->map[i][j] == '_')
 				j++;
-			if (i == 0 && (map->map[i][j] != '1' || map->map[i][j] == '_') && j <= map->x - 1)
-				ft_error("❌ The map not closed/surrounded by walls 🚧 ⬆️");
-			else if ((map->map[i][j] != '1' && map->map[i][j - 1] == '_') && j <= map->x - 1)
-				ft_error("❌ The map not closed/surrounded by walls 🚧 ⬇️");
-			else if ((j == 0 && map->map[i][j] != '1') || (i == map->y - 1 && map->map[i][j] != '1' && j < map->x))
-				ft_error("❌ The map not closed/surrounded by walls 🚧 ⬅️");
-			else if ((map->map[i][j] && (map->map[i][j] != '1' && map->map[i][j + 1] == '_') \
-				&& j <= map->x - 1) || (j == map->x - 1 && map->map[i][j] != '1'))
-				ft_error("❌ The map not closed/surrounded by walls 🚧 ➡️");
-
-			/*if (map->map[i][j] && ft_strchr(IN_CHARS, map->map[i][j]) && \
-				(i == 6 || j == 0 || i == (map->y - 1) || j == (map->x - 1) || \
+			if (map->map[i][j] && ft_strchr(IN_CHARS, map->map[i][j]) && \
+				(i == 0 || j == 0 || i == (map->y - 1) || j == (map->x - 1) || \
 				map->map[i - 1][j] == '_' || map->map[i + 1][j] == '_' || \
 				map->map[i][j - 1] == '_' || map->map[i][j + 1] == '_'))
-				ft_error("❌ The map not closed/surrounded by walls 🚧 _");*/
+				ft_error("❌ The map not closed/surrounded by walls 🚧");
 			j++;
 		}
 		i++;

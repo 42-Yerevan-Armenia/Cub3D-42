@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 13:22:09 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:24:37 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ enum		e_game
 	Fov = 60,
 	Field = 1000,
 	Dis_wall = 150,
-	Step_angle = 1,
-	Step_walk = 20
+	Step_angle = 5,
+	Step_walk = 30
 };
 
 enum			e_sound
@@ -93,21 +93,29 @@ typedef struct s_map
 	char		**map;
 }				t_map;
 
+typedef struct s_rgb
+{
+	char		*c_tx;
+	char		*f_tx;
+	int			r;
+	int			g;
+	int			b;
+	int			val;
+}				t_rgb;
+
 typedef struct s_img
 {
 	int			width;
 	int			height;
 	t_data		data;
+	t_rgb		floor;
+	t_rgb		ceil;
 	void		*img;
 	void		*wall;
-	char		*c_tx;
-	char		*f_tx;
 	char		*n_tx;
 	char		*s_tx;
 	char		*e_tx;
 	char		*w_tx;
-	void		*c;
-	void		*f;
 	void		*n_wall;
 	void		*s_wall;
 	void		*e_wall;
@@ -170,14 +178,6 @@ typedef struct s_all
 {
 	t_data		win_img_data;
 	t_img		imgs_wall[4];
-	// t_img		img_so;
-	// t_img		img_we;
-	// t_img		img_ea;
-	// void		*img_NO;
-	// void		*img_SO;
-	// void		*img_WE;
-	// void		*img_EA;
-	// void		*addr;
 	int			img_width;
 	int			img_height;
 	void		*mlx;

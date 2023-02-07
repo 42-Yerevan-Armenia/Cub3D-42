@@ -204,7 +204,7 @@ int	get_distance(t_all *all)
 	return (0);
 }
 
-void draw_line(t_data *win_img_data, int x, int start_y, int end_y);
+void draw_line(t_img *img, t_data *win_img_data, int x, int start_y, int end_y);
 
 void ray_casting(t_all *all)
 {
@@ -233,7 +233,7 @@ void ray_casting(t_all *all)
 		// 	my_mlx_pixel_put(&all->win_img_data, ray_count,  y_win, 7293925);
 		// 	y_win++;
 		// }
-		draw_line(&all->win_img_data, ray_count, 0, all->half_win_y - all->comp.half_height_wall);
+		draw_line(&all->img, &all->win_img_data, ray_count, 0, all->half_win_y - all->comp.half_height_wall);
 		y_win = all->half_win_y - all->comp.half_height_wall;
 		while (y_win < all->half_win_y + all->comp.half_height_wall)
 		{
@@ -248,7 +248,7 @@ void ray_casting(t_all *all)
 		// draw_line(&all->win_img_data, ray_count, y_win, Win_y);
 		while (y_win < Win_y)
 		{
-			my_mlx_pixel_put(&all->win_img_data, ray_count,  y_win, 12043420);
+			my_mlx_pixel_put(&all->win_img_data, ray_count,  y_win, all->img.floor.val);
 			y_win++;
 		}
 		ray_count += 1;
@@ -257,12 +257,12 @@ void ray_casting(t_all *all)
 	mlx_put_image_to_window(all->mlx, all->win, all->win_img_data.img, 0, 0);
 }
 
-void draw_line(t_data *win_img_data, int x, int start_y, int end_y)
+void draw_line(t_img *img, t_data *win_img_data, int x, int start_y, int end_y)
 {
 	start_y = 0;
 	while (start_y < end_y)
 	{
-		my_mlx_pixel_put(win_img_data, x,  start_y, 7293925);
+		my_mlx_pixel_put(win_img_data, x,  start_y, img->ceil.val);
 		start_y++;
 	}
 }

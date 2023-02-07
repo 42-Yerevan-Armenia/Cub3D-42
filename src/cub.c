@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 13:27:34 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:12:19 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ void	ft_win(t_all *all)
 
 int	main(int ac, char **av)
 {
-	t_all all;
-	int		i = 0;
+	t_all 	all;
+	int		i;
 
+	i = 0;
 	if (ac == 2)
 	{
 		all.identifier = malloc(sizeof(char *) * 16);
@@ -56,6 +57,7 @@ int	main(int ac, char **av)
 			&& ft_fprintf(2, "❌ Error : invalid identifier\n"))
 			exit (1);
 		ft_textur_path(&all);
+		ft_textures(&all);
 		init(&all);
 		
 		// sound_init(&all);
