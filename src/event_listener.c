@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/05 17:33:01 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/06 17:12:35 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,23 @@ int	event(int key, void *param)
 	double		new_y;
 
 	all = param;
+	// printf("all->player.x = %lf\n", all->player.x);
+	// printf("all->player.y = %lf\n", all->player.y);
+	// printf("all->player.angle = %lf\n", all->player.angle);
+	if (all->player.angle >= 90 && all->player.angle <= 270)
+		all->comp.step_w = -1;
+	else
+		all->comp.step_w = 1;
+	if (all->player.angle >= 0 && all->player.angle <= 180)
+		all->comp.step_d = -1;
+	else
+		all->comp.step_d = 1;
 	if (key == KEY_W)
 	{
+		// all->comp.step_d = ;
 		new_x = all->player.x + (cos(degree_to_radians(all->player.angle)) * Step_walk);
 		new_y = all->player.y - (sin(degree_to_radians(all->player.angle)) * Step_walk);
-		// printf("%d\n", Dis_wall * all->comp.tile_step_x);
-		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_x)) / Field)] != '1')
+		if (all->map.map[(int)((new_y - Dis_wall) / Field)][(int)((new_x + Dis_wall) / Field)] != '1')
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
@@ -34,7 +45,7 @@ int	event(int key, void *param)
 	{
 		new_x = all->player.x - (cos(degree_to_radians(all->player.angle)) * Step_walk);
 		new_y = all->player.y + (sin(degree_to_radians(all->player.angle)) * Step_walk);
-		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		if (all->map.map[(int)((new_y + Dis_wall) / Field)][(int)((new_x - Dis_wall) / Field)] != '1')
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
@@ -44,7 +55,13 @@ int	event(int key, void *param)
 	{
 		new_x = all->player.x + (cos(degree_to_radians(all->player.angle + 90)) * Step_walk);
 		new_y = all->player.y - (sin(degree_to_radians(all->player.angle + 90)) * Step_walk);
-		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		// printf("new_y = %lf\n", new_y);
+		// printf("new_x = %lf\n", new_x);
+		// printf("%lf\n", new_y + (Dis_wall));
+		// printf("%lf\n", new_x + (Dis_wall));
+		// printf("new_y = %d\n", (int)((new_y - Dis_wall) / Field));
+		// printf("new_x = %d\n", (int)((new_x + Dis_wall) / Field));
+		if (all->map.map[(int)((new_y - Dis_wall) / Field)][(int)((new_x + Dis_wall) / Field)] != '1')
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
@@ -54,7 +71,7 @@ int	event(int key, void *param)
 	{
 		new_x = all->player.x - (cos(degree_to_radians(all->player.angle + 90)) * Step_walk);
 		new_y = all->player.y + (sin(degree_to_radians(all->player.angle + 90)) * Step_walk);
-		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		if (all->map.map[(int)((new_y + (Dis_wall)) / Field)][(int)((new_x - (Dis_wall)) / Field)] != '1')
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;

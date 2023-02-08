@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   adjust_dx_dy.c                                     :+:      :+:    :+:   */
+/*   draw_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/05 17:05:42 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/07 16:10:11 by vaghazar         ###   ########.fr       */
+/*   Created: 2023/02/06 14:22:29 by vaghazar          #+#    #+#             */
+/*   Updated: 2023/02/06 14:22:43 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	adjust_dx_dy(t_component *comp, double angle, double x, double y)
+void draw_line(t_data *win_img_data, int x, int start_y, int end_y, int color)
 {
-	if (angle >= 90 && angle <= 270)
-		comp->dx = ft_fabs((((int)x / Field) * Field) - x);
-	else
-		comp->dx = ft_fabs((((int)(x / Field) * Field + Field) - x));
-	if (angle >= 0 && angle <= 180)
-		comp->dy = ft_fabs((y - ((int)(y / Field) * Field)));
-	else
-		comp->dy = ft_fabs((y - ((int)(y / Field) * Field + Field)));
+	while (start_y < end_y)
+	{
+		my_mlx_pixel_put(win_img_data, x,  start_y, color);
+		start_y++;
+	}
 }

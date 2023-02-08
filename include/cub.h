@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/05 17:07:17 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/08 17:35:02 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ enum		e_game
 	Field = 1000,
 	Dis_wall = 150,
 	Step_angle = 1,
-	Step_walk = 20
+	Step_walk = 50
 };
 
 enum			e_sound
@@ -147,6 +147,8 @@ typedef struct s_component
 {
 	int		tile_step_x;
 	int		tile_step_y;
+	int		step_w;
+	int		step_d;
 	int		x_int_wall;
 	int		y_int_wall;
 	int 	x_tile_wall;
@@ -231,13 +233,11 @@ void	sound_play(t_all *g, int sound, t_bool loop);
 char	*get_next_line(int fd);
 double	degree_to_radians(double a);
 void	ft_to_integer(t_component *comp, int x, int y, int angle);
-void	ray_casting(t_all *all);
-int		get_distance(t_all *all);
 double	ft_fabs(double a);
-void	event_listener(t_all *all);
 int		ft_close(t_all *all);
 void	fill_back(void *mlx, void *mlx_win);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	draw_line(t_data *win_img_data, int x, int start_y, int end_y, int color);
 
 
 void	decreament_in_range(double range, double step, double *num);
@@ -249,5 +249,12 @@ int		get_color(t_data *data, int x, int y);
 void	adjust_tile_step(t_component *comp, double angle);
 void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
 void	field_len(double intercept, t_component *comp, int img_height, int flag);
+
+void	ray_casting(t_all *all);
+int		get_intercept(t_all *all);
+void	get_componets(t_all *all);
+void	event_listener(t_all *all);
+int		check_hit_horiz(t_all *all);
+int		check_hit_vert(t_all *all);
 
 #endif
