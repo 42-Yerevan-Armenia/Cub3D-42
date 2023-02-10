@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 17:22:21 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:45:27 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ enum		e_game
 	Win_y = 600,
 	Fov = 60,
 	Field = 1000,
-	Dis_wall = 150,
+	Dis_wall = 0,
 	Step_angle = 10,
 	Step_walk = 100
 };
@@ -177,6 +177,8 @@ typedef struct s_component
 typedef struct s_player
 {
 	t_ray		ray;
+	int			p_i;
+	int			p_j;
 	char		p_in_map;
 	double		angle;
 	double		x;
@@ -209,15 +211,13 @@ void	set_identifers(t_all *all);
 void	ft_matrix(t_all *all, const char *mpath);
 
 //MAP 🗺
-void	ft_fill_space(t_map *map);
-void	ft_check_wall(t_map *map);
 void	ft_check_map(t_map *map, t_all *all);
 int		ft_check_char(char *map, char *symbol);
 
 //MATH 🧮
 double	pov(char c);
 double	ft_fabs(double a);
-double	degree_to_radians(double a);
+double	d_to_rdn(double a);
 void	ft_to_integer(t_component *comp, int x, int y, int angle);
 void	decreament_in_range(double range, double step, double *num);
 void	increament_in_range(double range, double step, double *num);
@@ -239,7 +239,7 @@ int		check_hit_horiz(t_all *all);
 void	get_componets(t_all *all);
 int		get_intercept(t_all *all);
 void	draw_line(t_data *win_img_data, int x, int start_y, \
-		 int end_y, int color);
+		int end_y, int color);
 
 // TEXTURES 🎨
 void	ft_textures(t_all *all);

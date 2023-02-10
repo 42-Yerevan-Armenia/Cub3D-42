@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 17:18:46 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:09:33 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_destroy(t_all *all)
 {
 	mlx_destroy_window(all->mlx, all->win);
 	//mlx_destroy_image(all->mlx, all->img->wall);
+	sound_stop(all, 0);
 	sound_stop(all, 1);
 	exit(EXIT_SUCCESS);
 }
@@ -138,9 +139,6 @@ void	draw_minimap(t_all *all)
 	}
 	// draw_minidot(all);
 }
-
-
-
 
 /*
 void	minimap(t_list *map, t_all *all)
@@ -266,7 +264,6 @@ int	main(int ac, char **av)
 		//draw_minimap(all.mlx, all.win, all.player, &all);
 		draw_minimap(&all);
 		mlx_loop(all.mlx);
-		//signal(SIGINT, ft_destroy(&all));
 	}
 	return 0;
 }

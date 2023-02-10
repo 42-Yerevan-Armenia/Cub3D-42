@@ -6,14 +6,12 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 13:05:58 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/10 16:52:32 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:34:51 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef DEFINES_H
 # define DEFINES_H
-
-# include "cub.h"
 
 # define EXTENSION ".cub"
 # define SPACES " \n\t\v\f\r"
