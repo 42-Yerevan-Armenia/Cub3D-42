@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/06 15:54:05 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:18:46 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ int	ft_destroy(t_all *all)
 	exit(EXIT_SUCCESS);
 }
 
+int	ft_close(t_all *all)
+{
+	mlx_destroy_window(all->mlx, all->win);
+	exit(0);
+	return (0);
+}
+
 void	ft_win(t_all *all)
 {
 	all->mlx = mlx_init();
@@ -31,306 +38,235 @@ void	ft_win(t_all *all)
 	all->img.img = mlx_new_image(all->mlx, 1800, 1024);
 	mlx_hook(all->win, 17, 0, ft_destroy, all);
 }
-
-int	ft_key_press(int keycode, t_all *all)
+/*
+int		map_get(t_map *map, int x, int y)
 {
-	//char	c;
-	if (keycode == 53)
-		ft_destroy(all);
-	return (0);
+	int pos;
+
+	pos = y * map->x + x;
+	if (x < 0 || y < 0 || x >= map->x || y >= map->y)
+		return (0);
+	return (map->data[pos] == 1);
 }
 
-void	get_elems(char *line, char	**first, char **second)
+void	set_pixel(t_data *data, int x, int y, int color)
+{
+	*(unsigned int*)(data->addr +
+		(y * data->line_length + x * data->bits_per_pixel)) = color;
+}
+
+int		get_pixel(t_data *data, int x, int y)
+{
+	return (*(int*)(data->addr + (y * data->line_length + x
+		* (data->bits_per_pixel))));
+}
+
+int		blend_colors(int o, int n)
+{
+	float	a;
+	int		r;
+	int		g;
+	int		b;
+
+	a = 1 - ((n >> 24) & 0xFF) / 255.0f;
+	if (a == 1)
+		return (n);
+	r = (int)(((o & 0xff0000) >> 16) * (1 - a) + ((n & 0xff0000) >> 16) * a);
+	g = (int)(((o & 0xff00) >> 8) * (1 - a) + ((n & 0xff00) >> 8) * a);
+	b = (int)((o & 0xff) * (1 - a) + (n & 0xff) * a);
+	return (0 << 24 | r << 16 | g << 8 | b);
+}
+
+void	rect(t_data *data, t_map *map, int color)
+{
+	int i;
+	int j;
+	int b;
+
+	i = fmax(map->x, 0);
+	while (i < map->x + map->width && i < 12)
+	{
+		j = fmax(map->y, 0);
+		while (j < map->y + map->height && j <12)
+		{
+			b = get_pixel(data, i, j);
+			set_pixel(data, i, j, blend_colors(b, color));
+			++j;
+		}
+		++i;
+	}
+}
+
+void	draw_rects(t_map *map, t_all *all)
 {
 	int	i;
-	char	*res;
-	char	*ptr_for_free;
 
+	if (map_get(map, map->v_x + (int)(map->s_x), map->v_y 
+		+ (int)(map->s_y)))
+		rect(&all->win_img_data, map, 0xA07BADCD);
 	i = 0;
-	while (line[i] && ft_strchr(SPACES, line[i]))
-		i++;
-	while (line[i] && !ft_strchr(SPACES, line[i]))
-		i++;
-	ptr_for_free = ft_substr(line, 0, i);
-	*first = ft_strtrim(ptr_for_free, SPACES);
-	ft_free_array(&ptr_for_free);
-	ptr_for_free = ft_substr(line, i, ft_strlen(line));
-	*second = ft_strtrim(ptr_for_free, SPACES);
-	ft_free_array(&ptr_for_free);
-}
-
-char	*get_identifier(char	**identifier, char	*idtf)
-{
-	int		i;
-
-	i = 0;
-	while (identifier[i] && identifier[i + 1])
+	while (map->map && map->m_i != -999)
 	{
-		if (ft_strcmp(identifier[i], idtf) == 0)
-			return (identifier[i + 1]);
-		i += 2;
+	printf("❌%d + %f = %d\n", map->v_x, map->s_x, map->m_i);
+		if ((map->v_x + (int)(map->s_x)) == map->m_i &&
+			(map->v_y + (int)(map->s_y)) == map->m_j)
+			rect(&all->win_img_data, map, 0xC0D34141);
+		i++;
 	}
-	return (0);
+	
+}*/
+
+void	draw_minimap(t_all *all)
+{
+	all->map.s_x -= (all->map.s_x - all->player.x) * 0.17;
+	all->map.s_y -= (all->map.s_y - all->player.y) * 0.17;
+	all->map.width = 12;
+	all->map.height = 12;
+	all->map.p_x = -fabs(fmod(all->map.s_x, 1)) * all->map.width;
+	all->map.v_x = -9;
+	while (++all->map.v_x)
+	{
+		all->map.v_y = -6;
+		all->map.p_y = -fabs(fmod(all->map.s_y, 1)) * all->map.height;
+		while (all->map.v_y <= 7)
+		{
+			//draw_rects(&all->map, all);
+			all->map.p_y += all->map.height + 1;
+			all->map.v_y++;
+		}
+		all->map.p_x += all->map.width + 1;
+	}
+	// draw_minidot(all);
 }
 
-void set_identifers(t_all *all)
+
+
+
+/*
+void	minimap(t_list *map, t_all *all)
 {
-	char	**tmp;
+	double	y;
+	double	x;
+
+	if (all->map.minimap)
+		mlx_destroy_image(all->mlx, all->map.minimap);
+	all->map.minimap = mlx_new_image(all->mlx, 1000 / 5, 600 / 5);
+	y = 0;
+	printf("❌\n");
+	while (all->map.y > 11 && all->player.y > y + 6 && all->map.y > y + 10)
+	{
+		printf("❌ %s\n", map->content);
+		map = map->next;
+		y++;
+	}
+	if (all->map.x < 11 || all->player.x <= 4)
+		x = 0;
+	else if (all->map.x - all->player.x <= 6)
+		x = all->map.x - 10;
+	else
+		x = all->player.x - 4;
+	//ft_sub_minimap(map, all, x);
+	mlx_put_image_to_window(all->mlx, all->win, all->map.minimap, 0, 0);
+}*/
+
+#define MINIMAP_W 200
+#define MINIMAP_H 200
+#define MINIMAP_X 10
+#define MINIMAP_Y 10
+#define WALL_COLOR 0xFF0000
+#define FLOOR_COLOR 0x00FF00
+#define PLAYER_COLOR 0x0000FF
+/*
+void	draw_minimap(void *mlx, void *win, t_player player, t_all *all)
+{
+
 	int		i;
 	int		j;
+	double	scale_x;
+	double	scale_y;
+	int		player_x;
+	int		player_y;
 
-	i = 0;
-	j = 0;
-	tmp = all->matrix;
-	while(tmp[i] && i < 6)
+	scale_x = MINIMAP_W / 64;
+	scale_y = MINIMAP_H / 64;
+	player_x = player.x * scale_x + all->map.x;
+	player_y = player.y * scale_y + all->map.y;
+	i = all->map.y;
+	while (i < all->map.y + MINIMAP_H)
 	{
-		get_elems(tmp[i], &all->identifier[j], &all->identifier[j + 1]);
-		j += 2;
-		i++;
-	}
-}
-
-int	ft_check_extens(const char *mpath)
-{
-	if (ft_strlen(mpath) < 5
-		|| ft_strcmp(".cub", (char *)mpath + (ft_strlen(mpath) - 4)) != 0)
-	{
-		ft_error("❌ Map format is not *.cub");
-		return (1);
-	}
-	return (0);
-}
-
-int	ft_count_lines(const char *mpath)
-{
-	int		count;
-	char	*line;
-	int		fd;
-
-	count = 0;
-	fd = open(mpath, O_RDONLY);
-	CHECK(fd);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break;
-		ft_free_array(&line);
-		count++;
-
-	}
-	CHECK(close(fd));
-	return (count);
-}
-
-void	get_matrix(t_all *all, const char	*mpath, int line_len)
-{
-	int		fd;
-	char	*line;
-	char	*ptr_for_free;
-	int		i;
-	int		flag = 0;
-	
-	i = 0;
-	fd = (open(mpath, O_RDONLY));
-	CHECK(fd);
-	all->matrix = malloc(sizeof(char *) * (line_len + 1));
-	while (1)
-	{
-		line = get_next_line(fd);
-		ptr_for_free = ft_strtrim(line, SPACES);
-		if (line == NULL && flag == 2)
+		j = all->map.x;
+		while (j < all->map.x + MINIMAP_W)
 		{
-			ft_fprintf(2, "invalid map\n");
-			exit(1);
-		}
-		else if (line == NULL || *ptr_for_free != '\0')
-		{
-			if (flag == 1)
-				flag = 2;
-			if (line != NULL)
-				all->matrix[i++] = ft_strtrim(line, "\n");
-			free(line);
-		}
-		else if (*ptr_for_free == '\0' && i > 6)
-		{
-			if (flag != 2)
-				flag = 1;
-		}
-		ft_free_array(&ptr_for_free);
-		if (line == NULL)
-			break ;
-	}
-	all->matrix[i] = NULL;
-	CHECK(close(fd));
-}
-
-void	ft_matrix(t_all *all, const char *mpath)
-{
-	char	*str;
-	int		line_len;
-	int		i;
-
-	str = NULL;
-	i = 0;
-	ft_check_extens(mpath);
-	line_len = ft_count_lines(mpath);
-	// printf("%d\n", line_len);
-	get_matrix(all, mpath, line_len);
-	// ft_check_split(map, str);
-	// ft_free_array(&str);
-	// if (!(*(map->matrix)))
-	// 	ft_error("❌ Can't split❗️");
-	all->map.map = (all->matrix + 6);
-	i = 0;
-	while (all->map.map[i] && *all->map.map[i])
-		printf("%s\n", all->map.map[i++]);
-	// ft_check_map(&all->map);
-}
-
-double	get_player_angle(char	c)
-{
-	if (c == 'N')
-		return (90.0);
-	if (c == 'S')
-		return (270.0);
-	if (c == 'E')
-		return (0.0);
-	if (c == 'W')
-		return (180.0);
-	return (0.0);
-}
-
-void get_player_pos(char **map, double *x, double *y, double *angle)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (ft_strchr(DIRS, map[i][j]))
-			{
-				*x = (j * Field) + (Field / 2);
-				*y = (i * Field) + (Field / 2);
-				*angle = get_player_angle(map[i][j]);
-				map[i][j] = '0';
-				return ;
-			}
+			if (j >= player_x - 2 && j <= player_x + 2 &&
+				i >= player_y - 2 && i <= player_y + 2)
+				mlx_pixel_put(mlx, win, j, i, 0xFF0000);
+			else
+				mlx_pixel_put(mlx, win, j, i, 0xFFD700);
 			j++;
 		}
 		i++;
 	}
-}
 
-void	ft_textures(t_img *img, void *mlx)
-{
-	int	width;
-	int	height;
+	int		x;
+	int		y;
+	char	**map;
 
-	img->wall = mlx_xpm_file_to_image(mlx, WALL, &width, &height);
-	if ((img->wall) == NULL)
-		ft_error("❌ Can't Open Wall 🚧 Texture");
-}
-
-int	valid_identifiers(char	**identifier)
-{
-	int i;
-
-	if (!get_identifier(identifier, "NO")
-		|| !get_identifier(identifier, "SO")
-		|| !get_identifier(identifier, "EA")
-		|| !get_identifier(identifier, "WE")
-		|| !get_identifier(identifier, "F")
-		|| !get_identifier(identifier, "C"))
-		return (1);
-	return (0);
-}
-
-int get_img(t_img *img, void *mlx, char	*img_path)
-{
-	int	ret;
-
-	ret = 0;
-	img->img = mlx_xpm_file_to_image(mlx, img_path, &img->width, &img->height); // size - 1
-	if (img->img == NULL && ++ret)
-		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
-	img->data.addr = mlx_get_data_addr(img->img, &img->data.bits_per_pixel, &img->data.line_length, &img->data.endian);
-	if (img->data.addr == NULL && ++ret)
-		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
-	// img->width;
-	// img->height;
-	return (ret);
-}
-
-int init_img(t_all *all)
-{
-	if (get_img(&all->imgs_wall[0], all->mlx, WE)
-		|| get_img(&all->imgs_wall[1], all->mlx, NO)
-		|| get_img(&all->imgs_wall[2], all->mlx, EA)
-		|| get_img(&all->imgs_wall[3], all->mlx, SO))
-		return (1);
-	return (0);
-}
-
-int init(t_all *all)
-{
-	if (init_img(all) == 1)
+	map = (char **)malloc(sizeof(char *) * MINIMAP_H);
+	for (int i = 0; i < MINIMAP_H; i++)
 	{
-		exit (1);
+		map[i] = (char *)malloc(sizeof(char) * MINIMAP_W);
+		for (int j = 0; j < MINIMAP_W; j++)
+		{
+			if (i % 10 == 0 || j % 10 == 0)
+				map[i][j] = '1';
+			else
+				map[i][j] = '0';
+		}
 	}
-	all->win_img_data.img = NULL;
-	all->half_win_y = Win_y / 2;
-	all->half_fov = Fov / 2;
-	return (0);
+	//mlx_clear_window(all->mlx, all->win);
+	for (y = 0; y < MINIMAP_H; y++)
+	{
+		for (x = 0; x < MINIMAP_W; x++)
+		{
+			if (map[y][x] == '1')
+				mlx_pixel_put(mlx, win, x + MINIMAP_X, y + MINIMAP_Y, WALL_COLOR);
+			else
+				mlx_pixel_put(mlx, win, x + MINIMAP_X, y + MINIMAP_Y, FLOOR_COLOR);
+		}
+	}
+	mlx_pixel_put(mlx, win, player.x + MINIMAP_X, player.y + MINIMAP_Y, PLAYER_COLOR);
 }
-
+*/
 int	main(int ac, char **av)
 {
-	t_all all;
-	int		i = 0;
+	t_all	all;
+	int		i;
 
+	i = 0;
 	if (ac == 2)
 	{
 		all.identifier = malloc(sizeof(char *) * 16);
 		ft_memset(all.identifier, 0, sizeof(char *) * 16);
 		ft_matrix(&all, av[1]);
 		set_identifers(&all);
-		get_player_pos(all.map.map, &all.player.x, &all.player.y, &all.player.angle);
-		all.mlx =  mlx_init();
+		all.mlx = mlx_init();
 		all.win = mlx_new_window(all.mlx, Win_x, Win_y, "cub3d");
+		if (valid_identifiers(all.identifier) == 1
+			&& ft_fprintf(2, "❌ Error : invalid identifier\n"))
+			exit (1);
+		sound_init(&all);
+		sound_play(&all, Sound_I, 0);
+		sleep(2);
+		sound_play(&all, Sound_D1, 1);
+		ft_textur_path(&all);
 		init(&all);
-		// // if (valid_identifiers(all.identifier) == 1
-		// // 	&& ft_fprintf(2, "Error : invalid identifier\n"))
-		// // 	exit (1);
-		event_listener(&all);
+		mlx_hook(all.win, 2, 0, event, &all);
 		ray_casting(&all);
 		mlx_hook(all.win, 17, 1L << 17, ft_close, &all);
+		//draw_minimap(all.mlx, all.win, all.player, &all);
+		draw_minimap(&all);
 		mlx_loop(all.mlx);
+		//signal(SIGINT, ft_destroy(&all));
 	}
 	return 0;
 }
-
-// int main()
-// {
-// 	printf("%d\n", is_odd_wall(5564.2564));
-// 	// double a = 1 / 100;
-// 	// double b = tan(89.001);
-// 	// printf("%lf\n", b);
-// 	// if (b == 0)
-// 	// 	printf("true");
-// 	// b = 0;
-// 	// if (b == 0)
-// 	// 	printf("true");
-// 	// printf("tan = %f\n", tan(0.000000001));
-// 	// printf("sin = %f\n", sin(degree_to_radians(a)));
-// 	// double angle = 350;
-// 	// increament_in_range(360, ((double)Fov / 1000.0), &angle);
-// 	// printf("((double)Fov / 1000.0) = %f\n", ((double)Fov / 1000.0));
-// 	// increament_in_range(360, 30, &angle);
-// 	// printf("angle = %f\n", angle);
-// }
-

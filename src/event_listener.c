@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   event_listener.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/06 17:12:35 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:11:56 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../include/cub.h"
 
 int	event(int key, void *param)
 {
@@ -19,23 +19,12 @@ int	event(int key, void *param)
 	double		new_y;
 
 	all = param;
-	// printf("all->player.x = %lf\n", all->player.x);
-	// printf("all->player.y = %lf\n", all->player.y);
-	// printf("all->player.angle = %lf\n", all->player.angle);
-	if (all->player.angle >= 90 && all->player.angle <= 270)
-		all->comp.step_w = -1;
-	else
-		all->comp.step_w = 1;
-	if (all->player.angle >= 0 && all->player.angle <= 180)
-		all->comp.step_d = -1;
-	else
-		all->comp.step_d = 1;
 	if (key == KEY_W)
 	{
-		// all->comp.step_d = ;
 		new_x = all->player.x + (cos(degree_to_radians(all->player.angle)) * Step_walk);
 		new_y = all->player.y - (sin(degree_to_radians(all->player.angle)) * Step_walk);
-		if (all->map.map[(int)((new_y - Dis_wall) / Field)][(int)((new_x + Dis_wall) / Field)] != '1')
+		// printf("%d\n", Dis_wall * all->comp.tile_step_x);
+		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_x)) / Field)] != '1')
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
@@ -45,7 +34,7 @@ int	event(int key, void *param)
 	{
 		new_x = all->player.x - (cos(degree_to_radians(all->player.angle)) * Step_walk);
 		new_y = all->player.y + (sin(degree_to_radians(all->player.angle)) * Step_walk);
-		if (all->map.map[(int)((new_y + Dis_wall) / Field)][(int)((new_x - Dis_wall) / Field)] != '1')
+		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
@@ -55,13 +44,7 @@ int	event(int key, void *param)
 	{
 		new_x = all->player.x + (cos(degree_to_radians(all->player.angle + 90)) * Step_walk);
 		new_y = all->player.y - (sin(degree_to_radians(all->player.angle + 90)) * Step_walk);
-		// printf("new_y = %lf\n", new_y);
-		// printf("new_x = %lf\n", new_x);
-		// printf("%lf\n", new_y + (Dis_wall));
-		// printf("%lf\n", new_x + (Dis_wall));
-		// printf("new_y = %d\n", (int)((new_y - Dis_wall) / Field));
-		// printf("new_x = %d\n", (int)((new_x + Dis_wall) / Field));
-		if (all->map.map[(int)((new_y - Dis_wall) / Field)][(int)((new_x + Dis_wall) / Field)] != '1')
+		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
@@ -71,18 +54,18 @@ int	event(int key, void *param)
 	{
 		new_x = all->player.x - (cos(degree_to_radians(all->player.angle + 90)) * Step_walk);
 		new_y = all->player.y + (sin(degree_to_radians(all->player.angle + 90)) * Step_walk);
-		if (all->map.map[(int)((new_y + (Dis_wall)) / Field)][(int)((new_x - (Dis_wall)) / Field)] != '1')
+		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
 		}
 	}
-	else if (key == KEY_Q)
+	else if (key == KEY_ARROW_LEFT)
 		increament_in_range(360, Step_angle, &all->player.angle);
-	else if (key == KEY_E)
+	else if (key == KEY_ARROW_RIGHT)
 		decreament_in_range(360, Step_angle, &all->player.angle);
 	else if (key == KEY_ESC)
-		exit(1);
+		ft_destroy(all);
 	// if (key == KEY_W || key == KEY_S || key == KEY_A || key == KEY_D)
 	// 	adjust_dx_dy(&all->comp, all->player.angle, all->player.x, all->player.y);
 	// else if (key == KEY_Q || key == KEY_E)
@@ -91,7 +74,26 @@ int	event(int key, void *param)
 	return (0);
 }
 
-void event_listener(t_all *all)
+void	adjust_tile_step(t_component *comp, double angle)
 {
-	mlx_hook(all->win, 2, 0, &event, all);
+	if (angle >= 90 && angle <= 270)
+		comp->tile_step_x = -1;
+	else
+		comp->tile_step_x = 1;
+	if (angle >= 0 && angle <= 180)
+		comp->tile_step_y = -1;
+	else
+		comp->tile_step_y = 1;
+}
+
+void	adjust_dx_dy(t_component *comp, double angle, double x, double y)
+{
+	if (angle >= 90 && angle <= 270)
+		comp->dx = ft_fabs((((int)x / Field) * Field) - x);
+	else
+		comp->dx = ft_fabs((((int)(x / Field) * Field + Field) - x));
+	if (angle >= 0 && angle <= 180)
+		comp->dy = ft_fabs((y - ((int)(y / Field) * Field)));
+	else
+		comp->dy = ft_fabs((y - ((int)(y / Field) * Field + Field)));
 }

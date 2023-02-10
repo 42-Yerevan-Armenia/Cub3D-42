@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/08 17:35:02 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:22:21 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define CUB_H
 
 # include "../libft/libft.h"
-# include "cub3d.h"
+# include "../ft_fprintf/ft_printf.h"
 # include "keys.h"
+# include "defines.h"
 # include <mlx.h>
 # include <fcntl.h>
 # include <stdio.h>
@@ -24,41 +25,12 @@
 # include <string.h>
 # include <unistd.h>
 # include <math.h>
-# include "../libft/libft.h"
+# include <errno.h>
 
-
-# define PLAYER "./Texture/exit.xpm"
-# define DOOR "./Texture/door.xpm"
 # define MAX_RESOURCE 128
 
-# define ALL_CHARS	"_01NSEW"
-# define IN_CHARS	"0NSEW"
-# define DIRS		"NSEW"
-
-
-# define WALL_NO	1
-# define WALL_SO	2
-# define WALL_WE	3
-# define WALL_EA	4
-
-# define HORIZ	1
-# define VERT	2
-
-# define WALL "./Texture/1.xpm"
-# define NO "./wall_imgs/1.xpm"
-# define SO "./wall_imgs/2.xpm"
-# define WE "./wall_imgs/3.xpm"
-# define EA "./wall_imgs/4.xpm"
-
-# define START_LEFT	1
-# define START_RIGHT 2
-
-
-// # define START_LEFT	1
-// # define START_RIGHT 2
-
-
-typedef struct	s_data {
+typedef struct s_data
+{
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
@@ -73,14 +45,15 @@ enum		e_game
 	Fov = 60,
 	Field = 1000,
 	Dis_wall = 150,
-	Step_angle = 1,
-	Step_walk = 50
+	Step_angle = 10,
+	Step_walk = 100
 };
 
 enum			e_sound
 {
 	Sound_None,
 	Sound_D1,
+	Sound_I,
 	Sound_Num
 };
 
@@ -115,27 +88,57 @@ typedef struct s_map
 {
 	int			x;
 	int			y;
+	int			m_i;
+	int			m_j;
+	int			p_x;
+	int			p_y;
+	int			v_x;
+	int			v_y;
+	double		s_x;
+	double		s_y;
+	int			width;
+	int			height;
 	int			coin;
+	int			max;
 	char		*tmp;
 	char		**matrix;
 	char		**map;
+	void		*minimap;
 }				t_map;
+
+typedef struct s_rgb
+{
+	char		*c_tx;
+	char		*f_tx;
+	int			r;
+	int			g;
+	int			b;
+	int			val;
+}				t_rgb;
 
 typedef struct s_img
 {
 	int			width;
 	int			height;
 	t_data		data;
+	t_rgb		floor;
+	t_rgb		ceil;
 	void		*img;
 	void		*wall;
+	char		*n_tx;
+	char		*s_tx;
+	char		*e_tx;
+	char		*w_tx;
+	void		*n_wall;
+	void		*s_wall;
+	void		*e_wall;
+	void		*w_wall;
 }				t_img;
 
 typedef struct s_ray
 {
 	double		x;
 	double		y;
-	// int			x_int;
-	// int			y_int;
 	double		r_cos;
 	double		r_sin;
 	double		height;
@@ -147,14 +150,11 @@ typedef struct s_component
 {
 	int		tile_step_x;
 	int		tile_step_y;
-	int		step_w;
-	int		step_d;
 	int		x_int_wall;
 	int		y_int_wall;
-	int 	x_tile_wall;
-	int 	y_tile_wall;
+	int		x_tile_wall;
+	int		y_tile_wall;
 	int		wall_index;
-	// int		wall;
 	double	pic_x;
 	double	pic_y;
 	double	pic_y_step;
@@ -177,28 +177,20 @@ typedef struct s_component
 typedef struct s_player
 {
 	t_ray		ray;
+	char		p_in_map;
 	double		angle;
-	double			x;
-	double			y;
+	double		x;
+	double		y;
 }				t_player;
 
 typedef struct s_all
 {
 	t_data		win_img_data;
 	t_img		imgs_wall[4];
-	// t_img		img_so;
-	// t_img		img_we;
-	// t_img		img_ea;
-	// void		*img_NO;
-	// void		*img_SO;
-	// void		*img_WE;
-	// void		*img_EA;
-	// void		*addr;
 	int			img_width;
 	int			img_height;
 	void		*mlx;
 	void		*win;
-	// char	(*identifier)[13];
 	char		**identifier;
 	char		**matrix;
 	int			half_fov;
@@ -207,54 +199,66 @@ typedef struct s_all
 	t_img		img;
 	t_player	player;
 	t_resources	resource;
-	t_component comp;
+	t_component	comp;
 }				t_all;
+
+//MATRIX 🧬
+char	*get_identifier(char	**identifier, char	*idtf);
+int		valid_identifiers(char	**identifier);
+void	set_identifers(t_all *all);
+void	ft_matrix(t_all *all, const char *mpath);
 
 //MAP 🗺
 void	ft_fill_space(t_map *map);
 void	ft_check_wall(t_map *map);
-void	ft_check_map(t_map *map);
-void	ft_check_split(t_map *map, char *str);
+void	ft_check_map(t_map *map, t_all *all);
 int		ft_check_char(char *map, char *symbol);
 
+//MATH 🧮
+double	pov(char c);
+double	ft_fabs(double a);
+double	degree_to_radians(double a);
+void	ft_to_integer(t_component *comp, int x, int y, int angle);
+void	decreament_in_range(double range, double step, double *num);
+void	increament_in_range(double range, double step, double *num);
 
+//MOVES 🦶
+int		event(int key, void *param);
+void	adjust_tile_step(t_component *comp, double angle);
+void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
+
+//RAY 🛤
+int		is_odd_wall(double intercept);
+int		get_distance(t_all *all);
+void	ray_casting(t_all *all);
+void	field_len(double intercept, t_component *comp, \
+		int img_height, int flag);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int		check_hit_vert(t_all *all);
+int		check_hit_horiz(t_all *all);
+void	get_componets(t_all *all);
+int		get_intercept(t_all *all);
+void	draw_line(t_data *win_img_data, int x, int start_y, \
+		 int end_y, int color);
+
+// TEXTURES 🎨
+void	ft_textures(t_all *all);
+void	ft_textur_path(t_all *all);
+int		get_color(t_data *data, int x, int y);
+int		get_img(t_img *img, void *mlx, char	*img_path);
 
 //UTILES 🛠
-void	ft_error(char *str);
+int		init(t_all *all);
+int		check_ext(char *str);
+int		ft_destroy(t_all *all);
 int		ft_free_array(char **c);
-size_t	ft_strnlen(const char *str, char c);
-char	*read_arg(char *s1, char *s2, char **ret);
+int		ft_fprintf(int fd, const char *from, ...);
+void	ft_error(char *str);
+char	*get_next_line(int fd);
 
 //SOUNDS 🔊
 void	sound_init(t_all *all);
 void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
-
-char	*get_next_line(int fd);
-double	degree_to_radians(double a);
-void	ft_to_integer(t_component *comp, int x, int y, int angle);
-double	ft_fabs(double a);
-int		ft_close(t_all *all);
-void	fill_back(void *mlx, void *mlx_win);
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void	draw_line(t_data *win_img_data, int x, int start_y, int end_y, int color);
-
-
-void	decreament_in_range(double range, double step, double *num);
-void	increament_in_range(double range, double step, double *num);
-int		get_color(t_data *data, int x, int y);
-int		get_right_color(t_data *data, int x, int y, t_all *all);
-int		is_odd_wall(double	intercept);
-int		get_color(t_data *data, int x, int y);
-void	adjust_tile_step(t_component *comp, double angle);
-void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
-void	field_len(double intercept, t_component *comp, int img_height, int flag);
-
-void	ray_casting(t_all *all);
-int		get_intercept(t_all *all);
-void	get_componets(t_all *all);
-void	event_listener(t_all *all);
-int		check_hit_horiz(t_all *all);
-int		check_hit_vert(t_all *all);
 
 #endif

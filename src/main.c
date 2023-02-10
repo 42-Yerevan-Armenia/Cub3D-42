@@ -1,4 +1,4 @@
-#include "cub.h"
+#include "../include/cub.h"
 
 double	get_height_wall(t_all *all, double num1, double num2)
 {
