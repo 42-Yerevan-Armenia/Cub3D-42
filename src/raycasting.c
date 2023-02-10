@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   raycasting.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/10 19:42:08 by arakhurs          #+#    #+#             */
+/*   Updated: 2023/02/10 19:45:27 by arakhurs         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub.h"
 
 double	get_height_wall(t_all *all, double num1, double num2)
 {
-	double current_distance;
-	double correct_distance;
+	double	current_distance;
+	double	correct_distance;
 
 	current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_intercept), 2)
 	+ pow(ft_fabs(all->player.y - (all->comp.y_int_wall * Field)), 2));
-	correct_distance = current_distance * cos(degree_to_radians(all->player.ray.angle - all->player.angle));
+	correct_distance = current_distance * cos(d_to_rdn(all->player.ray.angle - all->player.angle));
 	return ((((double)((double)Win_y * (double)Field) / (double)2) / correct_distance));
 }
 
-double ray_distance(t_all *all)
+double	ray_distance(t_all *all)
 {
 	double	tmp;
 	double current_distance;
@@ -20,7 +32,7 @@ double ray_distance(t_all *all)
 	{
 		current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_intercept), 2)
 		+ pow(ft_fabs(all->player.y - (all->comp.y_int_wall * Field)), 2));
-		correct_distance = current_distance * cos(degree_to_radians(all->player.ray.angle - all->player.angle));
+		correct_distance = current_distance * cos(d_to_rdn(all->player.ray.angle - all->player.angle));
 		all->comp.height_wall = (((double)((double)Win_y * (double)Field) / (double)2) / correct_distance);
 		if (all->player.ray.angle >= 0 && all->player.ray.angle <= 180)
 		{
@@ -37,7 +49,7 @@ double ray_distance(t_all *all)
 	{
 		current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_int_wall * Field), 2)
 		+ pow(ft_fabs(all->player.y - all->comp.y_intercept), 2));
-		correct_distance = current_distance * cos(degree_to_radians(all->player.ray.angle - all->player.angle));
+		correct_distance = current_distance * cos(d_to_rdn(all->player.ray.angle - all->player.angle));
 		all->comp.height_wall = (((double)((double)Win_y * (double)Field) / (double)2) / correct_distance);
 		if (all->player.ray.angle >= 90 && all->player.ray.angle <= 270)
 		{
@@ -55,26 +67,29 @@ double ray_distance(t_all *all)
 
 int	get_intercept(t_all *all)
 {
-	int a = 5;
-	double	ray_angle = all->player.ray.angle;
+	int		a;
+	double	ray_angle;
+
+	a = 5;
+	ray_angle = all->player.ray.angle;
 	all->comp.x_tile_wall = 0;
 	all->comp.y_tile_wall = 0;
 	all->player.ray.x = (int)all->player.x;
 	all->player.ray.y = (int)all->player.y;
 	if (ray_angle >= 90 && ray_angle <= 270)
 	{
-		all->comp.x_int_wall = (int)all->player.x / Field; // check 60
+		all->comp.x_int_wall = ((int)all->player.x / Field);
 		all->comp.x_tile_wall = -1;
 	}
 	else
-		all->comp.x_int_wall = (int)all->player.x / Field + 1; // check 60
+		all->comp.x_int_wall = ((int)all->player.x / Field) + 1;
 	if (ray_angle >= 0 && ray_angle <= 180)
 	{
 		all->comp.y_tile_wall = -1;
-		all->comp.y_int_wall = (int)all->player.y / Field;
+		all->comp.y_int_wall = ((int)all->player.y / Field);
 	}
 	else
-		all->comp.y_int_wall = (int)all->player.y / Field + 1;
+		all->comp.y_int_wall = ((int)all->player.y / Field) + 1;
 	get_componets(all);
 	while (1)
 	{
@@ -88,9 +103,10 @@ int	get_intercept(t_all *all)
 
 void ray_casting(t_all *all)
 {
-	int			y_win;
-	int			ray_count = 0;
+	int	y_win;
+	int	ray_count;
 
+	ray_count = 0;
 	all->player.ray.angle = all->player.angle;
 	increament_in_range(360, all->half_fov, &all->player.ray.angle);
 	if (all->win_img_data.img != NULL)

@@ -6,11 +6,54 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:10:04 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/08 15:41:14 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:12:19 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
+
+static int	check_chars(char *c)
+{
+	int	i;
+	int	j[1];
+
+	i = 0;
+	j[0] = 0;
+	while (c[i] != '\0')
+	{
+		if (c[i] == ',')
+		{
+			j[0]++;
+			i++;
+		}
+		if (!(c[i] >= '0' && c[i] <= '9'))
+			return (1);
+		i++;
+	}
+	if ((j[0] != 2))
+		ft_error("❌Too much or less ','❗️");
+	return (0);
+}
+
+static void	set_rgb(t_rgb *rgb, char *color)
+{
+	char	**c;
+
+	if (check_chars(color))
+		ft_error("❌RGB must be numeric");
+	c = ft_split(color, ',');
+	rgb->r = ft_atoi(c[0]);
+	if (rgb->r <= -1 || rgb->r >= 256)
+		ft_error("❌ Not correct R of rgb");
+	rgb->g = ft_atoi(c[1]);
+	if (rgb->g <= -1 || rgb->g >= 256)
+		ft_error("❌ Not correct G of rgb");
+	rgb->b = ft_atoi(c[2]);
+	if (rgb->b <= -1 || rgb->b >= 256)
+		ft_error("❌ Not correct B of rgb");
+	rgb->val = (rgb->r << 16) | (rgb->g << 8) | rgb->b;
+	ft_free_array(c);
+}
 
 int	get_color(t_data *data, int x, int y)
 {
@@ -18,21 +61,6 @@ int	get_color(t_data *data, int x, int y)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	return (*(int *)dst);
-}
-
-int	get_img(t_img *img, void *mlx, char	*img_path)
-{
-	int	ret;
-
-	ret = 0;
-	img->img = mlx_xpm_file_to_image(mlx, img_path, &img->width, &img->height);
-	if (img->img == NULL && ++ret)
-		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
-	img->data.addr = mlx_get_data_addr(img->img, &img->data.bits_per_pixel, \
-	&img->data.line_length, &img->data.endian);
-	if (img->data.addr == NULL && ++ret)
-		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
-	return (ret);
 }
 
 void	ft_textur_path(t_all *all)
@@ -62,49 +90,6 @@ void	ft_textur_path(t_all *all)
 		ft_strlen(all->img.ceil.c_tx) < 12))
 		ft_error("❌ Ceil RGB format is not correct");
 	ft_textures(all);
-}
-
-int	check_chars(char *c)
-{
-	int	i;
-	int	j[1];
-
-	i = 0;
-	j[0] = 0;
-	while (c[i] != '\0')
-	{
-		if (c[i] == ',')
-		{
-			j[0]++;
-			i++;
-		}
-		if (!(c[i] >= '0' && c[i] <= '9'))
-			return (1);
-		i++;
-	}
-	if ((j[0] != 2))
-		ft_error("❌Too much or less ','❗️");
-	return (0);
-}
-
-void	set_rgb(t_rgb *rgb, char *color)
-{
-	char	**c;
-
-	if (check_chars(color))
-		ft_error("❌RGB must be numeric");
-	c = ft_split(color, ',');
-	rgb->r = ft_atoi(c[0]);
-	if (rgb->r <= -1 || rgb->r >= 256)
-		ft_error("❌ Not correct R of rgb");
-	rgb->g = ft_atoi(c[1]);
-	if (rgb->g <= -1 || rgb->g >= 256)
-		ft_error("❌ Not correct G of rgb");
-	rgb->b = ft_atoi(c[2]);
-	if (rgb->b <= -1 || rgb->b >= 256)
-		ft_error("❌ Not correct B of rgb");
-	rgb->val = (rgb->r << 16) | (rgb->g << 8) | rgb->b;
-	ft_free_array(c);
 }
 
 void	ft_textures(t_all *all)

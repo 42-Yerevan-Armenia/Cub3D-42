@@ -1,11 +1,11 @@
-NO              ./xpm/wall1.xpm
+NO              Texture/1.xpm
 
-    WE     ./xpm/wall2.xpm
+    WE     Texture/2.xpm
 
- SO ./xpm/wall3.xpm
+ SO Texture/3.xpm
 
 
-EA ./xpm/wall4.xpm
+EA Texture/4.xpm
 
 F     134, 81   ,      0
 

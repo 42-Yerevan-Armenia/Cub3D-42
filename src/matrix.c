@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 17:12:20 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:36:24 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	get_matrix(t_all *all, const char	*mpath, int line_len)
 				all->matrix[i++] = ft_strtrim(line, "\n");
 			else
 				all->matrix[i++] = NULL;
-            // free(line); -> else	all->matrix[i++] = NULL;
 		}
 		else if (*ptr_for_free == '\0' && i > 6)
 		{
@@ -71,7 +70,6 @@ void	get_matrix(t_all *all, const char	*mpath, int line_len)
 		if (line == NULL)
 			break ;
 		free(line);
-        //all->matrix[i] = NULL; -> free(line);
 	}
 	CHECK(close(fd));
 }
@@ -89,4 +87,6 @@ void	ft_matrix(t_all *all, const char *mpath)
 	all->map.map = (all->matrix) + 6;
 	i = 0;
 	ft_check_map(&all->map, all);
+	all->map.s_x = all->player.x;
+	all->map.s_y = all->player.y;
 }
