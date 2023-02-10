@@ -1,105 +1,22 @@
-#include "cub.h"
+#include "../include/cub.h"
 
-double	get_point_const(t_all *all)
+double	get_height_wall(t_all *all, double num1, double num2)
 {
-	double	ray_angle = all->player.ray.angle;
-	if (all->player.ray.angle == 0
-		|| all->player.ray.angle == 360
-		|| all->player.ray.angle == 180)
-	{
-		all->comp.y_step = Field;
-		all->comp.x_step = Field;
-		all->comp.y_intercept = all->player.y + (Field / 2);
-		all->comp.x_intercept = all->player.x + (all->comp.dx * all->comp.tile_step_x);
-	}
-	else if (all->player.ray.angle == 90
-		|| all->player.ray.angle == 270)
-	{
-		all->comp.y_step = Field;
-		all->comp.x_step = Field;
-		all->comp.x_intercept = all->player.x + (Field / 2);
-		all->comp.y_intercept = all->player.y + (all->comp.dy * all->comp.tile_step_y);
-	}
-	else
-	{
-		all->comp.y_step = ft_fabs(tan(degree_to_radians(all->player.ray.angle)) * Field);
-		all->comp.x_step = ft_fabs(Field / tan(degree_to_radians(all->player.ray.angle)));
-		all->comp.x_intercept = all->player.x + ((all->comp.dy / tan(degree_to_radians(all->player.ray.angle))) * all->comp.tile_step_x);
-		all->comp.y_intercept = all->player.y + (all->comp.dx * tan(degree_to_radians(all->player.ray.angle)) * all->comp.tile_step_y);
-	}
-	return(0);
-}
+	double current_distance;
+	double correct_distance;
 
-double	get_componets(t_all *all)
-{
-	// adjust_dx_dy(&all->comp, all->player.angle, all->player.x, all->player.y);
-	// adjust_tile_step(&all->comp, all->player.angle);
-	double	x_step;
-	double	y_step;
-	double	x_intercept;
-	double	y_intercept;
-	double	ray_angle = all->player.ray.angle;
-
-	if (ray_angle >= 90 && ray_angle <= 270)
-	{
-		all->comp.tile_step_x = -1;
-		all->comp.dx = ft_fabs((((int)all->player.x / Field) * Field) - all->player.x);
-	}
-	else
-	{
-		all->comp.dx = ft_fabs((((int)(all->player.x / Field) * Field + Field) - all->player.x));
-		all->comp.tile_step_x = 1;
-	}
-	if (ray_angle >= 0 && ray_angle <= 180)
-	{
-		all->comp.tile_step_y = -1;
-		all->comp.dy = ft_fabs((all->player.y - ((int)(all->player.y / Field) * Field)));
-	}
-	else
-	{
-		all->comp.dy = ft_fabs((all->player.y - ((int)(all->player.y / Field) * Field + Field)));
-		all->comp.tile_step_y = 1;
-	}
-	all->comp.ray_angle = all->player.ray.angle;
-	if (all->player.ray.angle >= 90 && all->player.ray.angle <= 180)
-		all->comp.ray_angle = ft_fabs(180 - all->player.ray.angle);
-	else if (all->player.ray.angle >= 180 && all->player.ray.angle <= 270)
-		all->comp.ray_angle = ft_fabs(all->player.ray.angle - 180);
-	else if (all->player.ray.angle >= 270 && all->player.ray.angle <= 360)
-		all->comp.ray_angle = ft_fabs(360 - all->player.ray.angle);
-	if (all->player.ray.angle == 0
-		|| all->player.ray.angle == 360
-		|| all->player.ray.angle == 180)
-	{
-		all->comp.y_step = 0;
-		all->comp.x_step = Field;
-		all->comp.y_intercept = all->player.y;
-		all->comp.x_intercept = all->player.x + (all->comp.dx * all->comp.tile_step_x);
-	}
-	else if (all->player.ray.angle == 90
-		|| all->player.ray.angle == 270)
-	{
-		all->comp.y_step = Field;
-		all->comp.x_step = 0;
-		all->comp.x_intercept = all->player.x;
-		all->comp.y_intercept = all->player.y + (all->comp.dy * all->comp.tile_step_y);
-	}
-	else
-	{
-		all->comp.y_step = ft_fabs(tan(degree_to_radians(all->comp.ray_angle)) * Field);
-		all->comp.x_step = ft_fabs(Field / tan(degree_to_radians(all->comp.ray_angle)));
-		all->comp.x_intercept = all->player.x + ft_fabs(all->comp.dy / tan(degree_to_radians(all->comp.ray_angle))) * all->comp.tile_step_x;
-		all->comp.y_intercept = all->player.y + ft_fabs(all->comp.dx * tan(degree_to_radians(all->comp.ray_angle))) * all->comp.tile_step_y;
-	}
-	return (0);
+	current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_intercept), 2)
+	+ pow(ft_fabs(all->player.y - (all->comp.y_int_wall * Field)), 2));
+	correct_distance = current_distance * cos(degree_to_radians(all->player.ray.angle - all->player.angle));
+	return ((((double)((double)Win_y * (double)Field) / (double)2) / correct_distance));
 }
 
 double ray_distance(t_all *all)
 {
 	double	tmp;
-	double current_distance;;
-	double correct_distance;;
-	if (get_distance(all) == HORIZ)
+	double current_distance;
+	double correct_distance;
+	if (get_intercept(all) == HORIZ)
 	{
 		current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_intercept), 2)
 		+ pow(ft_fabs(all->player.y - (all->comp.y_int_wall * Field)), 2));
@@ -118,7 +35,7 @@ double ray_distance(t_all *all)
 	}
 	else
 	{
-		current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_int_wall * Field), 2) 
+		current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_int_wall * Field), 2)
 		+ pow(ft_fabs(all->player.y - all->comp.y_intercept), 2));
 		correct_distance = current_distance * cos(degree_to_radians(all->player.ray.angle - all->player.angle));
 		all->comp.height_wall = (((double)((double)Win_y * (double)Field) / (double)2) / correct_distance);
@@ -136,8 +53,9 @@ double ray_distance(t_all *all)
 	return (correct_distance);
 }
 
-int	get_distance(t_all *all)
+int	get_intercept(t_all *all)
 {
+	int a = 5;
 	double	ray_angle = all->player.ray.angle;
 	all->comp.x_tile_wall = 0;
 	all->comp.y_tile_wall = 0;
@@ -160,51 +78,13 @@ int	get_distance(t_all *all)
 	get_componets(all);
 	while (1)
 	{
-		if (all->player.ray.angle >= 0 && all->player.ray.angle <= 180)
-		{
-			while((all->comp.y_intercept > (all->comp.y_int_wall * Field)))
-			{
-				if (all->map.map[(int)all->comp.y_intercept / Field][(int)all->comp.x_int_wall + all->comp.x_tile_wall] != '0')
-					return (VERT);
-				all->comp.x_int_wall += all->comp.tile_step_x;
-				all->comp.y_intercept += (all->comp.y_step * all->comp.tile_step_y);
-			}
-		}
-		else
-		{
-			while((all->comp.y_intercept < (all->comp.y_int_wall * Field)))
-			{
-				if (all->map.map[(int)all->comp.y_intercept / Field][(int)all->comp.x_int_wall + all->comp.x_tile_wall] != '0')
-					return (VERT);
-				all->comp.x_int_wall += all->comp.tile_step_x;
-				all->comp.y_intercept += (all->comp.y_step * all->comp.tile_step_y);
-			}
-		}
-		if (all->player.ray.angle >= 90 && all->player.ray.angle <= 270)
-		{
-			while((all->comp.x_intercept > all->comp.x_int_wall * Field))
-			{
-				if (all->map.map[(int)all->comp.y_int_wall +  all->comp.y_tile_wall][(int)all->comp.x_intercept / Field] != '0')
-					return (HORIZ);
-				all->comp.y_int_wall += all->comp.tile_step_y;
-				all->comp.x_intercept += (all->comp.x_step * all->comp.tile_step_x);
-			}
-		}
-		else
-		{
-			while(all->comp.x_intercept < all->comp.x_int_wall * Field)
-			{
-				if (all->map.map[(int)all->comp.y_int_wall + all->comp.y_tile_wall][(int)all->comp.x_intercept / Field] != '0')
-					return (HORIZ);
-				all->comp.y_int_wall += all->comp.tile_step_y;
-				all->comp.x_intercept += (all->comp.x_step * all->comp.tile_step_x);
-			}
-		}
+		if (check_hit_vert(all) == VERT)
+			return (VERT);
+		if (check_hit_horiz(all) == HORIZ)
+			return (HORIZ);
 	}
 	return (0);
 }
-
-void draw_line(t_img *img, t_data *win_img_data, int x, int start_y, int end_y);
 
 void ray_casting(t_all *all)
 {
@@ -218,22 +98,16 @@ void ray_casting(t_all *all)
 	all->win_img_data.img =  mlx_new_image(all->mlx, Win_x, Win_y);
 	all->win_img_data.addr = mlx_get_data_addr(all->win_img_data.img, &all->win_img_data.bits_per_pixel, &all->win_img_data.line_length,
 							&all->win_img_data.endian);
-	adjust_dx_dy(&all->comp, all->player.angle, all->player.x, all->player.y);
 	while (ray_count < Win_x)
 	{
+		adjust_dx_dy(&all->comp, all->player.ray.angle, all->player.x, all->player.y);
 		adjust_tile_step(&all->comp, all->player.ray.angle);
 		all->player.ray.distance = ray_distance(all);
 		all->comp.height_wall = ((float)(Win_y * Field) / 2) / all->player.ray.distance;
 		if (all->comp.height_wall >= Win_y || (int)all->player.ray.distance == 0)
 			all->comp.height_wall = Win_y;
 		all->comp.half_height_wall = all->comp.height_wall / 2;
-		// y_win = 0;
-		// while (y_win < all->half_win_y - all->comp.half_height_wall)
-		// {
-		// 	my_mlx_pixel_put(&all->win_img_data, ray_count,  y_win, 7293925);
-		// 	y_win++;
-		// }
-		draw_line(&all->img, &all->win_img_data, ray_count, 0, all->half_win_y - all->comp.half_height_wall);
+		draw_line(&all->win_img_data, ray_count, 0, all->half_win_y - all->comp.half_height_wall, 7293925);
 		y_win = all->half_win_y - all->comp.half_height_wall;
 		while (y_win < all->half_win_y + all->comp.half_height_wall)
 		{
@@ -243,26 +117,10 @@ void ray_casting(t_all *all)
 			y_win++;
 			all->comp.pic_y += all->comp.pic_y_step;
 		}
-		y_win = all->half_win_y + all->comp.half_height_wall;
-		// printf("y_win = %d\n", y_win);
-		// draw_line(&all->win_img_data, ray_count, y_win, Win_y);
-		while (y_win < Win_y)
-		{
-			my_mlx_pixel_put(&all->win_img_data, ray_count,  y_win, all->img.floor.val);
-			y_win++;
-		}
+		draw_line(&all->win_img_data, ray_count,  all->half_win_y + all->comp.half_height_wall, Win_y, 12043420);
 		ray_count += 1;
 		decreament_in_range(360, ((double)Fov / (double)Win_x), &all->player.ray.angle);
 	}
 	mlx_put_image_to_window(all->mlx, all->win, all->win_img_data.img, 0, 0);
 }
 
-void draw_line(t_img *img, t_data *win_img_data, int x, int start_y, int end_y)
-{
-	start_y = 0;
-	while (start_y < end_y)
-	{
-		my_mlx_pixel_put(win_img_data, x,  start_y, img->ceil.val);
-		start_y++;
-	}
-}

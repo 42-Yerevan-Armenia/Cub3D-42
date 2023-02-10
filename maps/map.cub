@@ -1,7 +1,7 @@
-NO      wall_imgs/1.xpm
-SO      wall_imgs/2.xpm
-EA      wall_imgs/3.xpm
-WE      wall_imgs/4.xpm
+NO      Texture/1.xpm
+SO      Texture/2.xpm
+EA      Texture/3.xpm
+WE      Texture/4.xpm
 
 F       153,153,153
 C       60,200,200

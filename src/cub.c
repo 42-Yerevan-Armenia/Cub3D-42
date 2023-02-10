@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/09 20:38:34 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:18:46 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ void	draw_rects(t_map *map, t_all *all)
 
 void	draw_minimap(t_all *all)
 {
-
 	all->map.s_x -= (all->map.s_x - all->player.x) * 0.17;
 	all->map.s_y -= (all->map.s_y - all->player.y) * 0.17;
 	all->map.width = 12;

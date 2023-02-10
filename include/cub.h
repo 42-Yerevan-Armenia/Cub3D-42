@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/09 20:36:08 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:22:21 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,6 @@ typedef struct s_resources
 	char		*sounds[Sound_Num];
 }				t_resources;
 
-typedef struct s_list
-{
-	void			*content;
-	struct s_list	*next;
-}					t_list;
-
 typedef struct s_map
 {
 	int			x;
@@ -110,10 +104,6 @@ typedef struct s_map
 	char		**matrix;
 	char		**map;
 	void		*minimap;
-
-	unsigned char	*data;
-
-	t_list		*list;
 }				t_map;
 
 typedef struct s_rgb
@@ -222,7 +212,6 @@ void	ft_matrix(t_all *all, const char *mpath);
 void	ft_fill_space(t_map *map);
 void	ft_check_wall(t_map *map);
 void	ft_check_map(t_map *map, t_all *all);
-void	ft_check_split(t_map *map, char *str);
 int		ft_check_char(char *map, char *symbol);
 
 //MATH 🧮
@@ -245,6 +234,12 @@ void	ray_casting(t_all *all);
 void	field_len(double intercept, t_component *comp, \
 		int img_height, int flag);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int		check_hit_vert(t_all *all);
+int		check_hit_horiz(t_all *all);
+void	get_componets(t_all *all);
+int		get_intercept(t_all *all);
+void	draw_line(t_data *win_img_data, int x, int start_y, \
+		 int end_y, int color);
 
 // TEXTURES 🎨
 void	ft_textures(t_all *all);
@@ -255,17 +250,15 @@ int		get_img(t_img *img, void *mlx, char	*img_path);
 //UTILES 🛠
 int		init(t_all *all);
 int		check_ext(char *str);
+int		ft_destroy(t_all *all);
 int		ft_free_array(char **c);
 int		ft_fprintf(int fd, const char *from, ...);
 void	ft_error(char *str);
 char	*get_next_line(int fd);
-size_t	ft_strnlen(const char *str, char c);
 
 //SOUNDS 🔊
 void	sound_init(t_all *all);
 void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
-
-int	ft_destroy(t_all *all);
 
 #endif

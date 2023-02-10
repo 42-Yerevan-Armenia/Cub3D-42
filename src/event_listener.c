@@ -6,11 +6,11 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/09 20:28:49 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:11:56 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../include/cub.h"
 
 int	event(int key, void *param)
 {
@@ -74,7 +74,7 @@ int	event(int key, void *param)
 	return (0);
 }
 
- void	adjust_tile_step(t_component *comp, double angle)
+void	adjust_tile_step(t_component *comp, double angle)
 {
 	if (angle >= 90 && angle <= 270)
 		comp->tile_step_x = -1;

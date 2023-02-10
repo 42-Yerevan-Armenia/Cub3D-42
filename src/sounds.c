@@ -6,12 +6,11 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 21:06:10 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/09 20:43:37 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:12:37 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
-#include <math.h>
 
 void	sound_play(t_all *g, int sound, t_bool loop)
 {

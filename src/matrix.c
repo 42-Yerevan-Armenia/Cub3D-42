@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 20:24:45 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:12:20 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	ft_count_lines(const char *mpath)
 			break ;
 		ft_free_array(&line);
 		count++;
-
 	}
 	CHECK(close(fd));
 	return (count);
