@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/07 13:14:15 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/09 20:28:49 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,18 @@ int	event(int key, void *param)
 			all->player.y = new_y;
 		}
 	}
-	else if (key == KEY_Q)
+	else if (key == KEY_ARROW_LEFT)
 		increament_in_range(360, Step_angle, &all->player.angle);
-	else if (key == KEY_E)
+	else if (key == KEY_ARROW_RIGHT)
 		decreament_in_range(360, Step_angle, &all->player.angle);
 	else if (key == KEY_ESC)
-		exit(1);
+		ft_destroy(all);
 	// if (key == KEY_W || key == KEY_S || key == KEY_A || key == KEY_D)
 	// 	adjust_dx_dy(&all->comp, all->player.angle, all->player.x, all->player.y);
 	// else if (key == KEY_Q || key == KEY_E)
 	// 	adjust_tile_step(&all->comp, all->player.angle);
 	ray_casting(all);
 	return (0);
-}
-
-void event_listener(t_all *all)
-{
-	mlx_hook(all->win, 2, 0, &event, all);
 }
 
  void	adjust_tile_step(t_component *comp, double angle)

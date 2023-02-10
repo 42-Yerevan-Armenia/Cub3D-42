@@ -6,13 +6,13 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:43:07 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/07 13:19:40 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:22:07 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-int init_img(t_all *all)
+int	init_img(t_all *all)
 {
 	if (get_img(&all->imgs_wall[0], all->mlx, all->img.w_tx)
 		|| get_img(&all->imgs_wall[1], all->mlx, all->img.n_tx)
@@ -22,7 +22,7 @@ int init_img(t_all *all)
 	return (0);
 }
 
-int init(t_all *all)
+int	init(t_all *all)
 {
 	if (init_img(all) == 1)
 	{

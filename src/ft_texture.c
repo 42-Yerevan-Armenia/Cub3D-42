@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:10:04 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 19:25:15 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/08 15:41:14 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,21 @@
 int	get_color(t_data *data, int x, int y)
 {
 	char	*dst;
+
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	return (*(int *)dst);
 }
 
-int get_img(t_img *img, void *mlx, char	*img_path)
+int	get_img(t_img *img, void *mlx, char	*img_path)
 {
 	int	ret;
 
 	ret = 0;
-	img->img = mlx_xpm_file_to_image(mlx, img_path, &img->width, &img->height); // size - 1
+	img->img = mlx_xpm_file_to_image(mlx, img_path, &img->width, &img->height);
 	if (img->img == NULL && ++ret)
 		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
-	img->data.addr = mlx_get_data_addr(img->img, &img->data.bits_per_pixel, &img->data.line_length, &img->data.endian);
+	img->data.addr = mlx_get_data_addr(img->img, &img->data.bits_per_pixel, \
+	&img->data.line_length, &img->data.endian);
 	if (img->data.addr == NULL && ++ret)
 		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
 	return (ret);
@@ -41,22 +43,25 @@ void	ft_textur_path(t_all *all)
 	all->img.w_tx = get_identifier(all->identifier, "WE");
 	all->img.floor.f_tx = get_identifier(all->identifier, "F");
 	all->img.ceil.c_tx = get_identifier(all->identifier, "C");
-	if (ft_strlen(all->img.n_tx) < 5
-		|| ft_strcmp(".xpm", (char *)all->img.n_tx + (ft_strlen(all->img.n_tx) - 4)) != 0)
+	if (ft_strlen(all->img.n_tx) < 5 || ft_strcmp(".xpm", \
+		(char *)all->img.n_tx + (ft_strlen(all->img.n_tx) - 4)) != 0)
 		ft_error("❌ Texture format is not *.xpm");
-	if (ft_strlen(all->img.s_tx) < 5
-		|| ft_strcmp(".xpm", (char *)all->img.s_tx + (ft_strlen(all->img.s_tx) - 4)) != 0)
+	if (ft_strlen(all->img.s_tx) < 5 || ft_strcmp(".xpm", \
+		(char *)all->img.s_tx + (ft_strlen(all->img.s_tx) - 4)) != 0)
 		ft_error("❌ Texture format is not *.xpm");
-	if (ft_strlen(all->img.e_tx) < 5
-		|| ft_strcmp(".xpm", (char *)all->img.e_tx + (ft_strlen(all->img.e_tx) - 4)) != 0)
+	if (ft_strlen(all->img.e_tx) < 5 || ft_strcmp(".xpm", \
+		(char *)all->img.e_tx + (ft_strlen(all->img.e_tx) - 4)) != 0)
 		ft_error("❌ Texture format is not *.xpm");
-	if (ft_strlen(all->img.w_tx) < 5
-		|| ft_strcmp(".xpm", (char *)all->img.w_tx + (ft_strlen(all->img.w_tx) - 4)) != 0)
+	if (ft_strlen(all->img.w_tx) < 5 || ft_strcmp(".xpm", \
+		(char *)all->img.w_tx + (ft_strlen(all->img.w_tx) - 4)) != 0)
 		ft_error("❌ Texture format is not *.xpm");
-	if (!(ft_strlen(all->img.floor.f_tx) > 4 && ft_strlen(all->img.floor.f_tx) < 12))
+	if (!(ft_strlen(all->img.floor.f_tx) > 4 && \
+		ft_strlen(all->img.floor.f_tx) < 12))
 		ft_error("❌ Floor RGB format is not correct");
-	if (!(ft_strlen(all->img.ceil.c_tx) > 4 && ft_strlen(all->img.ceil.c_tx) < 12))
+	if (!(ft_strlen(all->img.ceil.c_tx) > 4 && \
+		ft_strlen(all->img.ceil.c_tx) < 12))
 		ft_error("❌ Ceil RGB format is not correct");
+	ft_textures(all);
 }
 
 int	check_chars(char *c)
@@ -68,14 +73,14 @@ int	check_chars(char *c)
 	j[0] = 0;
 	while (c[i] != '\0')
 	{
-	if (c[i] == ',')
-	{
-		j[0]++;
+		if (c[i] == ',')
+		{
+			j[0]++;
+			i++;
+		}
+		if (!(c[i] >= '0' && c[i] <= '9'))
+			return (1);
 		i++;
-	}
-	if(!(c[i] >= '0' && c[i] <= '9'))
-		return (1);
-	i++;
 	}
 	if ((j[0] != 2))
 		ft_error("❌Too much or less ','❗️");
@@ -84,7 +89,7 @@ int	check_chars(char *c)
 
 void	set_rgb(t_rgb *rgb, char *color)
 {
-	char 	**c;
+	char	**c;
 
 	if (check_chars(color))
 		ft_error("❌RGB must be numeric");

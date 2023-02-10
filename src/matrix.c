@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 12:52:42 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:24:45 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_count_lines(const char *mpath)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
-			break;
+			break ;
 		ft_free_array(&line);
 		count++;
 
@@ -89,7 +89,5 @@ void	ft_matrix(t_all *all, const char *mpath)
 	get_matrix(all, mpath, line_len);
 	all->map.map = (all->matrix) + 6;
 	i = 0;
-	// while (all->map.map[i])
-	// 	printf("%s\n", all->map.map[i++]);
 	ft_check_map(&all->map, all);
 }

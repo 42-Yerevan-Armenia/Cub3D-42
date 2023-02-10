@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:43:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 12:55:09 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:22:28 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_identifier(char	**identifier, char	*idtf)
 
 int	valid_identifiers(char	**identifier)
 {
-	int i;
+	int	i;
 
 	if (!get_identifier(identifier, "NO")
 		|| !get_identifier(identifier, "SO")
@@ -42,7 +42,7 @@ int	valid_identifiers(char	**identifier)
 
 void	get_elems(char *line, char	**first, char **second)
 {
-	int	i;
+	int		i;
 	char	*res;
 	char	*ptr_for_free;
 
@@ -59,7 +59,7 @@ void	get_elems(char *line, char	**first, char **second)
 	ft_free_array(&ptr_for_free);
 }
 
-void set_identifers(t_all *all)
+void	set_identifers(t_all *all)
 {
 	char	**tmp;
 	int		i;
@@ -68,7 +68,7 @@ void set_identifers(t_all *all)
 	i = 0;
 	j = 0;
 	tmp = all->matrix;
-	while(tmp[i] && i < 6)
+	while (tmp[i] && i < 6)
 	{
 		get_elems(tmp[i], &all->identifier[j], &all->identifier[j + 1]);
 		j += 2;

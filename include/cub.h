@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 17:24:37 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/09 20:36:08 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB_H
 
 # include "../libft/libft.h"
-#include "../ft_fprintf/ft_printf.h"
+# include "../ft_fprintf/ft_printf.h"
 # include "keys.h"
 # include "defines.h"
 # include <mlx.h>
@@ -29,7 +29,8 @@
 
 # define MAX_RESOURCE 128
 
-typedef struct	s_data {
+typedef struct s_data
+{
 	void	*img;
 	char	*addr;
 	int		bits_per_pixel;
@@ -44,14 +45,15 @@ enum		e_game
 	Fov = 60,
 	Field = 1000,
 	Dis_wall = 150,
-	Step_angle = 5,
-	Step_walk = 30
+	Step_angle = 10,
+	Step_walk = 100
 };
 
 enum			e_sound
 {
 	Sound_None,
 	Sound_D1,
+	Sound_I,
 	Sound_Num
 };
 
@@ -82,15 +84,36 @@ typedef struct s_resources
 	char		*sounds[Sound_Num];
 }				t_resources;
 
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}					t_list;
+
 typedef struct s_map
 {
 	int			x;
 	int			y;
+	int			m_i;
+	int			m_j;
+	int			p_x;
+	int			p_y;
+	int			v_x;
+	int			v_y;
+	double		s_x;
+	double		s_y;
+	int			width;
+	int			height;
 	int			coin;
 	int			max;
 	char		*tmp;
 	char		**matrix;
 	char		**map;
+	void		*minimap;
+
+	unsigned char	*data;
+
+	t_list		*list;
 }				t_map;
 
 typedef struct s_rgb
@@ -120,15 +143,12 @@ typedef struct s_img
 	void		*s_wall;
 	void		*e_wall;
 	void		*w_wall;
-	
 }				t_img;
 
 typedef struct s_ray
 {
 	double		x;
 	double		y;
-	// int			x_int;
-	// int			y_int;
 	double		r_cos;
 	double		r_sin;
 	double		height;
@@ -142,10 +162,9 @@ typedef struct s_component
 	int		tile_step_y;
 	int		x_int_wall;
 	int		y_int_wall;
-	int 	x_tile_wall;
-	int 	y_tile_wall;
+	int		x_tile_wall;
+	int		y_tile_wall;
 	int		wall_index;
-	// int		wall;
 	double	pic_x;
 	double	pic_y;
 	double	pic_y_step;
@@ -170,8 +189,8 @@ typedef struct s_player
 	t_ray		ray;
 	char		p_in_map;
 	double		angle;
-	double			x;
-	double			y;
+	double		x;
+	double		y;
 }				t_player;
 
 typedef struct s_all
@@ -182,7 +201,6 @@ typedef struct s_all
 	int			img_height;
 	void		*mlx;
 	void		*win;
-	// char	(*identifier)[13];
 	char		**identifier;
 	char		**matrix;
 	int			half_fov;
@@ -191,13 +209,13 @@ typedef struct s_all
 	t_img		img;
 	t_player	player;
 	t_resources	resource;
-	t_component comp;
+	t_component	comp;
 }				t_all;
 
 //MATRIX 🧬
 char	*get_identifier(char	**identifier, char	*idtf);
 int		valid_identifiers(char	**identifier);
-void 	set_identifers(t_all *all);
+void	set_identifers(t_all *all);
 void	ft_matrix(t_all *all, const char *mpath);
 
 //MAP 🗺
@@ -208,7 +226,7 @@ void	ft_check_split(t_map *map, char *str);
 int		ft_check_char(char *map, char *symbol);
 
 //MATH 🧮
-double	pov(char	c);
+double	pov(char c);
 double	ft_fabs(double a);
 double	degree_to_radians(double a);
 void	ft_to_integer(t_component *comp, int x, int y, int angle);
@@ -216,26 +234,27 @@ void	decreament_in_range(double range, double step, double *num);
 void	increament_in_range(double range, double step, double *num);
 
 //MOVES 🦶
-void	event_listener(t_all *all);
+int		event(int key, void *param);
 void	adjust_tile_step(t_component *comp, double angle);
 void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
 
 //RAY 🛤
-int		is_odd_wall(double	intercept);
+int		is_odd_wall(double intercept);
 int		get_distance(t_all *all);
 void	ray_casting(t_all *all);
-void	field_len(double intercept, t_component *comp, int img_height, int flag);
+void	field_len(double intercept, t_component *comp, \
+		int img_height, int flag);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 // TEXTURES 🎨
 void	ft_textures(t_all *all);
 void	ft_textur_path(t_all *all);
 int		get_color(t_data *data, int x, int y);
-int 	get_img(t_img *img, void *mlx, char	*img_path);
+int		get_img(t_img *img, void *mlx, char	*img_path);
 
 //UTILES 🛠
-int 	init(t_all *all);
-int     check_ext(char *str);
+int		init(t_all *all);
+int		check_ext(char *str);
 int		ft_free_array(char **c);
 int		ft_fprintf(int fd, const char *from, ...);
 void	ft_error(char *str);
@@ -247,12 +266,6 @@ void	sound_init(t_all *all);
 void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
 
-
-
-
-
-
-
-
+int	ft_destroy(t_all *all);
 
 #endif

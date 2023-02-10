@@ -6,13 +6,13 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:40:29 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 13:17:43 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/07 20:23:54 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-double	pov(char	c)
+double	pov(char c)
 {
 	if (c == 'N')
 		return (90.0);
@@ -25,17 +25,17 @@ double	pov(char	c)
 	return (0.0);
 }
 
-double degree_to_radians(double a)
+double	degree_to_radians(double a)
 {
 	return (a * (PI / 180));
 }
 
-double ft_fabs(double a)
+double	ft_fabs(double a)
 {
 	return (a < 0 ? -a : a);
 }
 
-void decreament_in_range(double range, double step, double *num)
+void	decreament_in_range(double range, double step, double *num)
 {
 	if (/*(int)*/(*num) - step >= 0)
 		*num -= step;
@@ -43,7 +43,7 @@ void decreament_in_range(double range, double step, double *num)
 		*num = *num + range - step;
 }
 
-void increament_in_range(double range, double step, double *num)
+void	increament_in_range(double range, double step, double *num)
 {
 	if ((int)(*num) + step <= range)
 		*num += step;
@@ -51,7 +51,7 @@ void increament_in_range(double range, double step, double *num)
 		*num = *num - range + step;
 }
 
-void ft_to_integer(t_component *comp, int x, int y, int angle)
+void	ft_to_integer(t_component *comp, int x, int y, int angle)
 {
 	if (x != -1)
 	{
@@ -77,16 +77,17 @@ int	is_odd_wall(double	intercept)
 void	field_len(double intercept, t_component *comp, int img_height, int flag)
 {
 	double	tmp;
+
 	if (is_odd_wall(intercept))
 		tmp = intercept - ((int)(intercept / Field) * Field);
 	else
 		tmp = (((int)(intercept / Field) + 1) * Field) - intercept;
-	// if (flag == START_LEFT)
 	comp->pic_x = tmp * (double)((double)img_height / (double)Field);
 	if ((int)comp->height_wall > Win_y)
 	{
-		comp->pic_y = (((double)(comp->height_wall) - (double)Win_y) / (double)2) * ((double)img_height / (double)comp->height_wall);
-		comp->pic_y_step = (img_height -  (comp->pic_y  * 2)) / Win_y;
+		comp->pic_y = (((double)(comp->height_wall) - (double)Win_y) \
+		/ (double)2) * ((double)img_height / (double)comp->height_wall);
+		comp->pic_y_step = (img_height - (comp->pic_y * 2)) / Win_y;
 	}
 	else
 	{

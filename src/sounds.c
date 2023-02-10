@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 21:06:10 by arakhurs          #+#    #+#             */
-/*   Updated: 2022/12/08 20:16:56 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/09 20:43:37 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ void	sound_init(t_all *all)
 
 	s = all->resource.sounds;
 	s[Sound_None] = NULL;
-	s[Sound_D1] = "./DOOM-1.mp3";
+	s[Sound_D1] = "./M1.mp3";
+	s[Sound_I] = "./Smoke.mp3";
 }
