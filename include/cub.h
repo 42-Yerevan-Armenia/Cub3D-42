@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 19:45:27 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:37:01 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,11 @@ typedef struct s_map
 	int			height;
 	int			coin;
 	int			max;
+	int			fd;
 	char		*tmp;
 	char		**matrix;
 	char		**map;
+	char		**mini;
 	void		*minimap;
 }				t_map;
 
@@ -124,7 +126,6 @@ typedef struct s_img
 	t_rgb		floor;
 	t_rgb		ceil;
 	void		*img;
-	void		*wall;
 	char		*n_tx;
 	char		*s_tx;
 	char		*e_tx;
@@ -133,6 +134,10 @@ typedef struct s_img
 	void		*s_wall;
 	void		*e_wall;
 	void		*w_wall;
+	void		*wall_tx;
+	void		*floor_tx;
+	void		*space_tx;
+	void		*player_tx;
 }				t_img;
 
 typedef struct s_ray
@@ -252,13 +257,17 @@ int		init(t_all *all);
 int		check_ext(char *str);
 int		ft_destroy(t_all *all);
 int		ft_free_array(char **c);
+int		ft_free_double(char ***ptr);
 int		ft_fprintf(int fd, const char *from, ...);
-void	ft_error(char *str);
+void	ft_error(t_all *all, char *str);
 char	*get_next_line(int fd);
 
 //SOUNDS 🔊
+void	music(t_all *all);
 void	sound_init(t_all *all);
 void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
+
+void	draw_minimap(t_all *all);
 
 #endif

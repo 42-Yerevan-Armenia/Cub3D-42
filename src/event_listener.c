@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/10 19:46:23 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/13 13:47:45 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	event(int key, void *param)
 	// else if (key == KEY_Q || key == KEY_E)
 	// 	adjust_tile_step(&all->comp, all->player.angle);
 	ray_casting(all);
+	draw_minimap(all);
 	return (0);
 }
 
