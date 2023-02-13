@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   keys.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 14:49:28 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/05/31 14:49:33 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/13 16:55:55 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@
 # define KEY_SCROLL_CLICK	3
 # define KEY_SCROLL_DOWN	5
 # define KEY_SCROLL_UP		4
+# define KEY_MOUSE_MOVE     6
 
 #endif

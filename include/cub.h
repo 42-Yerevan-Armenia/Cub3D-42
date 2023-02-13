@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 15:37:01 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/13 17:26:08 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ typedef struct s_component
 typedef struct s_player
 {
 	t_ray		ray;
+	int			mouse_x;
 	int			p_i;
 	int			p_j;
 	char		p_in_map;
@@ -202,6 +203,7 @@ typedef struct s_all
 	char		**matrix;
 	int			half_fov;
 	int			half_win_y;
+	int			mouse;
 	t_map		map;
 	t_img		img;
 	t_player	player;
