@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 17:31:45 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:25:47 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int ac, char **av)
 		if (valid_identifiers(all.identifier) == 1
 			&& ft_fprintf(2, "❌ Error : invalid identifier\n"))
 			exit (1);
-		//music(&all);
+		music(&all);
 		ft_textur_path(&all);
 		init(&all);
 		mlx_hook(all.win, 2, 0, event, &all);

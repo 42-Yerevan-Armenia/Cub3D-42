@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 13:05:58 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/13 17:19:38 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:27:35 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define SP             "./Texture/space.xpm"
 # define PLAYER         "./Texture/player.xpm"
 
+# define S_NUM          3 //Sound_Num count
 # define EXTENSION      ".cub"
 # define SPACES         " \n\t\v\f\r"
 # define PI             3.14159265359

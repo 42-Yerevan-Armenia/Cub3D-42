@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 17:26:08 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:27:21 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct s_texset
 typedef struct s_resources
 {
 	t_texset	*texs[MAX_RESOURCE];
-	char		*sounds[Sound_Num];
+	char		*sounds[S_NUM];
 }				t_resources;
 
 typedef struct s_map
