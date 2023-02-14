@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 19:09:33 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 15:58:42 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,10 +252,10 @@ int	main(int ac, char **av)
 		if (valid_identifiers(all.identifier) == 1
 			&& ft_fprintf(2, "❌ Error : invalid identifier\n"))
 			exit (1);
-		sound_init(&all);
-		sound_play(&all, Sound_I, 0);
-		sleep(2);
-		sound_play(&all, Sound_D1, 1);
+		// sound_init(&all);
+		// sound_play(&all, Sound_I, 0);
+		// sleep(2);
+		// sound_play(&all, Sound_D1, 1);
 		ft_textur_path(&all);
 		init(&all);
 		mlx_hook(all.win, 2, 0, event, &all);
@@ -267,3 +267,9 @@ int	main(int ac, char **av)
 	}
 	return 0;
 }
+
+// int main()
+// {
+// 	printf("cos = %lf\n", cos(d_to_rdn(179)));
+// 	printf("sin = %lf\n", sin(d_to_rdn(180)));
+// }

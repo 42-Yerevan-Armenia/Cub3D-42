@@ -26,7 +26,9 @@ OBJS = $(patsubst ./src/%.c, ./$(TMP)/%.o, $(SRCS))
 
 RM = rm -fr
 
-./$(TMP)/%.o: ./src/%.c
+HEADER = $(wildcard ./include/*)
+
+./$(TMP)/%.o: ./src/%.c $(HEADER)
 	@$(CC) $(CFLAGS) -o $@ -c $< 
 	@echo "$(YELLOW)💡created ➡️  $(SKY)$(notdir $@)$(RESET)"
 

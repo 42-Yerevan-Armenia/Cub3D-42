@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 19:45:27 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:56:11 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ enum		e_game
 	Win_y = 600,
 	Fov = 60,
 	Field = 1000,
-	Dis_wall = 0,
-	Step_angle = 10,
-	Step_walk = 100
+	Dis_wall = 150,
+	Step_angle = 5,
+	Step_walk = 30
 };
 
 enum			e_sound
@@ -154,7 +154,10 @@ typedef struct s_component
 	int		y_int_wall;
 	int		x_tile_wall;
 	int		y_tile_wall;
+	int		x_move_dir;
+	int		y_move_dir;
 	int		wall_index;
+	double	dist_walls[7];
 	double	pic_x;
 	double	pic_y;
 	double	pic_y_step;
@@ -240,6 +243,7 @@ void	get_componets(t_all *all);
 int		get_intercept(t_all *all);
 void	draw_line(t_data *win_img_data, int x, int start_y, \
 		int end_y, int color);
+double	ray_distance(t_all *all, int mode);
 
 // TEXTURES 🎨
 void	ft_textures(t_all *all);

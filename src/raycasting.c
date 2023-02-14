@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 19:42:08 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 19:45:27 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 15:56:46 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ double	get_height_wall(t_all *all, double num1, double num2)
 	return ((((double)((double)Win_y * (double)Field) / (double)2) / correct_distance));
 }
 
-double	ray_distance(t_all *all)
+double	ray_distance(t_all *all, int mode)
 {
 	double	tmp;
 	double current_distance;
@@ -62,7 +62,10 @@ double	ray_distance(t_all *all)
 			all->comp.wall_index = 2;
 		}
 	}
-	return (correct_distance);
+	if (mode == 1)
+		return (correct_distance);
+	else
+		return (current_distance);
 }
 
 int	get_intercept(t_all *all)
@@ -118,7 +121,8 @@ void ray_casting(t_all *all)
 	{
 		adjust_dx_dy(&all->comp, all->player.ray.angle, all->player.x, all->player.y);
 		adjust_tile_step(&all->comp, all->player.ray.angle);
-		all->player.ray.distance = ray_distance(all);
+		all->player.ray.distance = ray_distance(all, 1);
+		// printf("all->player.ray.distance = %lf\n", all->player.ray.distance);
 		all->comp.height_wall = ((float)(Win_y * Field) / 2) / all->player.ray.distance;
 		if (all->comp.height_wall >= Win_y || (int)all->player.ray.distance == 0)
 			all->comp.height_wall = Win_y;
