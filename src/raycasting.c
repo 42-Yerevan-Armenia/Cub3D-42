@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 19:42:08 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 15:41:45 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 11:17:48 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,6 @@ void ray_casting(t_all *all)
 		decreament_in_range(360, ((double)Fov / (double)Win_x), &all->player.ray.angle);
 	}
 	draw_minimap(all);
+	draw_minimaps(all->mlx, all->win, all->player, all);
 	mlx_put_image_to_window(all->mlx, all->win, all->win_img_data.img, 0, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 15:24:36 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 13:14:35 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static void	ft_check_num(char **n, t_all *all)
 				all->player.x = (all->player.p_j * Field) + (Field / 2);
 				all->player.y = (all->player.p_i * Field) + (Field / 2);
 				all->player.angle = pov(n[all->player.p_i][all->player.p_j]);
+				n[all->player.p_i][all->player.p_j] = '0';
 				all->map.m_i = all->player.p_i;
 				all->map.m_j = all->player.p_j;
 				e_p[0]++;

@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 20:27:21 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 13:55:04 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,22 +90,13 @@ typedef struct s_map
 	int			y;
 	int			m_i;
 	int			m_j;
-	int			p_x;
-	int			p_y;
-	int			v_x;
-	int			v_y;
 	double		s_x;
 	double		s_y;
-	int			width;
-	int			height;
-	int			coin;
 	int			max;
 	int			fd;
 	char		*tmp;
 	char		**matrix;
 	char		**map;
-	char		**mini;
-	void		*minimap;
 }				t_map;
 
 typedef struct s_rgb
@@ -144,9 +135,6 @@ typedef struct s_ray
 {
 	double		x;
 	double		y;
-	double		r_cos;
-	double		r_sin;
-	double		height;
 	double		distance;
 	double		angle;
 }				t_ray;
@@ -185,7 +173,6 @@ typedef struct s_player
 	int			mouse_x;
 	int			p_i;
 	int			p_j;
-	char		p_in_map;
 	double		angle;
 	double		x;
 	double		y;
@@ -195,15 +182,12 @@ typedef struct s_all
 {
 	t_data		win_img_data;
 	t_img		imgs_wall[4];
-	int			img_width;
-	int			img_height;
 	void		*mlx;
 	void		*win;
 	char		**identifier;
 	char		**matrix;
 	int			half_fov;
 	int			half_win_y;
-	int			mouse;
 	t_map		map;
 	t_img		img;
 	t_player	player;
@@ -271,5 +255,6 @@ void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
 
 void	draw_minimap(t_all *all);
+void	draw_minimaps(void *mlx, void *win, t_player player, t_all *all);
 
 #endif

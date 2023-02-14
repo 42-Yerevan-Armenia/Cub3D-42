@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/13 16:47:14 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 11:17:53 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	event(int key, void *param)
 	// 	adjust_tile_step(&all->comp, all->player.angle);
 	ray_casting(all);
 	draw_minimap(all);
+	draw_minimaps(all->mlx, all->win, all->player, all);
 	return (0);
 }
 
