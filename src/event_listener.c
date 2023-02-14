@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/14 16:55:28 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/14 16:58:03 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,8 @@ int	event(int key, void *param)
 		// adjust_move_dir(&all->comp.x_move_dir, &all->comp.y_move_dir, all->player.angle, 0);
 		new_x = all->player.x - (cos(d_to_rdn(all->player.angle)) * Step_walk);
 		new_y = all->player.y + (sin(d_to_rdn(all->player.angle)) * Step_walk);
-		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		// if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		if (get_dist_points(new_x, new_y, all->player.x, all->player.y) <= dist_from_wall - Dis_wall)
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
@@ -118,7 +119,8 @@ int	event(int key, void *param)
 		// adjust_move_dir(&all->comp.x_move_dir, &all->comp.y_move_dir, all->player.angle, 90);
 		new_x = all->player.x + (cos(d_to_rdn(all->player.angle + 90)) * Step_walk);
 		new_y = all->player.y - (sin(d_to_rdn(all->player.angle + 90)) * Step_walk);
-		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		// if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		if (get_dist_points(new_x, new_y, all->player.x, all->player.y) <= dist_from_wall - Dis_wall)
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
@@ -126,13 +128,10 @@ int	event(int key, void *param)
 	}
 	else if (key == KEY_D)
 	{
-		// all->player.ray.angle = all->player.angle;
-		// decreament_in_range(360, 90, &all->player.ray.angle);
-		// wall_distance = ray_distance(all);
-		// adjust_move_dir(&all->comp.x_move_dir, &all->comp.y_move_dir, all->player.angle, 90);
 		new_x = all->player.x - (cos(d_to_rdn(all->player.angle + 90)) * Step_walk);
 		new_y = all->player.y + (sin(d_to_rdn(all->player.angle + 90)) * Step_walk);
-		if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		// if (all->map.map[(int)((new_y + (Dis_wall * all->comp.tile_step_y)) / Field)][(int)((new_x + (Dis_wall * all->comp.tile_step_y)) / Field)] != '1')
+		if (get_dist_points(new_x, new_y, all->player.x, all->player.y) <= dist_from_wall - Dis_wall)
 		{
 			all->player.x = new_x;
 			all->player.y = new_y;
