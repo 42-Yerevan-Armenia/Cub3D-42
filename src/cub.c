@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
 /*   Updated: 2023/02/14 13:47:19 by arakhurs         ###   ########.fr       */
@@ -173,3 +173,9 @@ int	main(int ac, char **av)
 	}
 	return (0);
 }
+
+// int main()
+// {
+// 	printf("cos = %lf\n", cos(d_to_rdn(179)));
+// 	printf("sin = %lf\n", sin(d_to_rdn(180)));
+// }
