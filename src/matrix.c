@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 15:21:16 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 18:08:52 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ static void	get_matrix(t_all *all, const char	*mpath, int line_len)
 
 	i = 0;
 	flag = 0;
+	line = NULL;
+	ptr_for_free = NULL;
 	all->map.fd = (open(mpath, O_RDONLY));
 	CHECK(all->map.fd);
 	all->matrix = malloc(sizeof(char *) * (line_len + 1));

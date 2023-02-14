@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 19:33:16 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 15:40:01 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 18:08:51 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	is_odd_wall(double intercept)
 	return ((int)(intercept / (double)Field) % 2);
 }
 
-void	field_len(double intercept, t_component *comp, int img_height, int flag)
+void	field_len(double intercept, t_component *comp, int img_height)
 {
 	double	tmp;
 
