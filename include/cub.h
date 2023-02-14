@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 16:56:11 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/14 13:55:04 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct s_texset
 typedef struct s_resources
 {
 	t_texset	*texs[MAX_RESOURCE];
-	char		*sounds[Sound_Num];
+	char		*sounds[S_NUM];
 }				t_resources;
 
 typedef struct s_map
@@ -90,20 +90,13 @@ typedef struct s_map
 	int			y;
 	int			m_i;
 	int			m_j;
-	int			p_x;
-	int			p_y;
-	int			v_x;
-	int			v_y;
 	double		s_x;
 	double		s_y;
-	int			width;
-	int			height;
-	int			coin;
 	int			max;
+	int			fd;
 	char		*tmp;
 	char		**matrix;
 	char		**map;
-	void		*minimap;
 }				t_map;
 
 typedef struct s_rgb
@@ -124,7 +117,6 @@ typedef struct s_img
 	t_rgb		floor;
 	t_rgb		ceil;
 	void		*img;
-	void		*wall;
 	char		*n_tx;
 	char		*s_tx;
 	char		*e_tx;
@@ -133,15 +125,16 @@ typedef struct s_img
 	void		*s_wall;
 	void		*e_wall;
 	void		*w_wall;
+	void		*wall_tx;
+	void		*floor_tx;
+	void		*space_tx;
+	void		*player_tx;
 }				t_img;
 
 typedef struct s_ray
 {
 	double		x;
 	double		y;
-	double		r_cos;
-	double		r_sin;
-	double		height;
 	double		distance;
 	double		angle;
 }				t_ray;
@@ -180,9 +173,9 @@ typedef struct s_component
 typedef struct s_player
 {
 	t_ray		ray;
+	int			mouse_x;
 	int			p_i;
 	int			p_j;
-	char		p_in_map;
 	double		angle;
 	double		x;
 	double		y;
@@ -192,8 +185,6 @@ typedef struct s_all
 {
 	t_data		win_img_data;
 	t_img		imgs_wall[4];
-	int			img_width;
-	int			img_height;
 	void		*mlx;
 	void		*win;
 	char		**identifier;
@@ -256,13 +247,18 @@ int		init(t_all *all);
 int		check_ext(char *str);
 int		ft_destroy(t_all *all);
 int		ft_free_array(char **c);
+int		ft_free_double(char ***ptr);
 int		ft_fprintf(int fd, const char *from, ...);
-void	ft_error(char *str);
+void	ft_error(t_all *all, char *str);
 char	*get_next_line(int fd);
 
 //SOUNDS 🔊
+void	music(t_all *all);
 void	sound_init(t_all *all);
 void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
+
+void	draw_minimap(t_all *all);
+void	draw_minimaps(void *mlx, void *win, t_player player, t_all *all);
 
 #endif

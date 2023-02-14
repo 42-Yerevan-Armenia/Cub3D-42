@@ -148,6 +148,8 @@ int	event(int key, void *param)
 	// else if (key == KEY_Q || key == KEY_E)
 	// 	adjust_tile_step(&all->comp, all->player.angle);
 	ray_casting(all);
+	draw_minimap(all);
+	draw_minimaps(all->mlx, all->win, all->player, all);
 	return (0);
 }
 

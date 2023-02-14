@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 19:33:16 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 19:35:14 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:40:01 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,12 @@ void	field_len(double intercept, t_component *comp, int img_height, int flag)
 		comp->pic_y = 0;
 		comp->pic_y_step = (((double)img_height) / (comp->height_wall));
 	}
+}
+
+int	get_color(t_data *data, int x, int y)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
+	return (*(int *)dst);
 }

@@ -6,13 +6,13 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 19:32:17 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/14 13:14:35 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static void	ft_check_wall(t_map *map)
+static void	ft_check_wall(t_map *map, t_all *all)
 {
 	int	i;
 	int	j;
@@ -29,7 +29,7 @@ static void	ft_check_wall(t_map *map)
 				(i == 0 || j == 0 || i == (map->y - 1) || j == (map->x - 1) || \
 				map->map[i - 1][j] == '_' || map->map[i + 1][j] == '_' || \
 				map->map[i][j - 1] == '_' || map->map[i][j + 1] == '_'))
-				ft_error("❌ The map not closed/surrounded by walls 🚧");
+				ft_error(all, "❌ The map not closed/surrounded by walls 🚧");
 			j++;
 		}
 		i++;
@@ -53,7 +53,7 @@ static void	ft_fill_space(t_map *map, int i, int j, int min)
 	}
 }
 
-static void	ft_find_space(t_map *map)
+static void	ft_find_space(t_map *map, t_all *all)
 {
 	int		i;
 	int		j;
@@ -71,7 +71,7 @@ static void	ft_find_space(t_map *map)
 			j++;
 		}
 		if (map->map[i][j] == '\t')
-			ft_error("❌ No correct symbol in MAP 🗺");
+			ft_error(all, "❌ No correct symbol in MAP 🗺");
 		ft_fill_space(map, i, j, min);
 		i++;
 	}
@@ -89,7 +89,7 @@ static void	ft_check_num(char **n, t_all *all)
 		while (n[all->player.p_i][++all->player.p_j])
 		{
 			if (!ft_check_char(n[all->player.p_i], ALL_CHARS))
-				ft_error("❌ No correct symbol in MAP 🗺");
+				ft_error(all, "❌ No correct symbol in MAP 🗺");
 			if (ft_strchr(DIRS, n[all->player.p_i][all->player.p_j]))
 			{
 				all->player.x = (all->player.p_j * Field) + (Field / 2);
@@ -103,7 +103,7 @@ static void	ft_check_num(char **n, t_all *all)
 		}
 	}
 	if ((e_p[0] != 1))
-		ft_error("❌Map symbol count Error❗️");
+		ft_error(all, "❌Map symbol count Error❗️");
 }
 
 void	ft_check_map(t_map *map, t_all *all)
@@ -128,8 +128,8 @@ void	ft_check_map(t_map *map, t_all *all)
 	while (map->map[l][map->x] != '\0')
 		map->x++;
 	if (map->y <= 0 || map->x <= 0)
-		ft_error("❌ Not a Valid Map 🗺❗️");
-	ft_find_space(map);
-	ft_check_wall(map);
+		ft_error(all, "❌ Not a Valid Map 🗺❗️");
+	ft_find_space(map, all);
+	ft_check_wall(map, all);
 	ft_check_num(map->map, all);
 }

@@ -141,6 +141,7 @@ void ray_casting(t_all *all)
 		ray_count += 1;
 		decreament_in_range(360, ((double)Fov / (double)Win_x), &all->player.ray.angle);
 	}
+	draw_minimap(all);
+	draw_minimaps(all->mlx, all->win, all->player, all);
 	mlx_put_image_to_window(all->mlx, all->win, all->win_img_data.img, 0, 0);
 }
-

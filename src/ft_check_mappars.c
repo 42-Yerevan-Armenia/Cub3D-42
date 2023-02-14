@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:43:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/07 20:22:28 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:21:59 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ void	set_identifers(t_all *all)
 	}
 }
 
-int	ft_check_extens(const char *mpath)
+int	ft_check_extens(const char *mpath, t_all *all)
 {
 	if (ft_strlen(mpath) < 5
 		|| ft_strcmp(".cub", (char *)mpath + (ft_strlen(mpath) - 4)) != 0)
 	{
-		ft_error("❌ Map format is not *.cub");
+		ft_error(all, "❌ Map format is not *.cub");
 		return (1);
 	}
 	return (0);
