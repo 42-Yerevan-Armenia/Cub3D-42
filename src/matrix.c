@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 18:08:52 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:44:24 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,20 @@ static int	ft_count_lines(const char *mpath)
 	return (count);
 }
 
-static void	split_matrix(t_all *all, char *line, int flag, \
-	char	*ptr_for_free, int i)
+static void	split_matrix(t_all *all, int flag, char	*ptr_for_free, int i)
 {
 	while (1)
 	{
-		line = get_next_line(all->map.fd);
-		ptr_for_free = ft_strtrim(line, SPACES);
-		if (line == NULL && flag == 2)
+		all->map.line = get_next_line(all->map.fd);
+		ptr_for_free = ft_strtrim(all->map.line, SPACES);
+		if (all->map.line == NULL && flag == 2)
 			ft_error(all, "❌ Can't split❗️");
-		else if (line == NULL || *ptr_for_free != '\0')
+		else if (all->map.line == NULL || *ptr_for_free != '\0')
 		{
 			if (flag == 1)
 				flag = 2;
-			if (line != NULL)
-				all->matrix[i++] = ft_strtrim(line, "\n");
+			if (all->map.line != NULL)
+				all->matrix[i++] = ft_strtrim(all->map.line, "\n");
 			else
 				all->matrix[i++] = NULL;
 		}
@@ -57,27 +56,24 @@ static void	split_matrix(t_all *all, char *line, int flag, \
 				flag = 1;
 		}
 		ft_free_array(&ptr_for_free);
-		if (line == NULL)
+		if (all->map.line == NULL)
 			break ;
-		free(line);
+		free(all->map.line);
 	}
 }
 
 static void	get_matrix(t_all *all, const char	*mpath, int line_len)
 {
-	char	*line;
 	char	*ptr_for_free;
 	int		i;
 	int		flag;
 
 	i = 0;
 	flag = 0;
-	line = NULL;
-	ptr_for_free = NULL;
 	all->map.fd = (open(mpath, O_RDONLY));
 	CHECK(all->map.fd);
 	all->matrix = malloc(sizeof(char *) * (line_len + 1));
-	split_matrix(all, line, flag, ptr_for_free, i);
+	split_matrix(all, flag, ptr_for_free, i);
 	CHECK(close(all->map.fd));
 }
 

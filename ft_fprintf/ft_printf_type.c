@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_type.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 19:56:58 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/12/19 15:28:12 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:39:41 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_printf_type(const char *from, int *tmp, va_list ap, int fd)
 {
 	int	i;
-	int count;
+	int	count;
 
 	count = 0;
 	i = *tmp;

@@ -3,39 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   math2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 19:33:16 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 18:08:51 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:50:51 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-void	ft_to_integer(t_component *comp, int x, int y, int angle)
-{
-	if (x != -1)
-	{
-		if (angle >= 90 && angle <= 270)
-			comp->x_int_wall = x - 1;
-		else
-			comp->x_int_wall = x + 1;
-	}
-	if (y != -1)
-	{
-		if (angle >= 0 && angle <= 180)
-			comp->y_int_wall = y - 1;
-		else
-			comp->y_int_wall = y + 1;
-	}
-}
-
-int	is_odd_wall(double intercept)
+static int	is_odd_wall(double intercept)
 {
 	return ((int)(intercept / (double)Field) % 2);
 }
 
-void	field_len(double intercept, t_component *comp, int img_height)
+void	field_len(double intercept, t_component *comp, int img_height, int flag)
 {
 	double	tmp;
 
@@ -63,4 +45,28 @@ int	get_color(t_data *data, int x, int y)
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
 	return (*(int *)dst);
+}
+
+void	adjust_tile_step(t_component *comp, double angle)
+{
+	if (angle >= 90 && angle <= 270)
+		comp->tile_step_x = -1;
+	else
+		comp->tile_step_x = 1;
+	if (angle >= 0 && angle <= 180)
+		comp->tile_step_y = -1;
+	else
+		comp->tile_step_y = 1;
+}
+
+void	adjust_dx_dy(t_component *comp, double angle, double x, double y)
+{
+	if (angle >= 90 && angle <= 270)
+		comp->dx = ft_fabs((((int)x / Field) * Field) - x);
+	else
+		comp->dx = ft_fabs((((((int)(x / Field)) * Field) + Field) - x));
+	if (angle >= 0 && angle <= 180)
+		comp->dy = ft_fabs((y - (((int)(y / Field)) * Field)));
+	else
+		comp->dy = ft_fabs((y - (((int)(y / Field)) * Field + Field)));
 }

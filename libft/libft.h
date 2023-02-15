@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 21:15:04 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/12/19 15:29:30 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:38:49 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void		ft_putnbr_fd(int n, int fd);
 int			ft_strcmp(char *s1, char *s2);
 char		*ft_charjoin(char *s1, char const s2, int flag);
 int			init_zero(int *ptr1, int *ptr2, int *ptr3, int *ptr4);
-int         ft_perror(char *str);
-int         free_double(char ***ptr);
+int			ft_perror(char *str);
+int			free_double(char ***ptr);
 int			free_arr(char **arr);
-int         fill_null(void ***ptr, int len);
+int			fill_null(void ***ptr, int len);
 char		*get_next_line(int fd);
 #endif

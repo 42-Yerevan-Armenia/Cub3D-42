@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 18:38:24 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:48:25 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,6 @@
 
 # define MAX_RESOURCE 128
 
-typedef struct s_line
-{
-	int	x;
-	int	start_y;
-	int	end_y;
-	int	color;
-}				t_line;
-
 typedef struct s_data
 {
 	void	*img;
@@ -48,13 +40,13 @@ typedef struct s_data
 
 enum		e_game
 {
-	Win_x = 2000,
-	Win_y = 1200,
+	Win_x = 1000,
+	Win_y = 600,
 	Fov = 60,
 	Field = 1000,
-	Dis_wall = 20,
-	Step_angle = 5,
-	Step_walk = 30
+	Dis_wall = 150,
+	Step_angle = 15,
+	Step_walk = 50
 };
 
 enum			e_sound
@@ -103,6 +95,7 @@ typedef struct s_map
 	int			max;
 	int			fd;
 	char		*tmp;
+	char		*line;
 	char		**matrix;
 	char		**map;
 }				t_map;
@@ -141,10 +134,14 @@ typedef struct s_img
 
 typedef struct s_ray
 {
+	int			ray_count;
 	double		x;
 	double		y;
-	double		distance;
+	double		dis;
 	double		angle;
+	double		tmp;
+	double		cur_dis;
+	double		cor_dis;
 }				t_ray;
 
 typedef struct s_component
@@ -163,7 +160,7 @@ typedef struct s_component
 	double	pic_y;
 	double	pic_y_step;
 	double	height_wall;
-	double	half_height_wall;
+	double	half_h_wall;
 	double	height_wall_test;
 	double	dx;
 	double	dy;
@@ -223,28 +220,24 @@ double	d_to_rdn(double a);
 void	ft_to_integer(t_component *comp, int x, int y, int angle);
 void	decreament_in_range(double range, double step, double *num);
 void	increament_in_range(double range, double step, double *num);
-double	get_dist_points(double p1_x, double p1_y, double p2_x, double p2_y);
 
 //MOVES 🦶
-int		valid_key(int key);
 int		event(int key, void *param);
 void	adjust_tile_step(t_component *comp, double angle);
 void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
 
 //RAY 🛤
-int		is_odd_wall(double intercept);
 int		get_distance(t_all *all);
-void	ray_casting(t_all *all);
+void	ray_casting(t_all *all, int ray_count);
 void	field_len(double intercept, t_component *comp, \
-		int img_height);
+		int img_height, int flag);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		check_hit_vert(t_all *all);
 int		check_hit_horiz(t_all *all);
-void	get_componets(t_all *all);
-int		get_intercept(t_all *all);
-void	draw_line(t_data *win_img_data, int x, int start_y, \
-		int end_y, int color);
-double	ray_distance(t_all *all, int mode);
+void	get_componets(t_all *all, t_ray *ray);
+int		get_intercept(t_all *all, t_ray *ray);
+void	draw_line(t_all	*all, int x, int start_y, int end_y);
+double	ray_distance(t_all *all, t_ray *ray, int mode);
 
 // TEXTURES 🎨
 void	ft_textures(t_all *all);
