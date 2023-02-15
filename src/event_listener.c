@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/15 15:10:34 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:27:44 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int	event(int key, void *param)
 	else if (key == KEY_M)
 		all->map.flag_map = 1 - all->map.flag_map - 0;
 	ray_casting(all, all->player.ray.ray_count);
-	if (all->map.flag_map)
+	if (all->map.flag_map && all->map.flag_size)
 		draw_minimap(all);
 	return (0);
 }

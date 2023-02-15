@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 15:07:08 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:25:45 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_map
 	int			max;
 	int			fd;
 	int			flag_map;
+	int			flag_size;
 	char		*tmp;
 	char		*line;
 	char		**matrix;
