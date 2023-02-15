@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_texture.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:10:04 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/13 15:40:19 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:33:48 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,22 +105,22 @@ static void	ft_textures_minimap(t_all *all)
 
 void	ft_textures(t_all *all)
 {
-	int		w;
-	int		h;
+	// int		w;
+	// int		h;
 
 	ft_textures_minimap(all);
-	all->img.n_wall = mlx_xpm_file_to_image(all->mlx, all->img.n_tx, &w, &h);
-	if ((all->img.n_wall) == NULL)
-		ft_error(all, "❌ Can't Open N_Wall 🚧 Texture");
-	all->img.s_wall = mlx_xpm_file_to_image(all->mlx, all->img.s_tx, &w, &h);
-	if ((all->img.s_wall) == NULL)
-		ft_error(all, "❌ Can't Open S_Wall 🚧 Texture");
-	all->img.e_wall = mlx_xpm_file_to_image(all->mlx, all->img.e_tx, &w, &h);
-	if ((all->img.e_wall) == NULL)
-		ft_error(all, "❌ Can't Open E_Wall 🚧 Texture");
-	all->img.w_wall = mlx_xpm_file_to_image(all->mlx, all->img.w_tx, &w, &h);
-	if ((all->img.w_wall) == NULL)
-		ft_error(all, "❌ Can't Open W_Wall 🚧 Texture");
+	// all->img.n_wall = mlx_xpm_file_to_image(all->mlx, all->img.n_tx, &w, &h);
+	// if ((all->img.n_wall) == NULL)
+	// 	ft_error(all, "❌ Can't Open N_Wall 🚧 Texture");
+	// all->img.s_wall = mlx_xpm_file_to_image(all->mlx, all->img.s_tx, &w, &h);
+	// if ((all->img.s_wall) == NULL)
+	// 	ft_error(all, "❌ Can't Open S_Wall 🚧 Texture");
+	// all->img.e_wall = mlx_xpm_file_to_image(all->mlx, all->img.e_tx, &w, &h);
+	// if ((all->img.e_wall) == NULL)
+	// 	ft_error(all, "❌ Can't Open E_Wall 🚧 Texture");
+	// all->img.w_wall = mlx_xpm_file_to_image(all->mlx, all->img.w_tx, &w, &h);
+	// if ((all->img.w_wall) == NULL)
+	// 	ft_error(all, "❌ Can't Open W_Wall 🚧 Texture");
 	set_rgb(&all->img.floor, all->img.floor.f_tx, all);
 	if ((all->img.floor.f_tx) == NULL)
 		ft_error(all, "❌ Can't set RGB 🎨 color");

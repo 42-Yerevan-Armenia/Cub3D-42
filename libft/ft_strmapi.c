@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 19:25:37 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/18 16:51:18 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:36:16 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	i = 0;
 	len = ft_strlen(s);
 	str = malloc(sizeof(char) * len + 1);
-	if (!str && !ft_perror("🔻minishell: "))
+	if (!str && !ft_perror("cub : "))
 		return (0);
 	while (s[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 18:38:24 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:31:14 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,6 @@
 # include <errno.h>
 
 # define MAX_RESOURCE 128
-
-typedef struct s_line
-{
-	int	x;
-	int	start_y;
-	int	end_y;
-	int	color;
-}				t_line;
 
 typedef struct s_data
 {
@@ -189,8 +181,19 @@ typedef struct s_player
 	double		y;
 }				t_player;
 
+
+typedef struct s_line
+{
+	int	start_y;
+	int	end_y;
+	int	color;
+}			t_line;
+
+
 typedef struct s_all
 {
+	int			color_ceil;
+	int			color_floor;
 	t_data		win_img_data;
 	t_img		imgs_wall[4];
 	void		*mlx;
@@ -199,6 +202,7 @@ typedef struct s_all
 	char		**matrix;
 	int			half_fov;
 	int			half_win_y;
+	t_line		line;
 	t_map		map;
 	t_img		img;
 	t_player	player;
@@ -211,6 +215,7 @@ char	*get_identifier(char	**identifier, char	*idtf);
 int		valid_identifiers(char	**identifier);
 void	set_identifers(t_all *all);
 void	ft_matrix(t_all *all, const char *mpath);
+int		init_img(t_all *all);
 
 //MAP 🗺
 void	ft_check_map(t_map *map, t_all *all);
@@ -228,8 +233,10 @@ double	get_dist_points(double p1_x, double p1_y, double p2_x, double p2_y);
 //MOVES 🦶
 int		valid_key(int key);
 int		event(int key, void *param);
-void	adjust_tile_step(t_component *comp, double angle);
-void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
+// void	adjust_tile_step(t_component *comp, double angle);
+// void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
+void	adjust_params(t_all *all);
+void	draw_img(t_all *all, int ray_count);
 
 //RAY 🛤
 int		is_odd_wall(double intercept);
@@ -241,9 +248,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		check_hit_vert(t_all *all);
 int		check_hit_horiz(t_all *all);
 void	get_componets(t_all *all);
-int		get_intercept(t_all *all);
-void	draw_line(t_data *win_img_data, int x, int start_y, \
-		int end_y, int color);
+// int		get_intercept(t_all *all);
 double	ray_distance(t_all *all, int mode);
 
 // TEXTURES 🎨

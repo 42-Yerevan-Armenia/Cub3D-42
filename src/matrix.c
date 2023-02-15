@@ -6,7 +6,7 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 18:08:52 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:34:35 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static int	ft_count_lines(const char *mpath)
 
 	count = 0;
 	fd = open(mpath, O_RDONLY);
-	CHECK(fd);
+	if (fd == -1 && ft_perror("open : "))
+		exit(1);
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -29,7 +30,8 @@ static int	ft_count_lines(const char *mpath)
 		ft_free_array(&line);
 		count++;
 	}
-	CHECK(close(fd));
+	if (close(fd) == -1 && ft_perror("close : "))
+		exit(1);
 	return (count);
 }
 
@@ -75,10 +77,12 @@ static void	get_matrix(t_all *all, const char	*mpath, int line_len)
 	line = NULL;
 	ptr_for_free = NULL;
 	all->map.fd = (open(mpath, O_RDONLY));
-	CHECK(all->map.fd);
+	if (all->map.fd == -1 && ft_perror("open : "))
+		exit(1);
 	all->matrix = malloc(sizeof(char *) * (line_len + 1));
 	split_matrix(all, line, flag, ptr_for_free, i);
-	CHECK(close(all->map.fd));
+	if (close(all->map.fd) == -1 && ft_perror("close : "))
+		exit(1);
 }
 
 void	ft_matrix(t_all *all, const char *mpath)

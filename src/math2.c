@@ -6,11 +6,11 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 19:33:16 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 18:08:51 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:46:32 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub.h"
+#include "cub.h"
 
 void	ft_to_integer(t_component *comp, int x, int y, int angle)
 {

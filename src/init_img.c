@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_init.c                                          :+:      :+:    :+:   */
+/*   init_img.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:43:07 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/10 19:42:42 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 18:36:10 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,7 @@ int	init_img(t_all *all)
 		|| get_img(&all->imgs_wall[2], all->mlx, all->img.e_tx)
 		|| get_img(&all->imgs_wall[3], all->mlx, all->img.s_tx))
 		return (1);
-	return (0);
-}
-
-int	init(t_all *all)
-{
-	if (init_img(all) == 1)
-	{
-		exit (1);
-	}
-	all->win_img_data.img = NULL;
-	all->half_win_y = Win_y / 2;
-	all->half_fov = Fov / 2;
+	all->color_ceil = all->img.ceil.val;
+	all->color_floor = all->img.floor.val;
 	return (0);
 }

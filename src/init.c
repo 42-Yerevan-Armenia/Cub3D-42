@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   adjust_tile_step.c                                 :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 17:10:00 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/14 17:10:14 by vaghazar         ###   ########.fr       */
+/*   Created: 2023/02/15 18:26:19 by vaghazar          #+#    #+#             */
+/*   Updated: 2023/02/15 18:42:58 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	adjust_tile_step(t_component *comp, double angle)
+int	init(t_all *all)
 {
-	if (angle >= 90 && angle <= 270)
-		comp->tile_step_x = -1;
-	else
-		comp->tile_step_x = 1;
-	if (angle >= 0 && angle <= 180)
-		comp->tile_step_y = -1;
-	else
-		comp->tile_step_y = 1;
+	all->identifier = malloc(sizeof(char *) * 16);
+	ft_memset(all->identifier, 0, sizeof(char *) * 16);
+	all->win_img_data.img = NULL;
+	all->half_win_y = Win_y / 2;
+	all->half_fov = Fov / 2;
+	return (0);
 }
