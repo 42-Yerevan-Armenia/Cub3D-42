@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   event_listener.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/14 16:58:03 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 12:40:04 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
 
-void	adjust_move_dir(int	*x_move_dir, int *y_move_dir, double angle, double step)
+void	adjust_move_dir(int	*x_move_dir, int *y_move_dir, double angle, \
+	double step)
 {
 	double	tmp;
 
 	tmp = angle;
-
 	increament_in_range(360, step, &tmp);
 	if (tmp > 90 && tmp < 270)
 		*x_move_dir = -1;
@@ -35,23 +35,26 @@ void	adjust_move_dir(int	*x_move_dir, int *y_move_dir, double angle, double step
 
 double	dist_walls(t_all *all, double *dist_walls, double p_angle)
 {
+	int		i;
 	double	tmp;
 
 	tmp = all->player.ray.angle;
 	decreament_in_range(360, 45, &all->player.ray.angle);
-	dist_walls[0] = ray_distance(all, 2);
+	dist_walls[0] = ray_distance(all, &all->player.ray, 2);
 	increament_in_range(360, 45, &all->player.ray.angle);
 	adjust_tile_step(&all->comp, all->player.ray.angle);
-	adjust_dx_dy(&all->comp, all->player.ray.angle, all->player.x, all->player.y);
-	dist_walls[1] = ray_distance(all, 2);
+	adjust_dx_dy(&all->comp, all->player.ray.angle, all->player.x, \
+		all->player.y);
+	dist_walls[1] = ray_distance(all, &all->player.ray, 2);
 	increament_in_range(360, 45, &all->player.ray.angle);
-	adjust_dx_dy(&all->comp, all->player.ray.angle, all->player.x, all->player.y);
+	adjust_dx_dy(&all->comp, all->player.ray.angle, all->player.x, \
+		all->player.y);
 	adjust_tile_step(&all->comp, all->player.ray.angle);
-	dist_walls[2] = ray_distance(all, 2);
-	int  i = 0;
+	dist_walls[2] = ray_distance(all, &all->player.ray, 2);
+	all->player.ray.angle = tmp;
+	// i = 0;
 	// while (i < 5)
 	// 	printf("dist_walls = %lf\n", dist_walls[i++]);
-	all->player.ray.angle = tmp;
 	// adjust_tile_step(&all->comp, all->player.ray.angle);
 	// adjust_dx_dy(&all->comp, all->player.ray.angle, all->player.x, all->player.y);
 	tmp = dist_walls[0];
@@ -60,7 +63,6 @@ double	dist_walls(t_all *all, double *dist_walls, double p_angle)
 		if (dist_walls[i] < tmp)
 			tmp = dist_walls[i];
 	return (tmp);
-
 }
 
 double	get_dist_points(double p1_x, double p1_y, double p2_x, double p2_y)
@@ -74,15 +76,17 @@ int	event(int key, void *param)
 	double	new_x;
 	double	new_y;
 	double	wall_distance;
-	all = param;
-	double	move_dir = all->player.angle;
+	double	move_dir;
 	double	dist_from_wall;
+
+	all = param;
+	move_dir = all->player.angle;
 	dist_from_wall = dist_walls(all, all->comp.dist_walls, all->player.angle);
 	// printf("wall_distance = %lf\n", wall_distance);
 	if (key == KEY_W)
 	{
 		// all->player.ray.angle = all->player.angle;
-		// wall_distance = ray_distance(all);
+		// wall_distance = ray_distance(all) &all->player.ray,;
 		// adjust_move_dir(&all->comp.x_move_dir, &all->comp.y_move_dir, all->player.angle, 0);
 		new_x = all->player.x + (cos(d_to_rdn(all->player.angle)) * Step_walk);
 		new_y = all->player.y - (sin(d_to_rdn(all->player.angle)) * Step_walk);
@@ -98,7 +102,7 @@ int	event(int key, void *param)
 	{
 		// all->player.ray.angle = all->player.angle;
 		// increament_in_range(360, 180, &all->player.ray.angle);
-		// wall_distance = ray_distance(all);
+		// wall_distance = ray_distance(all) &all->player.ray,;
 		// increament_in_range(360, 180, )
 		// adjust_move_dir(&all->comp.x_move_dir, &all->comp.y_move_dir, all->player.angle + 180);
 		// adjust_move_dir(&all->comp.x_move_dir, &all->comp.y_move_dir, all->player.angle, 0);
@@ -115,7 +119,7 @@ int	event(int key, void *param)
 	{
 		// all->player.ray.angle = all->player.angle;
 		// increament_in_range(360, 90, &all->player.ray.angle);
-		// wall_distance = ray_distance(all);
+		// wall_distance = ray_distance(all) &all->player.ray,;
 		// adjust_move_dir(&all->comp.x_move_dir, &all->comp.y_move_dir, all->player.angle, 90);
 		new_x = all->player.x + (cos(d_to_rdn(all->player.angle + 90)) * Step_walk);
 		new_y = all->player.y - (sin(d_to_rdn(all->player.angle + 90)) * Step_walk);
@@ -147,32 +151,7 @@ int	event(int key, void *param)
 	// 	adjust_dx_dy(&all->comp, all->player.angle, all->player.x, all->player.y);
 	// else if (key == KEY_Q || key == KEY_E)
 	// 	adjust_tile_step(&all->comp, all->player.angle);
-	ray_casting(all);
+	ray_casting(all, all->player.ray.ray_count);
 	draw_minimap(all);
-	draw_minimaps(all->mlx, all->win, all->player, all);
 	return (0);
-}
-
-void	adjust_tile_step(t_component *comp, double angle)
-{
-	if (angle >= 90 && angle <= 270)
-		comp->tile_step_x = -1;
-	else
-		comp->tile_step_x = 1;
-	if (angle >= 0 && angle <= 180)
-		comp->tile_step_y = -1;
-	else
-		comp->tile_step_y = 1;
-}
-
-void	adjust_dx_dy(t_component *comp, double angle, double x, double y)
-{
-	if (angle >= 90 && angle <= 270)
-		comp->dx = ft_fabs((((int)x / Field) * Field) - x);
-	else
-		comp->dx = ft_fabs((((((int)(x / Field)) * Field) + Field) - x));
-	if (angle >= 0 && angle <= 180)
-		comp->dy = ft_fabs((y - (((int)(y / Field)) * Field)));
-	else
-		comp->dy = ft_fabs((y - (((int)(y / Field)) * Field + Field)));
 }

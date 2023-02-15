@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 13:55:04 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:48:25 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ enum		e_game
 	Fov = 60,
 	Field = 1000,
 	Dis_wall = 150,
-	Step_angle = 5,
-	Step_walk = 30
+	Step_angle = 15,
+	Step_walk = 50
 };
 
 enum			e_sound
@@ -95,6 +95,7 @@ typedef struct s_map
 	int			max;
 	int			fd;
 	char		*tmp;
+	char		*line;
 	char		**matrix;
 	char		**map;
 }				t_map;
@@ -133,10 +134,14 @@ typedef struct s_img
 
 typedef struct s_ray
 {
+	int			ray_count;
 	double		x;
 	double		y;
-	double		distance;
+	double		dis;
 	double		angle;
+	double		tmp;
+	double		cur_dis;
+	double		cor_dis;
 }				t_ray;
 
 typedef struct s_component
@@ -155,7 +160,7 @@ typedef struct s_component
 	double	pic_y;
 	double	pic_y_step;
 	double	height_wall;
-	double	half_height_wall;
+	double	half_h_wall;
 	double	height_wall_test;
 	double	dx;
 	double	dy;
@@ -222,19 +227,17 @@ void	adjust_tile_step(t_component *comp, double angle);
 void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
 
 //RAY 🛤
-int		is_odd_wall(double intercept);
 int		get_distance(t_all *all);
-void	ray_casting(t_all *all);
+void	ray_casting(t_all *all, int ray_count);
 void	field_len(double intercept, t_component *comp, \
 		int img_height, int flag);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		check_hit_vert(t_all *all);
 int		check_hit_horiz(t_all *all);
-void	get_componets(t_all *all);
-int		get_intercept(t_all *all);
-void	draw_line(t_data *win_img_data, int x, int start_y, \
-		int end_y, int color);
-double	ray_distance(t_all *all, int mode);
+void	get_componets(t_all *all, t_ray *ray);
+int		get_intercept(t_all *all, t_ray *ray);
+void	draw_line(t_all	*all, int x, int start_y, int end_y);
+double	ray_distance(t_all *all, t_ray *ray, int mode);
 
 // TEXTURES 🎨
 void	ft_textures(t_all *all);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 13:47:19 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:16:58 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,6 @@ void	ft_win(t_all *all)
 	mlx_hook(all->win, 17, 0, ft_destroy, all);
 }
 
-#define M_W 200
-#define M_H 200
-
 void	draw_minimap(t_all *all)
 {
 	int		i;
@@ -64,87 +61,9 @@ void	draw_minimap(t_all *all)
 			texture, j * 16, i * 16);
 		}
 	}
-	// mlx_put_image_to_window(all->mlx, all->win, \
-	// all->img.player_tx, all->player.x / 64, all->player.y / 64);
 	mlx_put_image_to_window(all->mlx, all->win, \
 	all->img.player_tx, all->player.x / 64, all->player.y / 64);
 }
-
-// void	draw_minimap(t_all *all)
-// {
-// 	(void)all;
-// }
-
-void	draw_minimaps(void *mlx, void *win, t_player player, t_all *all)
-{
-	(void)mlx;
-	(void)win;
-	(void)player;
-	(void)all;
-}
-
-/*
-void	draw_minimaps(void *mlx, void *win, t_player player, t_all *all)
-{
-	int		i;
-	int		j;
-	double	scale_x;
-	double	scale_y;
-	int		player_x;
-	int		player_y;
-	void	*texture;
-	scale_x = MINIMAP_W / 64;
-	scale_y = MINIMAP_H / 64;
-	player_x = player.x * scale_x + all->map.x;
-	player_y = player.y * scale_y + all->map.y;
-	i = all->map.y;
-	while (i < all->map.y + MINIMAP_H)
-	{
-		j = all->map.x;
-		while (j < all->map.x + MINIMAP_W)
-		{
-			if (j >= player_x - 2 && j <= player_x + 2 &&
-				i >= player_y - 2 && i <= player_y + 2)
-				my_mlx_pixel_put(&all->win_img_data, j, i, 0xFF0000);
-				// mlx_pixel_put(mlx, win, j, i, 0xFF0000);
-			else
-				my_mlx_pixel_put(&all->win_img_data, j, i, 0xFFD700);
-				// mlx_pixel_put(mlx, win, j, i, 0xFFD700);
-			j++;
-		}
-		i++;
-	}
-	int		x;
-	int		y;
-	char	**map;
-	map = (char **)malloc(sizeof(char *) * MINIMAP_H);
-	for (int i = 0; i < MINIMAP_H; i++)
-	{
-		map[i] = (char *)malloc(sizeof(char) * MINIMAP_W);
-		for (int j = 0; j < MINIMAP_W; j++)
-		{
-			if (i % 10 == 0 || j % 10 == 0)
-				map[i][j] = '1';
-			else
-				map[i][j] = '0';
-		}
-	}
-	for (y = 0; y < MINIMAP_H; y++)
-	{
-		for (x = 0; x < MINIMAP_W; x++)
-		{
-			if (map[y][x] == '1')
-				texture = all->img.wall_tx;
-			else
-				texture = all->img.floor_tx;
-			mlx_put_image_to_window(all->mlx, all->win, \
-			texture, j * 16, i * 16);
-		}
-	}
-	mlx_put_image_to_window(all->mlx, all->win, \
-	all->img.player_tx, all->player.x / 64, all->player.y / 64);
-}
-*/
 
 int	main(int ac, char **av)
 {
@@ -162,20 +81,13 @@ int	main(int ac, char **av)
 		if (valid_identifiers(all.identifier) == 1
 			&& ft_fprintf(2, "❌ Error : invalid identifier\n"))
 			exit (1);
-		//music(&all);
+		// music(&all);
 		ft_textur_path(&all);
 		init(&all);
 		mlx_hook(all.win, 2, 0, event, &all);
-		ray_casting(&all);
+		ray_casting(&all, all.player.ray.ray_count);
 		draw_minimap(&all);
-		draw_minimaps(all.mlx, all.win, all.player, &all);
 		mlx_loop(all.mlx);
 	}
 	return (0);
 }
-
-// int main()
-// {
-// 	printf("cos = %lf\n", cos(d_to_rdn(179)));
-// 	printf("sin = %lf\n", sin(d_to_rdn(180)));
-// }

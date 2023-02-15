@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_double.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:38:44 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/12/19 13:39:00 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/15 11:37:46 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 int	free_double(char ***ptr)
 {

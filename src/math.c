@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:40:29 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/10 19:45:27 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 10:16:12 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,9 @@ double	d_to_rdn(double a)
 
 double	ft_fabs(double a)
 {
-	return (a < 0 ? -a : a);
+	if (a < 0)
+		return (-a);
+	return (a);
 }
 
 void	decreament_in_range(double range, double step, double *num)
