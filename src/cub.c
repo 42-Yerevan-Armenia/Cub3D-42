@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 11:16:58 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:10:44 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ int	main(int ac, char **av)
 		init(&all);
 		mlx_hook(all.win, 2, 0, event, &all);
 		ray_casting(&all, all.player.ray.ray_count);
-		draw_minimap(&all);
+		if (all.map.flag_map)
+			draw_minimap(&all);
 		mlx_loop(all.mlx);
 	}
 	return (0);

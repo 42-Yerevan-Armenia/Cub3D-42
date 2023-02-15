@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 17:26:08 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/15 12:40:04 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:10:34 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,10 @@ int	event(int key, void *param)
 	// 	adjust_dx_dy(&all->comp, all->player.angle, all->player.x, all->player.y);
 	// else if (key == KEY_Q || key == KEY_E)
 	// 	adjust_tile_step(&all->comp, all->player.angle);
+	else if (key == KEY_M)
+		all->map.flag_map = 1 - all->map.flag_map - 0;
 	ray_casting(all, all->player.ray.ray_count);
-	draw_minimap(all);
+	if (all->map.flag_map)
+		draw_minimap(all);
 	return (0);
 }
