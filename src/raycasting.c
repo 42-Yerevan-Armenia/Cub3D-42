@@ -6,59 +6,56 @@
 /*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 19:42:08 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 15:56:46 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/14 18:38:44 by vaghazar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-double	get_height_wall(t_all *all, double num1, double num2)
-{
-	double	current_distance;
-	double	correct_distance;
+// double	get_height_wall(t_all *all, double num1, double num2)
+// {
+// 	double	current_distance;
+// 	double	correct_distance;
 
-	current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_intercept), 2)
-	+ pow(ft_fabs(all->player.y - (all->comp.y_int_wall * Field)), 2));
-	correct_distance = current_distance * cos(d_to_rdn(all->player.ray.angle - all->player.angle));
-	return ((((double)((double)Win_y * (double)Field) / (double)2) / correct_distance));
-}
+// 	current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_intercept), 2)
+// 	+ pow(ft_fabs(all->player.y - (all->comp.y_int_wall * Field)), 2));
+// 	correct_distance = current_distance * cos(d_to_rdn(all->player.ray.angle - all->player.angle));
+// 	return ((((double)((double)Win_y * (double)Field) / (double)2) / correct_distance));
+// }
 
 double	ray_distance(t_all *all, int mode)
 {
-	double	tmp;
 	double current_distance;
 	double correct_distance;
 	if (get_intercept(all) == HORIZ)
 	{
-		current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_intercept), 2)
-		+ pow(ft_fabs(all->player.y - (all->comp.y_int_wall * Field)), 2));
+		current_distance = get_dist_points(all->player.x, all->player.y, all->comp.x_intercept, (all->comp.y_int_wall * Field));
 		correct_distance = current_distance * cos(d_to_rdn(all->player.ray.angle - all->player.angle));
 		all->comp.height_wall = (((double)((double)Win_y * (double)Field) / (double)2) / correct_distance);
 		if (all->player.ray.angle >= 0 && all->player.ray.angle <= 180)
 		{
-			field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[0].height, START_LEFT);
+			field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[0].height);
 			all->comp.wall_index = 1;
 		}
 		else
 		{
-			field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[0].height, START_RIGHT);
+			field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[0].height);
 			all->comp.wall_index = 3;
 		}
 	}
 	else
 	{
-		current_distance = sqrt(pow(ft_fabs(all->player.x - all->comp.x_int_wall * Field), 2)
-		+ pow(ft_fabs(all->player.y - all->comp.y_intercept), 2));
+		current_distance = get_dist_points(all->player.x, all->player.y, all->comp.x_int_wall * Field, all->comp.y_intercept);
 		correct_distance = current_distance * cos(d_to_rdn(all->player.ray.angle - all->player.angle));
 		all->comp.height_wall = (((double)((double)Win_y * (double)Field) / (double)2) / correct_distance);
 		if (all->player.ray.angle >= 90 && all->player.ray.angle <= 270)
 		{
-			field_len(all->comp.y_intercept, &all->comp, all->imgs_wall[0].height, START_LEFT);
+			field_len(all->comp.y_intercept, &all->comp, all->imgs_wall[0].height);
 			all->comp.wall_index = 0;
 		}
 		else
 		{
-			field_len(all->comp.y_intercept, &all->comp, all->imgs_wall[0].height, START_RIGHT);
+			field_len(all->comp.y_intercept, &all->comp, all->imgs_wall[0].height);
 			all->comp.wall_index = 2;
 		}
 	}
