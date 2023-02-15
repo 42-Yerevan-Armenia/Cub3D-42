@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:43:07 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/10 19:42:42 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:29:47 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ int	init(t_all *all)
 	all->win_img_data.img = NULL;
 	all->half_win_y = Win_y / 2;
 	all->half_fov = Fov / 2;
+	all->map.flag_map = 0;
 	return (0);
 }

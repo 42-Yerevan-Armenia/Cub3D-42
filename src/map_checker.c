@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 18:53:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 13:14:35 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 15:37:34 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ static void	ft_find_space(t_map *map, t_all *all)
 	int		j;
 	int		min;
 
+	map->flag_size = 0;
+	if (map->y <= 15 && map->x <= 35)
+		map->flag_size = 1 - map->flag_size - 0;
 	i = 0;
 	while (i < map->y)
 	{

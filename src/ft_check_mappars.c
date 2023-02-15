@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_mappars.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vaghazar <vaghazar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:43:23 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/14 18:03:11 by vaghazar         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:21:59 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	*get_identifier(char	**identifier, char	*idtf)
 
 int	valid_identifiers(char	**identifier)
 {
+	int	i;
+
 	if (!get_identifier(identifier, "NO")
 		|| !get_identifier(identifier, "SO")
 		|| !get_identifier(identifier, "EA")
@@ -41,6 +43,7 @@ int	valid_identifiers(char	**identifier)
 void	get_elems(char *line, char	**first, char **second)
 {
 	int		i;
+	char	*res;
 	char	*ptr_for_free;
 
 	i = 0;
