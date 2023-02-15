@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 19:10:04 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 10:12:34 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:39:19 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	check_chars(char *c, t_all *all)
 		i++;
 	}
 	if ((j[0] != 2))
-		ft_error(all, "❌Too much or less ','❗️");
+		ft_error(all, "❌ Less ','❗️");
 	return (0);
 }
 

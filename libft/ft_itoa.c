@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/17 21:23:03 by vaghazar          #+#    #+#             */
-/*   Updated: 2022/11/18 16:50:49 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:34:22 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_itoa(int n)
 		size++;
 	}
 	ptr = (char *) malloc(size + 1);
-	if (ptr == 0 && !ft_perror("🔻minishell: "))
+	if (ptr == 0)
 		return (0);
 	ft_putnum(numprint, temp, ptr);
 	return (ptr);

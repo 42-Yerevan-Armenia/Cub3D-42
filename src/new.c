@@ -6,11 +6,17 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 14:22:29 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/15 11:33:01 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:19:11 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
+
+double	get_dist_points(double p1_x, double p1_y, double p2_x, double p2_y)
+{
+	return (sqrt(ft_fabs((p1_x - p2_x) * (p1_x - p2_x))
+			+ ft_fabs((p1_y - p2_y) * (p1_y - p2_y))));
+}
 
 int	check_hit_horiz(t_all *all)
 {
@@ -37,23 +43,6 @@ int	check_hit_horiz(t_all *all)
 		}
 	}
 	return (0);
-}
-
-void	draw_line(t_all	*all, int x, int start_y, int end_y)
-{
-	int		color;
-	t_data	*win_data;
-
-	win_data = &all->win_img_data;
-	if (start_y == 0)
-		color = all->img.ceil.val;
-	else
-		color = all->img.floor.val;
-	while (start_y < end_y)
-	{
-		my_mlx_pixel_put(win_data, x, start_y, color);
-		start_y++;
-	}
 }
 
 int	check_hit_vert(t_all *all)

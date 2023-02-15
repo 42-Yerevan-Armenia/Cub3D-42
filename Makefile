@@ -42,7 +42,7 @@ $(TMP):
 
 $(LIBFT):
 	@make --no-print-directory -C $(LIBFT_DIR)
-	@echo "$(GREEN)✅ $(NAME) sucessfully created$(RESET)"
+	@echo "$(GREEN)✅ $(LIBFT_DIR) sucessfully created$(RESET)"
 
 $(FT_FPRINTF):
 	@make --no-print-directory -C $(FT_FPRINTF_DIR)
@@ -52,7 +52,7 @@ clean:
 	@make --no-print-directory clean -C $(LIBFT_DIR)
 	@make --no-print-directory clean -C $(FT_FPRINTF_DIR)
 	@$(RM) $(OBJS_DIR)
-	$(RM) $(TMP)
+	@$(RM) $(TMP)
 	@echo "$(RED)♨️  clean  🗑$(RESET)"
 
 fclean: clean

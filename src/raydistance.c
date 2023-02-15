@@ -6,81 +6,108 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:57:34 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 11:06:56 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:03:16 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static void	r_d_1(t_all *all, t_ray *ray)
+static void	ray_distance_horiz(t_all *all, double *current_distance, \
+	double *correct_distance)
 {
-	if (ray->angle >= 0 && ray->angle <= 180)
+	*current_distance = get_dist_points(all->player.x, all->player.y,
+			all->comp.x_intercept, (all->comp.y_int_wall * Field));
+	*correct_distance = *current_distance
+		* cos(d_to_rdn(all->player.ray.angle - all->player.angle));
+	all->comp.height_wall = (((double)((double)Win_y * (double)Field)
+				/ (double)2) / *correct_distance);
+	if (all->player.ray.angle >= 0 && all->player.ray.angle <= 180)
 	{
-		field_len(all->comp.x_intercept, &all->comp, \
-			all->imgs_wall[0].height, START_LEFT);
+		field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[0].height);
 		all->comp.wall_index = 1;
 	}
 	else
 	{
-		field_len(all->comp.x_intercept, &all->comp, \
-			all->imgs_wall[0].height, START_RIGHT);
+		field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[0].height);
 		all->comp.wall_index = 3;
-	}	
+	}
 }
 
-static void	r_d_2(t_all *all, t_ray *ray)
+static void	ray_distance_vert(t_all *all, double *current_distance, \
+	double *correct_distance)
 {
-	if (ray->angle >= 90 && ray->angle <= 270)
+	*current_distance = get_dist_points(all->player.x, all->player.y,
+			all->comp.x_int_wall * Field, all->comp.y_intercept);
+	*correct_distance = *current_distance
+		* cos(d_to_rdn(all->player.ray.angle - all->player.angle));
+	all->comp.height_wall = (((double)((double)Win_y * (double)Field)
+				/ (double)2) / *correct_distance);
+	if (all->player.ray.angle >= 90 && all->player.ray.angle <= 270)
 	{
-		field_len(all->comp.y_intercept, &all->comp, \
-			all->imgs_wall[0].height, START_LEFT);
+		field_len(all->comp.y_intercept, &all->comp, all->imgs_wall[0].height);
 		all->comp.wall_index = 0;
 	}
 	else
 	{
-		field_len(all->comp.y_intercept, &all->comp, \
-			all->imgs_wall[0].height, START_RIGHT);
+		field_len(all->comp.y_intercept, &all->comp, all->imgs_wall[0].height);
 		all->comp.wall_index = 2;
-	}	
+	}
 }
 
-double	ray_distance(t_all *all, t_ray *ray, int mode)
+void	get_intercept_1(t_all *all, double ray_angle)
 {
-	if (get_intercept(all, ray) == HORIZ)
+	if (ray_angle >= 90 && ray_angle <= 270)
 	{
-		ray->cur_dis = sqrt(pow(ft_fabs(all->player.x - \
-			all->comp.x_intercept), 2) + pow(ft_fabs(all->player.y - \
-				(all->comp.y_int_wall * Field)), 2));
-		ray->cor_dis = ray->cur_dis * cos(d_to_rdn(ray->angle - \
-			all->player.angle));
-		all->comp.height_wall = (((double)((double)Win_y * \
-			(double)Field) / (double)2) / ray->cor_dis);
-		r_d_1(all, ray);
+		all->comp.x_int_wall = ((int)all->player.x / Field);
+		all->comp.x_tile_wall = -1;
 	}
-	else if (get_intercept(all, ray) != HORIZ)
-	{
-		ray->cur_dis = sqrt(pow(ft_fabs(all->player.x - all->comp.x_int_wall * \
-		Field), 2) + pow(ft_fabs(all->player.y - all->comp.y_intercept), 2));
-		ray->cor_dis = ray->cur_dis * cos(d_to_rdn(ray->angle - \
-		all->player.angle));
-		all->comp.height_wall = (((double)((double)Win_y * \
-			(double)Field) / (double)2) / ray->cor_dis);
-		r_d_2(all, ray);
-	}
-	if (mode == 1)
-		return (ray->cor_dis);
 	else
-		return (ray->cur_dis);
+		all->comp.x_int_wall = ((int)all->player.x / Field) + 1;
+	if (ray_angle >= 0 && ray_angle <= 180)
+	{
+		all->comp.y_tile_wall = -1;
+		all->comp.y_int_wall = ((int)all->player.y / Field);
+	}
+	else
+		all->comp.y_int_wall = ((int)all->player.y / Field) + 1;
 }
 
-double	get_height_wall(t_all *all, double num1, double num2)
+static int	get_intercept(t_all *all)
 {
-	double	cur_dis;
-	double	cor_dis;
+	int		a;
+	double	ray_angle;
 
-	cur_dis = sqrt(pow(ft_fabs(all->player.x - all->comp.x_intercept), 2) + \
-		pow(ft_fabs(all->player.y - (all->comp.y_int_wall * Field)), 2));
-	cor_dis = cur_dis * cos(d_to_rdn(all->player.ray.angle - \
-		all->player.angle));
-	return ((((double)((double)Win_y * (double)Field) / (double)2) / cor_dis));
+	a = 5;
+	ray_angle = all->player.ray.angle;
+	all->comp.x_tile_wall = 0;
+	all->comp.y_tile_wall = 0;
+	all->player.ray.x = (int)all->player.x;
+	all->player.ray.y = (int)all->player.y;
+	get_intercept_1(all, ray_angle);
+	get_componets(all, &all->player.ray);
+	while (1)
+	{
+		if (check_hit_vert(all) == VERT)
+			return (VERT);
+		if (check_hit_horiz(all) == HORIZ)
+			return (HORIZ);
+	}
+	return (0);
+}
+
+double	ray_distance(t_all *all, int mode)
+{
+	double	current_distance;
+	double	correct_distance;
+
+	if (get_intercept(all) == HORIZ)
+	{
+		ray_distance_horiz(all, &current_distance, &correct_distance);
+	}
+	else
+		ray_distance_vert(all, &current_distance, &correct_distance);
+	if (mode == 1)
+		return (correct_distance);
+	else
+		return (current_distance);
 }

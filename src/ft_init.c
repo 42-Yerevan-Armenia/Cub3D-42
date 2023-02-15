@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:43:07 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/15 15:29:47 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:27:09 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ int	init_img(t_all *all)
 
 int	init(t_all *all)
 {
-	if (init_img(all) == 1)
-	{
-		exit (1);
-	}
+	all->identifier = malloc(sizeof(char *) * 16);
+	ft_memset(all->identifier, 0, sizeof(char *) * 16);
 	all->win_img_data.img = NULL;
 	all->half_win_y = Win_y / 2;
 	all->half_fov = Fov / 2;

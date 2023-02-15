@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 15:25:45 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:27:13 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,13 @@ typedef struct s_player
 	double		y;
 }				t_player;
 
+typedef struct s_line
+{
+	int	start_y;
+	int	end_y;
+	int	color;
+}			t_line;
+
 typedef struct s_all
 {
 	t_data		win_img_data;
@@ -198,6 +205,7 @@ typedef struct s_all
 	char		**matrix;
 	int			half_fov;
 	int			half_win_y;
+	t_line		line;
 	t_map		map;
 	t_img		img;
 	t_player	player;
@@ -207,18 +215,23 @@ typedef struct s_all
 
 //MATRIX 🧬
 char	*get_identifier(char	**identifier, char	*idtf);
+int		init(t_all *all);
+int		init_img(t_all *all);
 int		valid_identifiers(char	**identifier);
 void	set_identifers(t_all *all);
 void	ft_matrix(t_all *all, const char *mpath);
 
 //MAP 🗺
+void	draw_minimap(t_all *all);
 void	ft_check_map(t_map *map, t_all *all);
 int		ft_check_char(char *map, char *symbol);
 
 //MATH 🧮
+int		valid_key(int key);
 double	pov(char c);
 double	ft_fabs(double a);
 double	d_to_rdn(double a);
+double	get_dist_points(double p1_x, double p1_y, double p2_x, double p2_y);
 void	ft_to_integer(t_component *comp, int x, int y, int angle);
 void	decreament_in_range(double range, double step, double *num);
 void	increament_in_range(double range, double step, double *num);
@@ -230,22 +243,22 @@ void	adjust_dx_dy(t_component *comp, double angle, double x, double y);
 
 //RAY 🛤
 int		get_distance(t_all *all);
-void	ray_casting(t_all *all, int ray_count);
+void	ray_casting(t_all *all);
 void	field_len(double intercept, t_component *comp, \
-		int img_height, int flag);
+		int img_height);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int		check_hit_vert(t_all *all);
 int		check_hit_horiz(t_all *all);
 void	get_componets(t_all *all, t_ray *ray);
-int		get_intercept(t_all *all, t_ray *ray);
-void	draw_line(t_all	*all, int x, int start_y, int end_y);
-double	ray_distance(t_all *all, t_ray *ray, int mode);
+double	ray_distance(t_all *all, int mode);
+void	adjust_params(t_all *all);
 
 // TEXTURES 🎨
 void	ft_textures(t_all *all);
 void	ft_textur_path(t_all *all);
 int		get_color(t_data *data, int x, int y);
 int		get_img(t_img *img, void *mlx, char	*img_path);
+void	draw_img(t_all *all, int ray_count);
 
 //UTILES 🛠
 int		init(t_all *all);
@@ -262,8 +275,5 @@ void	music(t_all *all);
 void	sound_init(t_all *all);
 void	sound_stop(t_all *all, int sound);
 void	sound_play(t_all *g, int sound, t_bool loop);
-
-void	draw_minimap(t_all *all);
-void	draw_minimaps(void *mlx, void *win, t_player player, t_all *all);
 
 #endif

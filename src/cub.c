@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 15:37:24 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:36:52 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	ft_win(t_all *all)
 	all->win = mlx_new_window(all->mlx, Win_x, Win_y, "Title");
 	if (all->win == NULL)
 		ft_error(all, "❌ Can't Creat Window 📺");
-	all->img.img = mlx_new_image(all->mlx, Win_x, Win_y);
 	mlx_hook(all->win, 17, 0, ft_destroy, all);
+	mlx_hook(all->win, 2, 0, event, all);
 }
 
 void	draw_minimap(t_all *all)
@@ -68,24 +68,21 @@ void	draw_minimap(t_all *all)
 int	main(int ac, char **av)
 {
 	t_all	all;
-	int		i;
 
-	i = 0;
 	if (ac == 2)
 	{
-		all.identifier = malloc(sizeof(char *) * 16);
-		ft_memset(all.identifier, 0, sizeof(char *) * 16);
+		init(&all);
 		ft_matrix(&all, av[1]);
 		set_identifers(&all);
-		ft_win(&all);
 		if (valid_identifiers(all.identifier) == 1
 			&& ft_fprintf(2, "❌ Error : invalid identifier\n"))
 			exit (1);
+		ft_win(&all);
 		// music(&all);
 		ft_textur_path(&all);
-		init(&all);
-		mlx_hook(all.win, 2, 0, event, &all);
-		ray_casting(&all, all.player.ray.ray_count);
+		if (init_img(&all) == 1)
+			exit (1);
+		ray_casting(&all);
 		if (all.map.flag_map && all.map.flag_size)
 			draw_minimap(&all);
 		mlx_loop(all.mlx);

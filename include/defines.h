@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 13:05:58 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/13 20:27:35 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/15 21:18:22 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,5 @@
 
 # define START_LEFT	    1
 # define START_RIGHT    2
-
-# define CHECK(X) ({int __val = (X); (__val == -1 ? \
-                    ({ft_fprintf(2, "Error: ("__FILE__" :%d) -- %s\n", \
-                    __LINE__ , strerror(errno)); \
-                    exit(-1); -1;}) : __val); })
 
 #endif
