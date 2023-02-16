@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:25:33 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 21:36:52 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:25:57 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int ac, char **av)
 			&& ft_fprintf(2, "❌ Error : invalid identifier\n"))
 			exit (1);
 		ft_win(&all);
-		// music(&all);
+		music(&all);
 		ft_textur_path(&all);
 		if (init_img(&all) == 1)
 			exit (1);

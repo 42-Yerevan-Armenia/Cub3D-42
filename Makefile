@@ -16,7 +16,7 @@ TMP = objs
 
 CC = cc
 
-CFLAGS =  -Imlx -I./include #-fsanitize=address  #  # #-g -ggdb3-Wall -Wextra -Werror
+CFLAGS =  -Imlx -I./include -fsanitize=address  #  # #-g -ggdb3-Wall -Wextra -Werror
 
 LINKER =  -lmlx -framework OpenGL -framework Appkit -L ./libft -lgnl -lft -L ./ft_fprintf -lftfprintf #-Lft_fprintf #-Llibft # ./readline-arakhurs/lib
 
@@ -53,7 +53,7 @@ clean:
 	@make --no-print-directory clean -C $(FT_FPRINTF_DIR)
 	@$(RM) $(OBJS_DIR)
 	@$(RM) $(TMP)
-	@echo "$(RED)♨️  clean  🗑$(RESET)"
+	@echo "$(RED)♨️  clean   🗑$(RESET)"
 
 fclean: clean
 	@make --no-print-directory fclean -C $(LIBFT_DIR)

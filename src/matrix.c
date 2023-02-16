@@ -6,13 +6,13 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 21:06:35 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:23:20 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static int	ft_count_lines(const char *mpath)
+static int	ft_count_lines(t_all *all, const char *mpath)
 {
 	int		count;
 	char	*line;
@@ -86,15 +86,17 @@ static void	get_matrix(t_all *all, const char	*mpath, int line_len)
 void	ft_matrix(t_all *all, const char *mpath)
 {
 	int		line_len;
-	int		i;
 
 	if (ft_strlen(mpath) < 5
 		|| ft_strcmp(".cub", (char *)mpath + (ft_strlen(mpath) - 4)) != 0)
 		ft_error(all, "❌ Map format is not *.cub");
-	line_len = ft_count_lines(mpath);
+	line_len = ft_count_lines(all, mpath);
+	if (line_len == 0)
+		ft_error(all, "❌ Empty file 🗿");
+	else if (line_len < 6)
+		ft_error(all, "❌ Empty matrix 🎨");
 	get_matrix(all, mpath, line_len);
 	all->map.map = (all->matrix) + 6;
-	i = 0;
 	ft_check_map(&all->map, all);
 	all->map.s_x = all->player.x;
 	all->map.s_y = all->player.y;
