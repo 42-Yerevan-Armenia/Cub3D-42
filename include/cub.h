@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:11:58 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/16 18:12:39 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:16:45 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ typedef struct s_data
 
 enum		e_game
 {
-	Win_x = 1000,
-	Win_y = 600,
+	Win_x = 1800,
+	Win_y = 940,
 	Fov = 60,
 	Field = 1000,
 	Dis_wall = 150,
@@ -215,12 +215,14 @@ typedef struct s_all
 }				t_all;
 
 //MATRIX 🧬
+void	valid_args(t_all *all, const char *mpath);
+void	get_matrix(t_all *all, const char	*mpath, int line_len);
 char	*get_identifier(char	**identifier, char	*idtf);
 int		init(t_all *all);
 int		init_img(t_all *all);
 int		valid_identifiers(char	**identifier);
 void	set_identifers(t_all *all);
-void	ft_matrix(t_all *all, const char *mpath);
+void	ft_matrix(t_all *all);
 
 //MAP 🗺
 void	draw_minimap(t_all *all);
@@ -255,6 +257,7 @@ double	ray_distance(t_all *all, int mode);
 void	adjust_params(t_all *all);
 
 // TEXTURES 🎨
+void	ft_win(t_all *all);
 void	ft_textures(t_all *all);
 void	ft_textur_path(t_all *all);
 int		get_color(t_data *data, int x, int y);

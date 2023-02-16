@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 19:33:16 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 21:02:01 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:05:01 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,16 @@ void	field_len(double intercept, t_component *comp, int img_height)
 	else
 		tmp = (((int)(intercept / Field) + 1) * Field) - intercept;
 	comp->pic_x = tmp * (double)((double)img_height / (double)Field);
-	if ((int)comp->height_wall > Win_y)
+	if ((int)comp->height_wall >= Win_y)
 	{
-		comp->pic_y = (((double)(comp->height_wall) - (double)Win_y) \
-		/ (double)2) * ((double)img_height / (double)comp->height_wall);
-		comp->pic_y_step = (img_height - (comp->pic_y * 2)) / Win_y;
+		comp->pic_y = (int)(((double)(comp->height_wall) - (double)Win_y) \
+		/ (double)2) *((double)img_height / (double)comp->height_wall);
+		comp->pic_y_step = ((img_height - ((comp->pic_y) * 2))) / (Win_y);
 	}
 	else
 	{
 		comp->pic_y = 0;
-		comp->pic_y_step = (((double)img_height) / (comp->height_wall));
+		comp->pic_y_step = ((img_height) / (comp->height_wall + 1));
 	}
 }
 

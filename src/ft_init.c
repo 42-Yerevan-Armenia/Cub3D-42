@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:43:07 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/16 16:48:34 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:37:30 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,21 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int	get_img(t_img *img, void *mlx, char	*img_path)
 {
-	int	ret;
-
-	ret = 0;
 	img->img = mlx_xpm_file_to_image(mlx, img_path, &img->width, &img->height);
-	if (img->img == NULL && ++ret)
-		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
+	if (img->img == NULL)
+	{	
+		ft_fprintf(2, "❌ NO Texture 🚧 : %s : %s\n", img_path, strerror(errno));
+		return (1);
+	}
+	img->height--;
 	img->data.addr = mlx_get_data_addr(img->img, &img->data.bits_per_pixel, \
 	&img->data.line_length, &img->data.endian);
-	if (img->data.addr == NULL && ++ret)
-		ft_fprintf(2, "Cub3d : Error : %s : %s\n", img_path, strerror(errno));
-	return (ret);
+	if (img->data.addr == NULL)
+	{
+		ft_fprintf(2, "❌ NO Texture 🚧 : %s : %s\n", img_path, strerror(errno));
+		return (1);
+	}
+	return (0);
 }
 
 int	init_img(t_all *all)

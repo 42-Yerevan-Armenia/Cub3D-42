@@ -6,13 +6,13 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 11:11:08 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 20:21:45 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:15:20 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
 
-static void	get_comp_2(t_all *all, t_ray *ray)
+static void	get_comp_2(t_all *all)
 {
 	all->comp.y_step = ft_fabs(tan(d_to_rdn(all->comp.ray_angle)) * Field);
 	all->comp.x_step = ft_fabs(Field / tan(d_to_rdn(all->comp.ray_angle)));
@@ -44,7 +44,7 @@ static void	get_comp_1(t_all *all, t_ray *ray)
 			+ (all->comp.dy * all->comp.tile_step_y);
 	}
 	else
-		get_comp_2(all, ray);
+		get_comp_2(all);
 }
 
 void	get_componets(t_all *all, t_ray *ray)

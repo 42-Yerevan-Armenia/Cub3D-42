@@ -6,34 +6,11 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 12:46:05 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/16 18:23:20 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:17:25 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub.h"
-
-static int	ft_count_lines(t_all *all, const char *mpath)
-{
-	int		count;
-	char	*line;
-	int		fd;
-
-	count = 0;
-	fd = open(mpath, O_RDONLY);
-	if (fd == -1 && ft_perror("❌ Open : "))
-		exit(1);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		ft_free_array(&line);
-		count++;
-	}
-	if (close(fd) == -1 && ft_perror("❌ Close : "))
-		exit(1);
-	return (count);
-}
 
 static void	split_matrix(t_all *all, int flag, char	*ptr_for_free, int i)
 {
@@ -64,7 +41,7 @@ static void	split_matrix(t_all *all, int flag, char	*ptr_for_free, int i)
 	}
 }
 
-static void	get_matrix(t_all *all, const char	*mpath, int line_len)
+void	get_matrix(t_all *all, const char	*mpath, int line_len)
 {
 	char	*ptr_for_free;
 	int		i;
@@ -83,21 +60,48 @@ static void	get_matrix(t_all *all, const char	*mpath, int line_len)
 		exit(1);
 }
 
-void	ft_matrix(t_all *all, const char *mpath)
+void	ft_matrix(t_all *all)
+{
+	all->map.map = (all->matrix) + 6;
+	ft_check_map(&all->map, all);
+	all->map.s_x = all->player.x;
+	all->map.s_y = all->player.y;
+}
+
+static int	ft_count_lines(const char *mpath)
+{
+	int		count;
+	char	*line;
+	int		fd;
+
+	count = 0;
+	fd = open(mpath, O_RDONLY);
+	if (fd == -1 && ft_perror("❌ Open : "))
+		exit(1);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		ft_free_array(&line);
+		count++;
+	}
+	if (close(fd) == -1 && ft_perror("❌ Close : "))
+		exit(1);
+	return (count);
+}
+
+void	valid_args(t_all *all, const char *mpath)
 {
 	int		line_len;
 
 	if (ft_strlen(mpath) < 5
 		|| ft_strcmp(".cub", (char *)mpath + (ft_strlen(mpath) - 4)) != 0)
 		ft_error(all, "❌ Map format is not *.cub");
-	line_len = ft_count_lines(all, mpath);
+	line_len = ft_count_lines(mpath);
 	if (line_len == 0)
 		ft_error(all, "❌ Empty file 🗿");
 	else if (line_len < 6)
 		ft_error(all, "❌ Empty matrix 🎨");
 	get_matrix(all, mpath, line_len);
-	all->map.map = (all->matrix) + 6;
-	ft_check_map(&all->map, all);
-	all->map.s_x = all->player.x;
-	all->map.s_y = all->player.y;
 }

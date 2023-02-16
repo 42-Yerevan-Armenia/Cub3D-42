@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:57:34 by arakhurs          #+#    #+#             */
-/*   Updated: 2023/02/15 21:03:16 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:40:12 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ static void	ray_distance_horiz(t_all *all, double *current_distance, \
 				/ (double)2) / *correct_distance);
 	if (all->player.ray.angle >= 0 && all->player.ray.angle <= 180)
 	{
-		field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[0].height);
+		field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[1].height);
 		all->comp.wall_index = 1;
 	}
 	else
 	{
-		field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[0].height);
+		field_len(all->comp.x_intercept, &all->comp, all->imgs_wall[3].height);
 		all->comp.wall_index = 3;
 	}
 }
@@ -49,7 +49,7 @@ static void	ray_distance_vert(t_all *all, double *current_distance, \
 	}
 	else
 	{
-		field_len(all->comp.y_intercept, &all->comp, all->imgs_wall[0].height);
+		field_len(all->comp.y_intercept, &all->comp, all->imgs_wall[2].height);
 		all->comp.wall_index = 2;
 	}
 }

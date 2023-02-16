@@ -6,7 +6,7 @@
 /*   By: arakhurs <arakhurs@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 19:16:42 by vaghazar          #+#    #+#             */
-/*   Updated: 2023/02/15 21:26:47 by arakhurs         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:03:24 by arakhurs         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static void	draw_walls(t_all *all, int ray_count)
 	y_win = all->half_win_y - all->comp.half_h_wall;
 	while (y_win < all->half_win_y + all->comp.half_h_wall)
 	{
-		if (all->comp.pic_y >= 1920)
-			all->comp.pic_y = 1919;
 		my_mlx_pixel_put(&all->win_img_data, ray_count, y_win,
 			get_color(&all->imgs_wall[all->comp.wall_index].data,
 				all->comp.pic_x, all->comp.pic_y));
